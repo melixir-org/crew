@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import crewsReducer from './features/crews';
-import usersReducer from './features/users';
+import crewsReducer from './features/crewsSlice';
+import usersReducer from './features/usersSlice';
 
 export const makeStore = () => {
     return configureStore({
