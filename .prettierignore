@@ -1,0 +1,15 @@
+# Ignore .github folder
+.github/**/*
+
+# Ignore
+LICENSE
+
+# Ignore
+package-lock.json
+
+# Ignore
+node_modules/**/*
+.next/**/*
+
+# Ignore public folder
+CODEOWNERS/**/*
