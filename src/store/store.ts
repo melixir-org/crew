@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import worksReducer from './features/worksSlice';
 import userReducer from './features/userSlice';
+import crewsReducer from './features/crewsSlice';
+import worksReducer from './features/worksSlice';
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
-            works: worksReducer,
             user: userReducer,
+            crews: crewsReducer,
+            works: worksReducer,
         },
     });
 };
