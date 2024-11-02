@@ -28,7 +28,14 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <StoreProvider>{children}</StoreProvider>
+                <StoreProvider>
+                    <div className="min-h-screen flex flex-col bg-black text-white">
+                        <nav className="h-16 border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+                            {/* Nav content will go here */}
+                        </nav>
+                        {children}
+                    </div>
+                </StoreProvider>
             </body>
         </html>
     );
