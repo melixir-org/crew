@@ -7,12 +7,15 @@ import { usePathname, useRouter } from 'next/navigation';
 
 type TabValue = 'home' | 'overview' | 'level';
 
-interface WorksTabsProps {
+interface RightContentTabsProps {
     activeTab: TabValue;
     onTabChange: (tab: TabValue) => void;
 }
 
-const WorksTabs: React.FC<WorksTabsProps> = ({ activeTab, onTabChange }) => {
+const RightContentTabs: React.FC<RightContentTabsProps> = ({
+    activeTab,
+    onTabChange,
+}) => {
     return (
         <Tabs
             value={activeTab}
@@ -47,8 +50,8 @@ interface LeftContentProps {}
 
 const LeftContent: React.FC<LeftContentProps> = () => {
     return (
-        <div className="w-64 border-r border-zinc-800 p-4 bg-black">
-            <p className="text-sm text-zinc-400">Left Sidebar Content</p>
+        <div className="w-96 border-r border-zinc-800 p-4 bg-black">
+            <p className="text-sm text-zinc-400">List of works goes here</p>
         </div>
     );
 };
@@ -84,7 +87,7 @@ const RightContent: React.FC<RightContentProps> = ({ children }) => {
                 </h1>
             </div>
             <div className="px-6">
-                <WorksTabs
+                <RightContentTabs
                     activeTab={getActiveTab()}
                     onTabChange={handleTabChange}
                 />
@@ -100,15 +103,9 @@ interface WorksLayoutProps {
 
 const WorksLayout: React.FC<WorksLayoutProps> = ({ children }) => {
     return (
-        <div className="min-h-screen flex flex-col bg-black text-white">
-            <nav className="h-16 border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
-                {/* Nav content will go here */}
-            </nav>
-
-            <div className="flex-1 flex">
-                <LeftContent />
-                <RightContent>{children}</RightContent>
-            </div>
+        <div className="flex-1 flex">
+            <LeftContent />
+            <RightContent>{children}</RightContent>
         </div>
     );
 };
