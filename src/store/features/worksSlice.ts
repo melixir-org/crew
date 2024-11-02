@@ -1,6 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {};
+export interface Work{
+    id : string,
+    title : string,
+    description : string
+}
+
+interface WorksState {
+    [key: string]: Work;
+}
+
+const initialState : WorksState = {};
 
 const slice = createSlice({
     name: 'works',
@@ -12,9 +22,14 @@ const slice = createSlice({
         postWorkSucceded: (state, { payload }) => {
             // state[payload.id] = payload;
         },
+        addWorks: (state, { payload }) => {
+            payload.forEach((work : Work) => {
+                state[work.id] = work;
+            });
+        },
     },
 });
 
-export const { getWorkSucceded, postWorkSucceded } = slice.actions;
+export const { getWorkSucceded, postWorkSucceded, addWorks } = slice.actions;
 
 export default slice.reducer;

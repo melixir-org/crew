@@ -4,6 +4,7 @@
 import React from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePathname, useRouter } from 'next/navigation';
+import WorksList from '@/components/WorksList';
 
 type TabValue = 'home' | 'overview' | 'level';
 
@@ -46,12 +47,14 @@ const RightContentTabs: React.FC<RightContentTabsProps> = ({
     );
 };
 
-interface LeftContentProps {}
+interface LeftContentProps {
+    children: React.ReactNode;
+}
 
 const LeftContent: React.FC<LeftContentProps> = () => {
     return (
         <div className="w-96 border-r border-zinc-800 p-4 bg-black">
-            <p className="text-sm text-zinc-400">List of works goes here</p>
+            <WorksList />
         </div>
     );
 };
@@ -104,7 +107,7 @@ interface WorksLayoutProps {
 const WorksLayout: React.FC<WorksLayoutProps> = ({ children }) => {
     return (
         <div className="flex-1 flex">
-            <LeftContent />
+            <LeftContent>{children}</LeftContent>
             <RightContent>{children}</RightContent>
         </div>
     );
