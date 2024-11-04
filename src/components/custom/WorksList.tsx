@@ -1,6 +1,7 @@
 'use client';
 
-import { addWorks, Work } from '@/store/features/worksSlice';
+import { addWorks } from '@/store/features/worksSlice';
+import { Work } from '@/types/works';
 import { useAppDispatch, useAppSelector} from '@/store/hooks';
 import React, { useEffect, useState } from 'react'
 import {
@@ -10,9 +11,9 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "./ui/pagination"
+} from "../ui/pagination"
 import {useRouter} from 'next/navigation';
-import { getWorks } from '@/api/works';
+import { getWorks } from '@/app/api/works';
 
 
 const WorksList = () => {
@@ -51,9 +52,8 @@ const WorksList = () => {
         fetchWorks(currentPage);
     }, [dispatch,currentPage]);
 
-    // i think we don't meed to chnage the url so check it
     useEffect(() => {
-        router.push(`?page=${currentPage}`, { scroll: false });
+        router.push(`?page=${currentPage}&page_size=${itemsPerPage}`, { scroll: false });
     }, [currentPage, router]);
 
     const works = currentPageIds.map(id => worksFromStore[id]).filter(work => work !== undefined);

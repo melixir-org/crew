@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export interface Work{
-    id : string,
-    title : string,
-    description : string
-}
+import { Work } from '@/types/works';
 
 interface WorksState {
     [key: string]: Work;

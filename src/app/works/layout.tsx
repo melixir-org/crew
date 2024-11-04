@@ -4,7 +4,7 @@
 import React from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePathname, useRouter } from 'next/navigation';
-import WorksList from '@/components/WorksList';
+import WorksList from '@/components/custom/WorksList';
 
 type TabValue = 'home' | 'overview' | 'level';
 
