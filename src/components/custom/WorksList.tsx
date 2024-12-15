@@ -1,8 +1,7 @@
 'use client';
 
-import { addWorks } from '@/store/features/worksSlice';
-import { Work } from '@/types/works';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { Work } from '@/types/Work';
+
 import React, { useEffect, useState } from 'react';
 import {
     Pagination,
@@ -14,10 +13,11 @@ import {
 } from '../ui/pagination';
 import { useRouter } from 'next/navigation';
 import { getWorks } from '@/app/api/works';
+import { useGlobalStore } from '@/provider';
 
 const WorksList = () => {
-    const dispatch = useAppDispatch();
-    const worksFromStore = useAppSelector(state => state.works);
+    const worksFromStore = useGlobalStore(state => state.works);
+    const addWorks = useGlobalStore(state => state.addWorks);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -36,7 +36,7 @@ const WorksList = () => {
                 if (!response.ok) {
                     throw new Error('Response was not ok');
                 }
-                dispatch(addWorks(response.data));
+                addWorks(response.data);
                 const ids = response.data?.map((work: Work) => work.id) || [];
                 setCurrentPageIds(ids);
                 setTotalPages(response.totalPages || 1);
@@ -48,7 +48,7 @@ const WorksList = () => {
         };
 
         fetchWorks(currentPage);
-    }, [dispatch, currentPage]);
+    }, [currentPage]);
 
     useEffect(() => {
         router.push(`?page=${currentPage}&page_size=${itemsPerPage}`, {
