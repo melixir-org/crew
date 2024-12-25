@@ -137,4 +137,4 @@ const WorksList = () => {
     );
 };
 
-export default WorksList;
+export default Panel;
