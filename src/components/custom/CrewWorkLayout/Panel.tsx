@@ -10,12 +10,12 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from '../ui/pagination';
+} from '@/components/ui/pagination';
 import { useRouter } from 'next/navigation';
 import { getWorks } from '@/app/api/works';
 import { useGlobalStore } from '@/provider';
 
-const WorksList = () => {
+const Panel = () => {
     const worksFromStore = useGlobalStore(state => state.works);
     const addWorks = useGlobalStore(state => state.addWorks);
     const [loading, setLoading] = useState<boolean>(true);

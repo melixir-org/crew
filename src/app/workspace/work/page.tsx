@@ -1,11 +1,5 @@
-import MainLayout from '@/components/custom/MainLayout/MainLayout';
-
 const Work = () => {
-    return (
-        <MainLayout>
-            <div>Work</div>
-        </MainLayout>
-    );
+    return <div>Work</div>;
 };
 
 export default Work;

@@ -1,4 +1,4 @@
-import { CREW_ROUTE_GROUP_ROUTES } from '@/app/routes';
+import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import {
     CREW_ROUTE_GROUP,
     RouteGroup,
@@ -16,5 +16,9 @@ export function getRouteGroup(pathname: string): RouteGroup {
         return CREW_ROUTE_GROUP;
     }
 
-    return WORK_ROUTE_GROUP;
+    if (WORK_ROUTE_GROUP_ROUTES.find(route => route.pathname === pathname)) {
+        return WORK_ROUTE_GROUP;
+    }
+
+    return null;
 }
