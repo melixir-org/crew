@@ -1,5 +1,3 @@
-'use client';
-
 import { Work } from '@/types/Work';
 
 import React, { useEffect, useState } from 'react';
@@ -11,9 +9,9 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { useRouter } from 'next/navigation';
 import { getWorks } from '@/app/api/works';
 import { useGlobalStore } from '@/provider';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const Panel = () => {
     const worksFromStore = useGlobalStore(state => state.works);
@@ -25,7 +23,6 @@ const Panel = () => {
     const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
 
     const itemsPerPage = 10;
-    const router = useRouter();
 
     useEffect(() => {
         const fetchWorks = async (page: number) => {
@@ -50,12 +47,6 @@ const Panel = () => {
         fetchWorks(currentPage);
     }, [currentPage]);
 
-    useEffect(() => {
-        router.push(`?page=${currentPage}&page_size=${itemsPerPage}`, {
-            scroll: false,
-        });
-    }, [currentPage, router]);
-
     const works = currentPageIds
         .map(id => worksFromStore[id])
         .filter(work => work !== undefined);
@@ -64,20 +55,51 @@ const Panel = () => {
         setCurrentPage(page);
     };
 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
+
+    const handleShowClick = (id: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('show', id);
+        router.push(`${pathname}?${params.toString()}`);
+    };
+
+    const handleHierarchyClick = (id: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('h', id);
+        params.set('show', id);
+        router.push(`${pathname}?${params.toString()}`);
+    };
+
+    const show = searchParams.get('show');
 
     return (
         <div className="w-96 bg-black text-white h-screen flex flex-col">
             <div className="p-4 text-lg font-semibold text-center">Works</div>
             <ul className="flex-1 overflow-y-auto">
-                {works.map((work: Work) => (
+                {works.map((work: Work, i: number) => (
                     <li
-                        className="my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg"
                         key={work.id}
+                        className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
+                            show === i.toString()
+                                ? 'bg-primary text-primary-foreground'
+                                : ''
+                        }`}
+                        onClick={() => handleShowClick(i.toString())}
                     >
                         <p>Title : {work.title}</p>
-                        <p>Description : {work.description}</p>
+                        <p
+                            onClick={e => {
+                                e.stopPropagation();
+                                handleHierarchyClick(i.toString());
+                            }}
+                        >
+                            SEE CHILD
+                        </p>
                     </li>
                 ))}
             </ul>

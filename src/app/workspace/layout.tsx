@@ -1,4 +1,3 @@
-// TODO: get this use client removed or check if it is needed
 'use client';
 
 import { usePathname } from 'next/navigation';

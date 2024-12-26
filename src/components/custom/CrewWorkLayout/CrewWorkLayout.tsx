@@ -1,6 +1,3 @@
-// TODO: get this use client removed or check if it is needed
-'use client';
-
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import Panel from './Panel';

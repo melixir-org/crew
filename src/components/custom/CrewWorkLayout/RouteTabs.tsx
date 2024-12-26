@@ -1,4 +1,4 @@
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Route } from '@/types/Route';
 
@@ -7,9 +7,10 @@ type TabValue = Route['pathname'];
 const RouteTabs = ({ tabs }: { tabs: Route[] }) => {
     const pathname = usePathname();
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const handleTabChange = (tab: TabValue) => {
-        router.push(tab);
+        router.push(`${tab}?${searchParams.toString()}`);
     };
 
     return (

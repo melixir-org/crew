@@ -1,5 +1,6 @@
-import { CREW_ROUTE_GROUP_ROUTES } from '@/app/routes';
+import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import RouteTabs from './RouteTabs';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface CrewRouteGroupContentLayoutProps {
     children: React.ReactNode;
@@ -8,10 +9,20 @@ interface CrewRouteGroupContentLayoutProps {
 const CrewRouteGroupContentLayout: React.FC<
     CrewRouteGroupContentLayoutProps
 > = ({ children }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const handleRouteChange = () => {
+        router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
+    };
+
     return (
         <div className="flex-1 flex flex-col">
             <div className="p-6">
-                <h1 className="text-2xl font-bold tracking-tight text-white">
+                <h1
+                    className="text-2xl font-bold tracking-tight text-white cursor-pointer"
+                    onClick={handleRouteChange}
+                >
                     Title of the crew goes here
                 </h1>
             </div>
