@@ -54,14 +54,14 @@ function Workspace() {
 
     const handleItemClick = (id: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('selected', id);
+        params.set('entry', id);
         params.set('show', id);
         params.set('panel', 'h');
         params.set('h', id);
         router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
     };
 
-    const selected = searchParams.get('selected');
+    const entry = searchParams.get('entry');
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
@@ -71,7 +71,7 @@ function Workspace() {
                     <li key={item.id}>
                         <Card
                             className={`cursor-pointer transition-colors ${
-                                selected === item.id
+                                entry === item.id
                                     ? 'bg-primary text-primary-foreground'
                                     : ''
                             }`}
@@ -83,7 +83,7 @@ function Workspace() {
                             <CardContent>
                                 <p
                                     className={
-                                        selected === item.id
+                                        entry === item.id
                                             ? 'text-primary-foreground'
                                             : 'text-muted-foreground'
                                     }
