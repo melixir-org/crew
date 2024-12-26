@@ -23,7 +23,7 @@ const WorkRouteGroupContentLayout: React.FC<
                     className="text-2xl font-bold tracking-tight text-white cursor-pointer"
                     onClick={handleRouteChange}
                 >
-                    Title of the work goes here
+                    Title of the work goes here [CLICK TO GO BACK]
                 </h1>
             </div>
             <div className="px-6">
