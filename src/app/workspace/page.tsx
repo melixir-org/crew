@@ -42,7 +42,7 @@ function Workspace() {
         const params = new URLSearchParams(searchParams.toString());
         params.set('page_index', pageIndex.toString());
         params.set('page_size', pageSize.toString());
-        router.push(`${pathname}?${params.toString()}`);
+        router.replace(`${pathname}?${params.toString()}`);
     };
 
     const pageIndex = searchParams.get('page_index') || '0';
