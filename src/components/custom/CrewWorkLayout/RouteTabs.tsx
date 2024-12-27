@@ -4,7 +4,7 @@ import { Route } from '@/types/Route';
 
 type TabValue = Route['pathname'];
 
-const RouteTabs = ({ tabs }: { tabs: Route[] }) => {
+const RouteTabs = ({ routes }: { routes: Route[] }) => {
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -20,7 +20,7 @@ const RouteTabs = ({ tabs }: { tabs: Route[] }) => {
             className="w-full"
         >
             <TabsList className="bg-zinc-900 border border-zinc-800">
-                {tabs.map(route => (
+                {routes.map(route => (
                     <TabsTrigger
                         key={route.name}
                         value={route.pathname}

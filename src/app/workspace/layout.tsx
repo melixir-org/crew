@@ -2,26 +2,19 @@
 
 import { usePathname } from 'next/navigation';
 import CrewWorkLayout from '@/components/custom/CrewWorkLayout/CrewWorkLayout';
-import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import NoLayout from '@/components/custom/NoLayout';
-import { getRouteGroup } from '@/lib/utils';
+import { WORKSPACE_ROUTE } from '../routes';
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
-const ROUTE_GROUP_TO_MAIN_LAYOUT_MAPPING = {
-    [CREW_ROUTE_GROUP]: CrewWorkLayout,
-    [WORK_ROUTE_GROUP]: CrewWorkLayout,
-    '': NoLayout,
-};
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const pathname = usePathname();
-    const MainLayout =
-        ROUTE_GROUP_TO_MAIN_LAYOUT_MAPPING[getRouteGroup(pathname) ?? ''];
+    const WorkspaceLayout =
+        pathname === WORKSPACE_ROUTE.pathname ? NoLayout : CrewWorkLayout;
 
-    return <MainLayout>{children}</MainLayout>;
+    return <WorkspaceLayout>{children}</WorkspaceLayout>;
 };
 
 export default Layout;

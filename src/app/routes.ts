@@ -17,12 +17,12 @@ export const WORK_ROUTE: Route = {
 
 export const SETTINGS_ROUTE: Route = {
     name: 'settings',
-    pathname: '/workspace/settings',
+    pathname: '/workspace/crew/settings',
 };
 
 export const LEVEL_ROUTE: Route = {
     name: 'level',
-    pathname: '/workspace/level',
+    pathname: '/workspace/work/level',
 };
 
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [CREW_ROUTE, SETTINGS_ROUTE];
