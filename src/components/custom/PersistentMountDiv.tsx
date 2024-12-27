@@ -1,12 +1,12 @@
 import React, { useEffect, useState, ReactNode } from 'react';
 
-interface PersistentDisplayWrapperProps {
+interface PersistentMountDivProps {
     children: ReactNode;
     show: boolean;
     [key: string]: any;
 }
 
-const PersistentDisplayWrapper: React.FC<PersistentDisplayWrapperProps> = ({
+const PersistentMountDiv: React.FC<PersistentMountDivProps> = ({
     children,
     show,
     ...rest
@@ -37,4 +37,4 @@ const PersistentDisplayWrapper: React.FC<PersistentDisplayWrapperProps> = ({
     );
 };
 
-export default PersistentDisplayWrapper;
+export default PersistentMountDiv;
