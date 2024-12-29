@@ -4,6 +4,8 @@ import './globals.css';
 
 import { GlobalStoreProvider } from '@/provider';
 
+import NavbarHead from '@/components/custom/navbar';
+
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
     variable: '--font-geist-sans',
@@ -32,7 +34,7 @@ export default function RootLayout({
                 <GlobalStoreProvider>
                     <div className="min-h-screen flex flex-col bg-black text-white">
                         <nav className="h-16 border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
-                            {/* Nav content will go here */}
+                            <NavbarHead/>
                         </nav>
                         {children}
                     </div>
