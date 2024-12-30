@@ -3,8 +3,9 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOutAction } from "./actions";
 import BodyHP from '@/components/custom/homepagebody';
-import LoginPage from '@/components/custom/loginpage';
-import SignupPage from '@/components/custom/signuppage';
+import Login from './(auth-pages)/login/page';
+import SignupPage from '@/components/custom/SignUp';
+import Signup from './(auth-pages)/sign-up/page';
 
 export default async function Home() {
     const { data: { user }, } = await createClient().auth.getUser();
@@ -21,10 +22,7 @@ export default async function Home() {
 
                 )}
             </nav>
-            
-            <main className="bg-slate-950 w-full h-full">
-                <SignupPage/>
-            </main>
+            <BodyHP />
             <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
                 <a
                     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
