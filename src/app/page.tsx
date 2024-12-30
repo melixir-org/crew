@@ -2,10 +2,8 @@ import Image from 'next/image';
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOutAction } from "./actions";
-import BodyHP from '@/components/custom/homepagebody';
+import HomePageBody from '@/components/custom/HomePageBody';
 import Login from './(auth-pages)/login/page';
-import SignupPage from '@/components/custom/SignUp';
-import Signup from './(auth-pages)/sign-up/page';
 
 export default async function Home() {
     const { data: { user }, } = await createClient().auth.getUser();

@@ -1,4 +1,4 @@
-const BodyHP = () => {
+const HomePageBody = () => {
     return (
         <main className="bg-slate-950 w-full h-full">
             <div className="flex justify-center w-full bg-slate-950 h-screen">
@@ -25,4 +25,4 @@ const BodyHP = () => {
     );
 };
 
-export default BodyHP;
+export default HomePageBody;

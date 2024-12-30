@@ -1,4 +1,4 @@
-const SignupPage = () => {
+const SignUp = () => {
     return (
         <main className="bg-slate-950 w-full h-full">
             <div className="flex h-screen bg-slate-950 w-full ">
@@ -69,4 +69,4 @@ const SignupPage = () => {
     );
 };
 
-export default SignupPage;
+export default SignUp;
