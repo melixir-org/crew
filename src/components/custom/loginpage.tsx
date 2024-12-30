@@ -38,4 +38,4 @@ const Login = () => {
 }
 
 
-export default LoginPage;
+export default Login;
