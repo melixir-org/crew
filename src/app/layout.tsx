@@ -4,8 +4,7 @@ import './globals.css';
 
 import { GlobalStoreProvider } from '@/provider';
 
-import NavbarHead from '@/components/custom/NavBar';
-import Navbar from '@/components/custom/NavBar';
+import NavBar from '@/components/custom/NavBar';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -34,7 +33,7 @@ export default function RootLayout({
             >
                 <GlobalStoreProvider>
                     <div className="min-h-screen flex flex-col bg-black text-white">
-                        <Navbar/>
+                        <NavBar />
                         {children}
                     </div>
                 </GlobalStoreProvider>

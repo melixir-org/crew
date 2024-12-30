@@ -1,26 +1,46 @@
 import Image from 'next/image';
-import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
-import { signOutAction } from "./actions";
-import HomePageBody from '@/components/custom/HomePageBody';
-import Login from './(auth-pages)/login/page';
+import { createClient } from '@/lib/supabase/server';
+import { signOutAction } from './actions';
 
 export default async function Home() {
-    const { data: { user }, } = await createClient().auth.getUser();
+    const {
+        data: { user },
+    } = await createClient().auth.getUser();
 
     return (
-        <div className=" items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
-            <nav className='mb-0'>
+        <div className="items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
+            <nav className="mb-0">
                 {user ? (
-                <form action={signOutAction}>
-                    <button className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-32">Sign Out</button>
-                </form>
+                    <form action={signOutAction}>
+                        <button className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-32">
+                            Sign Out
+                        </button>
+                    </form>
                 ) : (
                     <></>
-
                 )}
             </nav>
-            <BodyHP />
+            <main className="bg-slate-950 w-full h-full">
+                <div className="flex justify-center w-full bg-slate-950 h-screen">
+                    <div className="w-9/12 flex flex-col justify-evenly items-center">
+                        <div className="flex flex-col justify-center items-center min-w-10 max-w-4xl">
+                            <h1 className="text-5xl text-center">
+                                Discover Project. Collaborate Seamlessly.
+                                Achieve More Together.
+                            </h1>
+                            <p className="opacity-80 mt-7">
+                                Join a community of passionate creators and
+                                contributors to bring your ideas to life
+                            </p>
+                        </div>
+                        <div className="button">
+                            <button className="bg-slate-50 text-slate-950 font-semibold py-2 px-4 rounded-md">
+                                Find a Crew
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
             <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
                 <a
                     className="flex items-center gap-2 hover:underline hover:underline-offset-4"

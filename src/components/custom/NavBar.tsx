@@ -7,21 +7,8 @@ const Navbar = () => {
                 <div className="w-9/12 flex justify-between mx-auto items-center">
                     <div className="flex justify-between items-center  gap-5 ">
                         <h2 className=" font-bold text-xl">Melixir</h2>
-                        <Link href={'/login'}>
-                            <button className="opacity-80">Docs</button>
-                        </Link>
-                        <Link href={'/login'}>
-                            <button className="opacity-80">Pricing</button>
-                        </Link>
-                        <Link href={'/login'}>
-                            <button className="opacity-80">Status</button>
-                        </Link>
-                        <Link href={'/login'}>
-                            <button className="opacity-80">FAQs</button>
-                        </Link>
-                        <Link href={'/login'}>
-                            <button className="opacity-80">Contact Us</button>
-                        </Link>
+                        <Link href={'/explore'}>Explore</Link>
+                        <Link href={'/workspace'}>Workspace</Link>
                     </div>
                     <div className="flex justify-between gap-5 items-center">
                         <Link href={'/login'}>
