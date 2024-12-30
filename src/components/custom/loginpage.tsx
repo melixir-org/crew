@@ -4,7 +4,7 @@
 
 
 
-const LoginPage = () => {
+const Login = () => {
     return(
         <div className="flex h-screen bg-slate-950 w-full ">
             <div className="h-full w-0 flex flex-col justify-center items-center md:w-6/12 overflow-hidden">
