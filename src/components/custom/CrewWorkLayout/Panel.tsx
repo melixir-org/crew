@@ -15,6 +15,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
+import WorkCard from '../Work';
 
 const Panel = () => {
     const worksFromStore = useGlobalStore(state => state.works);
@@ -111,24 +112,15 @@ const Panel = () => {
             </div>
             <ul className="flex-1 overflow-y-auto">
                 {works.map((work: Work, i: number) => (
-                    <li
-                        key={work.id}
-                        className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
-                            isWorkShown(i.toString())
-                                ? 'bg-secondary text-secondary-foreground'
-                                : ''
-                        }`}
-                        onClick={() => handleWorkClick(i.toString())}
-                    >
-                        <p>Title : {work.title}</p>
-                        <p
-                            onClick={e => {
-                                e.stopPropagation();
-                                handleHierarchyClick(i.toString());
-                            }}
-                        >
-                            CLICK TO SEE CHILD
-                        </p>
+                    <li>
+                        <WorkCard
+                            key={i}
+                            id={i.toString()}
+                            title={work.title}
+                            highlighted={isWorkShown(i.toString())}
+                            handleWorkClick={handleWorkClick}
+                            handleIconClick={handleHierarchyClick}
+                        />
                     </li>
                 ))}
             </ul>
