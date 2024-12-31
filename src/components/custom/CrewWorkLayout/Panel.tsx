@@ -12,6 +12,9 @@ import {
 import { getWorks } from '@/app/api/works';
 import { useGlobalStore } from '@/provider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getRouteGroup } from '@/lib/utils';
+import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
+import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
 
 const Panel = () => {
     const worksFromStore = useGlobalStore(state => state.works);
@@ -62,10 +65,21 @@ const Panel = () => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
-    const handleShowClick = (id: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('show', id);
-        router.push(`${pathname}?${params.toString()}`);
+    const handleCrewClick = () => {
+        router.push(`${CREW_ROUTE.pathname}?${searchParams.toString()}`);
+    };
+
+    const handleWorkClick = (id: string) => {
+        if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
+            const params = new URLSearchParams(searchParams.toString());
+            params.set('show', id);
+            router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
+            return;
+        } else {
+            const params = new URLSearchParams(searchParams.toString());
+            params.set('show', id);
+            router.push(`${pathname}?${params.toString()}`);
+        }
     };
 
     const handleHierarchyClick = (id: string) => {
@@ -75,21 +89,36 @@ const Panel = () => {
         router.push(`${pathname}?${params.toString()}`);
     };
 
-    const show = searchParams.get('show');
+    const isWorkShown = (id: string) => {
+        return (
+            getRouteGroup(pathname) === WORK_ROUTE_GROUP &&
+            searchParams.get('show') === id
+        );
+    };
 
     return (
         <div className="w-96 bg-black text-white h-screen flex flex-col">
             <div className="p-4 text-lg font-semibold text-center">Works</div>
+            <div
+                className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
+                    getRouteGroup(pathname) === CREW_ROUTE_GROUP
+                        ? 'bg-secondary text-secondary-foreground'
+                        : ''
+                }`}
+                onClick={() => handleCrewClick()}
+            >
+                <p>Crew</p>
+            </div>
             <ul className="flex-1 overflow-y-auto">
                 {works.map((work: Work, i: number) => (
                     <li
                         key={work.id}
                         className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
-                            show === i.toString()
-                                ? 'bg-primary text-primary-foreground'
+                            isWorkShown(i.toString())
+                                ? 'bg-secondary text-secondary-foreground'
                                 : ''
                         }`}
-                        onClick={() => handleShowClick(i.toString())}
+                        onClick={() => handleWorkClick(i.toString())}
                     >
                         <p>Title : {work.title}</p>
                         <p
@@ -98,7 +127,7 @@ const Panel = () => {
                                 handleHierarchyClick(i.toString());
                             }}
                         >
-                            SEE CHILD
+                            CLICK TO SEE CHILD
                         </p>
                     </li>
                 ))}

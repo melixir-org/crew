@@ -8,27 +8,27 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const items = [
     {
-        id: '1',
+        id: '0',
         title: 'Project Management',
         subtitle: 'Organize and track team progress',
     },
     {
-        id: '2',
+        id: '1',
         title: 'Task Automation',
         subtitle: 'Streamline repetitive workflows',
     },
     {
-        id: '3',
+        id: '2',
         title: 'Data Analytics',
         subtitle: 'Gain insights from your business data',
     },
     {
-        id: '4',
+        id: '3',
         title: 'Customer Support',
         subtitle: 'Provide excellent service to your clients',
     },
     {
-        id: '5',
+        id: '4',
         title: 'Team Collaboration',
         subtitle: 'Enhance communication and productivity',
     },
@@ -99,8 +99,8 @@ function Workspace() {
                         <Card
                             className={`cursor-pointer transition-colors ${
                                 entry === item.id
-                                    ? 'bg-primary text-primary-foreground'
-                                    : ''
+                                    ? 'bg-secondary text-secondary-foreground'
+                                    : 'bg-primary text-primary-foreground'
                             }`}
                             onClick={() => handleItemClick(item.id)}
                         >
@@ -111,8 +111,8 @@ function Workspace() {
                                 <p
                                     className={
                                         entry === item.id
-                                            ? 'text-primary-foreground'
-                                            : 'text-muted-foreground'
+                                            ? 'text-secondary-foreground'
+                                            : 'text-primary-foreground'
                                     }
                                 >
                                     {item.subtitle}
