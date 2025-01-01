@@ -1,3 +1,4 @@
+'use client';
 import { Work } from '@/types/Work';
 
 import React, { useEffect, useState } from 'react';
@@ -10,7 +11,7 @@ import {
     PaginationPrevious,
 } from '@/components/ui/pagination';
 import { getWorks } from '@/lib/api/work';
-import { useGlobalStore } from '@/provider';
+import { useGlobalStore } from '@/provider/GlobalStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';

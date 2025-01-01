@@ -3,9 +3,9 @@
 import { type ReactNode, createContext, useRef, useContext } from 'react';
 import { useStore } from 'zustand';
 
-import { type GlobalStore, createGlobalStore, initGlobalState } from '@/store';
+import { type Store, createStore, initState } from '@/store';
 
-export type GlobalStoreApi = ReturnType<typeof createGlobalStore>;
+export type GlobalStoreApi = ReturnType<typeof createStore>;
 
 export const GlobalStoreContext = createContext<GlobalStoreApi | undefined>(
     undefined
@@ -19,7 +19,7 @@ export const GlobalStoreProvider = ({ children }: GlobalStoreProviderProps) => {
     const ref = useRef<GlobalStoreApi>();
 
     if (!ref.current) {
-        ref.current = createGlobalStore(initGlobalState());
+        ref.current = createStore(initState());
     }
 
     return (
@@ -29,7 +29,7 @@ export const GlobalStoreProvider = ({ children }: GlobalStoreProviderProps) => {
     );
 };
 
-export const useGlobalStore = <T,>(selector: (store: GlobalStore) => T): T => {
+export const useGlobalStore = <T,>(selector: (store: Store) => T): T => {
     const context = useContext(GlobalStoreContext);
 
     if (!context) {

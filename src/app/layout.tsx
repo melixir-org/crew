@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 
-import { GlobalStoreProvider } from '@/provider';
+import { GlobalStoreProvider } from '@/provider/GlobalStore';
 
 import NavBar from '@/components/custom/NavBar';
 

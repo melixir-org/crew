@@ -1,23 +1,23 @@
 import { Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
-import { createStore } from 'zustand/vanilla';
+import { createStore as createZustandStore } from 'zustand/vanilla';
 
-export type GlobalState = {
+export type State = {
     works: WorksMap;
 };
 
-export type GlobalActions = {
+export type Actions = {
     addWorks: (works: Work[]) => void;
 };
 
-export const initGlobalState = (): GlobalState => {
+export const initState = (): State => {
     return { works: {} };
 };
 
-export type GlobalStore = GlobalState & GlobalActions;
+export type Store = State & Actions;
 
-export const createGlobalStore = (initState: GlobalState) => {
-    return createStore<GlobalStore>()(set => ({
+export const createStore = (initState: State) => {
+    return createZustandStore<Store>()(set => ({
         ...initState,
         addWorks: (works: Work[]) => {
             works.forEach((work: Work) => {
