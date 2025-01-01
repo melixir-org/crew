@@ -9,13 +9,13 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { getWorks } from '@/app/api/works';
+import { getWorks } from '@/lib/api/work';
 import { useGlobalStore } from '@/provider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
-import WorkCard from '../Work';
+import WorkCard from '../WorkCard';
 
 const Panel = () => {
     const worksFromStore = useGlobalStore(state => state.works);
