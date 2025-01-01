@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CREW_ROUTE, WORK_ROUTE } from '../routes';
 import { useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PageStoreProvider } from '../../provider/PageStore';
 
 const items = [
     {
@@ -74,55 +75,57 @@ function Workspace() {
     const entry = searchParams.get('entry');
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-            <h1 className="text-3xl font-bold mb-6">{type} list</h1>
-            <Tabs
-                value={type}
-                onValueChange={value => handleTypeChange(value)}
-                className="w-full"
-            >
-                <TabsList className="bg-zinc-900 border border-zinc-800">
-                    {['crew', 'work'].map(t => (
-                        <TabsTrigger
-                            key={t}
-                            value={t}
-                            className="data-[state=active]:bg-zinc-800"
-                        >
-                            {t}
-                        </TabsTrigger>
+        <PageStoreProvider>
+            <div className="container mx-auto px-4 py-8 max-w-2xl">
+                <h1 className="text-3xl font-bold mb-6">{type} list</h1>
+                <Tabs
+                    value={type}
+                    onValueChange={value => handleTypeChange(value)}
+                    className="w-full"
+                >
+                    <TabsList className="bg-zinc-900 border border-zinc-800">
+                        {['crew', 'work'].map(t => (
+                            <TabsTrigger
+                                key={t}
+                                value={t}
+                                className="data-[state=active]:bg-zinc-800"
+                            >
+                                {t}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                </Tabs>
+                <ul className="space-y-4">
+                    {items.map(item => (
+                        <li key={item.id}>
+                            <Card
+                                className={`cursor-pointer transition-colors ${
+                                    entry === item.id
+                                        ? 'bg-secondary text-secondary-foreground'
+                                        : 'bg-primary text-primary-foreground'
+                                }`}
+                                onClick={() => handleItemClick(item.id)}
+                            >
+                                <CardHeader>
+                                    <CardTitle>{item.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p
+                                        className={
+                                            entry === item.id
+                                                ? 'text-secondary-foreground'
+                                                : 'text-primary-foreground'
+                                        }
+                                    >
+                                        {item.subtitle}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        </li>
                     ))}
-                </TabsList>
-            </Tabs>
-            <ul className="space-y-4">
-                {items.map(item => (
-                    <li key={item.id}>
-                        <Card
-                            className={`cursor-pointer transition-colors ${
-                                entry === item.id
-                                    ? 'bg-secondary text-secondary-foreground'
-                                    : 'bg-primary text-primary-foreground'
-                            }`}
-                            onClick={() => handleItemClick(item.id)}
-                        >
-                            <CardHeader>
-                                <CardTitle>{item.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p
-                                    className={
-                                        entry === item.id
-                                            ? 'text-secondary-foreground'
-                                            : 'text-primary-foreground'
-                                    }
-                                >
-                                    {item.subtitle}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                </ul>
+            </div>
+        </PageStoreProvider>
     );
 }
 
