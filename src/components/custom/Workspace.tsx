@@ -51,7 +51,6 @@ function Workspace() {
                 const root_work = {
                     id: String(item.root_work?.id),
                     title: item.root_work?.title,
-                    description: item.root_work?.description,
                 };
                 return {
                     id: String(item.id),
@@ -141,7 +140,7 @@ function Workspace() {
                                                 : 'text-primary-foreground'
                                         }
                                     >
-                                        {item.root_work?.description}
+                                        
                                     </p>
                                 </CardContent>
                             </Card>

@@ -51,7 +51,7 @@ const Panel = () => {
         fetchWorks(currentPage);
     }, [currentPage]);
 
-    const works = currentPageIds.map(id => worksFromStore[id]);git
+    const works = currentPageIds.map(id => worksFromStore[id]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);

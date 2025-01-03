@@ -3,6 +3,5 @@ export interface Crew {
     root_work : {
         id: string;
         title: string;
-        description: string;
     } | null;
 }
