@@ -4,7 +4,7 @@ import './globals.css';
 
 import NavBar from '@/components/custom/NavBar';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/provider/ReactQuery';
+import { queryClient } from '@/provider/react-query';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
