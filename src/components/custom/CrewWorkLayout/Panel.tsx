@@ -11,7 +11,7 @@ import {
     PaginationPrevious,
 } from '@/components/ui/pagination';
 import { getWorks } from '@/lib/api/work';
-import { useCrewStore } from '@/provider/CrewStore';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
@@ -19,8 +19,8 @@ import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
 import WorkCard from '../WorkCard';
 
 const Panel = () => {
-    const worksFromStore = useCrewStore(state => state.works);
-    const addWorks = useCrewStore(state => state.addWorks);
+    const worksFromStore = useCrewWorkLayoutStore(state => state.works);
+    const addWorks = useCrewWorkLayoutStore(state => state.addWorks);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);

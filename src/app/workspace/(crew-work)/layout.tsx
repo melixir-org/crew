@@ -1,5 +1,5 @@
 import CrewWorkLayout from '@/components/custom/CrewWorkLayout/CrewWorkLayout';
-import { CrewStoreProvider } from '@/provider/CrewStore';
+import { CrewWorkLayoutStoreProvider } from '@/provider/CrewWorkLayoutStore';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -7,9 +7,9 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
-        <CrewStoreProvider>
+        <CrewWorkLayoutStoreProvider>
             <CrewWorkLayout>{children}</CrewWorkLayout>
-        </CrewStoreProvider>
+        </CrewWorkLayoutStoreProvider>
     );
 };
 
