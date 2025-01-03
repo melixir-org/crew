@@ -5,16 +5,12 @@ export async function getWorks(page: number = 1, limit: number = 10) {
         const from = (page - 1) * limit;
         const to = from + limit - 1;
 
-        const {
-            data,
-            error,
-            count: totalCount,
-        } = await supabaseBrowserClient
+        const { data, error, count } = await supabaseBrowserClient
             .from('works')
             .select('*', { count: 'exact' })
             .range(from, to);
 
-        const totalPages = Math.ceil((totalCount as number) / limit);
+        const totalPages = Math.ceil((count as number) / limit);
 
         if (error) throw error;
 
