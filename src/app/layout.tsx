@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 
 import NavBar from '@/components/custom/NavBar';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/provider/react-query';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -29,10 +31,12 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <div className="min-h-screen flex flex-col bg-black text-white">
-                    <NavBar />
-                    {children}
-                </div>
+                <QueryClientProvider client={queryClient}>
+                    <div className="min-h-screen flex flex-col bg-black text-white">
+                        <NavBar />
+                        {children}
+                    </div>
+                </QueryClientProvider>
             </body>
         </html>
     );
