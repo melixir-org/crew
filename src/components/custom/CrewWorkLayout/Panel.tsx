@@ -1,4 +1,3 @@
-'use client';
 import { Work } from '@/types/Work';
 
 import React, { useEffect, useState } from 'react';
