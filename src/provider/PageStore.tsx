@@ -16,7 +16,7 @@ export interface PageStoreProviderProps {
 }
 
 export const PageStoreProvider = ({ children }: PageStoreProviderProps) => {
-    const ref = useRef<PageStoreApi>();
+    const ref = useRef<PageStoreApi>(undefined);
 
     if (!ref.current) {
         ref.current = createStore(initState());

@@ -18,7 +18,7 @@ export interface CrewWorkLayoutStoreProviderProps {
 export const CrewWorkLayoutStoreProvider = ({
     children,
 }: CrewWorkLayoutStoreProviderProps) => {
-    const ref = useRef<CrewWorkLayoutStoreApi>();
+    const ref = useRef<CrewWorkLayoutStoreApi>(undefined);
 
     if (!ref.current) {
         ref.current = createStore(initState());
