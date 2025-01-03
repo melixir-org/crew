@@ -51,9 +51,7 @@ const Panel = () => {
         fetchWorks(currentPage);
     }, [currentPage]);
 
-    const works = currentPageIds
-        .map(id => worksFromStore[id])
-        .filter(work => work !== undefined);
+    const works = currentPageIds.map(id => worksFromStore[id]);git
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -112,7 +110,7 @@ const Panel = () => {
             </div>
             <ul className="flex-1 overflow-y-auto">
                 {works.map((work: Work, i: number) => (
-                    <li>
+                    <li key={i}>
                         <WorkCard
                             key={i}
                             id={i.toString()}

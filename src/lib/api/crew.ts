@@ -8,15 +8,9 @@ export async function getCrewMetaData({ workId }: { workId: string }) {
         .single();
 }
 
-export async function getCrews({
-    pageIndex,
-    pageSize,
-}: {
-    pageIndex: number;
-    pageSize: number;
-}) {
+export async function getCrews(pageIndex: number, pageSize: number) {
     return await supabaseBrowserClient
         .from('crews')
-        .select('id, root_work:root_id(id, title)', { count: 'exact' })
+        .select('id, root_work:root_id(id, title, description)', { count: 'exact' })
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1);
 }
