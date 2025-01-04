@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { createClient } from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { signOutAction } from './actions';
 
 export default async function Home() {
     const {
         data: { user },
-    } = await createClient().auth.getUser();
+    } = await (await createSupabaseServerClient()).auth.getUser();
 
     return (
         <div className="items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
