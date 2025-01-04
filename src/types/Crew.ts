@@ -1,7 +1,6 @@
+import { Work } from './Work';
+
 export interface Crew {
     id: string;
-    root_work: {
-        id: string;
-        title: string;
-    } | null;
+    root_work: Work | undefined;
 }
