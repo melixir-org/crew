@@ -1,5 +1,5 @@
 import CrewPage from '@/components/custom/CrewWorkLayout/CrewPage';
-import { getWorkWithCrewMetaData } from '@/lib/api/server-only/crew';
+import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
 
 import { PageStoreProvider } from '@/provider/PageStore';
 

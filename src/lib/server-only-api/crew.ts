@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createSupabaseServerClient } from '../../supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function getWorkWithCrewMetaData({ workId }: { workId: string }) {
     const supabaseServerClient = await createSupabaseServerClient();
