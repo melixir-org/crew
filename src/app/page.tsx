@@ -9,7 +9,7 @@ export default async function Home() {
     } = await createClient().auth.getUser();
 
     return (
-        <div className=" items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
+        <div className="items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
             <nav className="mb-0">
                 {user ? (
                     <form action={signOutAction}>
