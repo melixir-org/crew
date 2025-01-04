@@ -10,6 +10,13 @@ const config: Config = {
     theme: {
     	extend: {
     		colors: {
+				primarydarkbg: '#020010',
+				secondarydarkbg: '#0c1117',
+				authcardbg: '#09090B',
+				authborder: '#27272A',
+				bordersworkspace: '#3D4249',
+				primarylightbg: '#FAFAFA',
+
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
     			card: {

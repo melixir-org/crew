@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { signOutAction } from './actions';
+import WorkDesc from '@/components/custom/WorkDesc';
 
 export default async function Home() {
     const {
@@ -8,7 +9,7 @@ export default async function Home() {
     } = await createClient().auth.getUser();
 
     return (
-        <div className="items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
+        <div className=" items-center justify-items-center min-h-screen  font-[family-name:var(--font-geist-sans)]">
             <nav className="mb-0">
                 {user ? (
                     <form action={signOutAction}>
@@ -20,8 +21,9 @@ export default async function Home() {
                     <></>
                 )}
             </nav>
-            <main className="bg-slate-950 w-full h-full">
-                <div className="flex justify-center w-full bg-slate-950 h-screen">
+            <WorkDesc id={'3fb01b33-511e-4cd6-9d71-08f6ce10330f'} />
+            <main className="bg-primarydarkbg w-full h-full">
+                <div className="flex justify-center w-full bg-primarydarkbg h-screen">
                     <div className="w-9/12 flex flex-col justify-evenly items-center">
                         <div className="flex flex-col justify-center items-center min-w-10 max-w-4xl">
                             <h1 className="text-5xl text-center">
@@ -34,7 +36,7 @@ export default async function Home() {
                             </p>
                         </div>
                         <div className="button">
-                            <button className="bg-slate-50 text-slate-950 font-semibold py-2 px-4 rounded-md">
+                            <button className="bg-primarylightbg text-slate-950 font-semibold py-2 px-4 rounded-md">
                                 Find a Crew
                             </button>
                         </div>
