@@ -124,7 +124,7 @@ function Workspace() {
                         <li key={item.id}>
                             <Card
                                 className={`cursor-pointer transition-colors ${
-                                    entry === item.id
+                                    entry === item.root_work?.id
                                         ? 'bg-secondary text-secondary-foreground'
                                         : 'bg-primary text-primary-foreground'
                                 }`}

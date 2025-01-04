@@ -114,7 +114,7 @@ const Panel = () => {
                         <WorkCard
                             key={i}
                             id={i.toString()}
-                            title={work.title}
+                            title={work.title ?? ''}
                             highlighted={isWorkShown(i.toString())}
                             handleWorkClick={handleWorkClick}
                             handleIconClick={handleHierarchyClick}
