@@ -1,7 +1,7 @@
 'use client';
 
 import { getWorkData } from '@/lib/api/datadesc';
-import { formatDistanceToNow } from 'date-fns';
+import getRelativeTime from '@/lib/api/datatime';
 import { useEffect, useState } from 'react';
 
 interface WorkDescProps {
@@ -20,9 +20,7 @@ const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
     }, [id]);
     console.log(content, 'content');
     if (content) {
-        time = formatDistanceToNow(new Date(content[0].created_at), {
-            addSuffix: true,
-        });
+        time = getRelativeTime(content[0].created_at)
     }
 
     return content ? (
