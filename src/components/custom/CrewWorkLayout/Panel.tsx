@@ -9,7 +9,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { getWorks } from '@/lib/api/client-only/work';
+import { getWorks } from '@/lib/client-only-api/work';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';

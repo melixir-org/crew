@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
-import { getCrews } from '@/lib/api/client-only/crew';
+import { getCrews } from '@/lib/client-only-api/crew';
 import { useQuery } from '@tanstack/react-query';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
