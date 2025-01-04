@@ -1,9 +1,12 @@
+import 'client-only';
+
 import { createBrowserClient } from '@supabase/ssr';
 
-export const createClient = () =>
-    createBrowserClient(
+function createSupabaseBrowserClient() {
+    return createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
+}
 
-export const supabaseBrowserClient = createClient();
+export const supabaseBrowserClient = createSupabaseBrowserClient();

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
-import { getCrews } from '@/lib/api/crew';
+import { getCrews } from '@/lib/api/client-only/crew';
 import { useQuery } from '@tanstack/react-query';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
@@ -16,7 +16,7 @@ function Workspace() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const crewsFromStore = usePageStore(state => state.crews);
-    const addCrews = usePageStore(state => state.addCrews);    
+    const addCrews = usePageStore(state => state.addCrews);
     const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
 
     const handleTypeChange = (type: string) => {
@@ -63,7 +63,8 @@ function Workspace() {
             const newOrUpdatedCrews = transformedData.filter((crew: Crew) => {
                 const existingCrew = currentCrews[crew.id];
                 return (
-                    !existingCrew || JSON.stringify(existingCrew) !== JSON.stringify(crew)
+                    !existingCrew ||
+                    JSON.stringify(existingCrew) !== JSON.stringify(crew)
                 );
             });
 
@@ -127,10 +128,14 @@ function Workspace() {
                                         ? 'bg-secondary text-secondary-foreground'
                                         : 'bg-primary text-primary-foreground'
                                 }`}
-                                onClick={() => handleItemClick(item.id)}
+                                onClick={() =>
+                                    handleItemClick(item.root_work?.id ?? '')
+                                }
                             >
                                 <CardHeader>
-                                    <CardTitle>{item.root_work?.title}</CardTitle>
+                                    <CardTitle>
+                                        {item.root_work?.title}
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <p
@@ -139,9 +144,7 @@ function Workspace() {
                                                 ? 'text-secondary-foreground'
                                                 : 'text-primary-foreground'
                                         }
-                                    >
-                                        
-                                    </p>
+                                    ></p>
                                 </CardContent>
                             </Card>
                         </li>

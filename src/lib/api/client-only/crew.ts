@@ -1,9 +1,11 @@
+import 'client-only';
+
 import { supabaseBrowserClient } from '@/lib/supabase/browser';
 
-export async function getCrewMetaData({ workId }: { workId: string }) {
+export async function getWorkWithCrewMetaData({ workId }: { workId: string }) {
     return await supabaseBrowserClient
         .from('works')
-        .select('crew:crew_id (id, root_work:root_id (title, id))')
+        .select('id, crew:crew_id (id, root_work:root_id (title, id))')
         .eq('id', workId)
         .single();
 }

@@ -1,3 +1,5 @@
+import 'client-only';
+
 import { supabaseBrowserClient } from '@/lib/supabase/browser';
 
 export async function getWorks(page: number = 1, limit: number = 10) {
