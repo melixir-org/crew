@@ -1,4 +1,3 @@
-import CrewPage from '@/components/custom/CrewWorkLayout/CrewPage';
 import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
 
 import { PageStoreProvider } from '@/provider/PageStore';
@@ -20,10 +19,8 @@ const Crew = async ({
 
     return (
         <PageStoreProvider>
-            <CrewPage>
-                <div>Crew</div>
-                <div>crew title: {data?.crew?.root_work?.title}</div>
-            </CrewPage>
+            <div>Crew</div>
+            <div>crew title: {data?.crew?.root_work?.title}</div>
         </PageStoreProvider>
     );
 };

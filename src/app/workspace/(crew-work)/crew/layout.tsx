@@ -1,17 +1,17 @@
 'use client';
 
 import React from 'react';
-
 import { useRouter, useSearchParams } from 'next/navigation';
-import RouteTabs from './RouteTabs';
-import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
-import { usePageStore } from '@/provider/PageStore';
 
-interface CrewPageProps {
+import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import RouteTabs from '@/components/custom/CrewWorkLayout/RouteTabs';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+
+interface LayoutProps {
     children: React.ReactNode;
 }
 
-const CrewPage: React.FC<CrewPageProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -19,7 +19,7 @@ const CrewPage: React.FC<CrewPageProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
-    const crewTitle = usePageStore(state => {
+    const crewTitle = useCrewWorkLayoutStore(state => {
         const show = searchParams.get('show') ?? '';
         // const title = state.works[show].crew?.root_work?.title;
         // return title ?? '';
@@ -44,4 +44,4 @@ const CrewPage: React.FC<CrewPageProps> = ({ children }) => {
     );
 };
 
-export default CrewPage;
+export default Layout;

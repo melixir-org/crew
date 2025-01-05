@@ -1,17 +1,17 @@
 'use client';
 
 import React from 'react';
-
 import { useRouter, useSearchParams } from 'next/navigation';
-import RouteTabs from './RouteTabs';
-import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
-import { usePageStore } from '@/provider/PageStore';
 
-interface WorkPageProps {
+import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import RouteTabs from '@/components/custom/CrewWorkLayout/RouteTabs';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+
+interface LayoutProps {
     children: React.ReactNode;
 }
 
-const WorkPage: React.FC<WorkPageProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -19,11 +19,14 @@ const WorkPage: React.FC<WorkPageProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
-    const workTitle = usePageStore(state => {
+    const workTitle = useCrewWorkLayoutStore(state => {
+        console.log(state, 'state');
         const show = searchParams.get('show') ?? '';
         // return show ? state.works[show].title : '';
-        return 'title';
+        return 'title of work';
     });
+
+    console.log(workTitle, 'workTitle');
 
     return (
         <>
@@ -43,4 +46,4 @@ const WorkPage: React.FC<WorkPageProps> = ({ children }) => {
     );
 };
 
-export default WorkPage;
+export default Layout;
