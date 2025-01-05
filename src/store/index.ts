@@ -14,7 +14,13 @@ export type Actions = {
     addCrews: (crews: Crew[]) => void;
 };
 
-export const initState = (): State => {
+export const initState = (response?: { type: string; data: CrewsMap | WorksMap }): State => {
+    if (response?.type === 'crew') {
+        return { works: {}, crews: response.data as CrewsMap };
+    } else if (response?.type === 'work') {
+        return { works: response.data as WorksMap, crews: {} };
+    }
+
     return { works: {}, crews: {} };
 };
 
