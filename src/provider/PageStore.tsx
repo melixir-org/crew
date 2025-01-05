@@ -4,8 +4,7 @@ import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
 import { type Store, createStore, initState } from '@/store';
-import { CrewsMap } from '@/types/CrewMap';
-import { WorksMap } from '@/types/WorksMap';
+import { StoreType } from '@/types/Store';
 
 export type PageStoreApi = ReturnType<typeof createStore>;
 
@@ -15,10 +14,7 @@ export const PageStoreContext = createContext<PageStoreApi | undefined>(
 
 export interface PageStoreProviderProps {
     children: ReactNode;
-    response?: {
-        type: string;
-        data: CrewsMap | WorksMap;
-    };
+    response?: StoreType;
 }
 
 export const PageStoreProvider = ({ children, response }: PageStoreProviderProps) => {

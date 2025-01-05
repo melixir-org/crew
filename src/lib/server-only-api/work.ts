@@ -6,7 +6,7 @@ export async function getWorks(pageIndex: number, pageSize: number) {
 
     return await supabaseServerClient
         .from('works')
-        .select('*', { count: 'exact' })
+        .select('id,title, description,', { count: 'exact' })
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Work[]>();
 }
