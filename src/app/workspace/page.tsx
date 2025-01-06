@@ -2,7 +2,7 @@ import Workspace from '@/components/custom/Workspace';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { State } from '@/store';
+import { initState, State } from '@/store';
 import { Crew } from '@/types/Crew';
 import { CrewsMap } from '@/types/CrewMap';
 import { Work } from '@/types/Work';
@@ -15,10 +15,7 @@ interface PageProps {
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const { page_index, page_size, type } = await searchParams;
 
-    const initialState: State = {
-        crews: {},
-        works: {},
-    };
+    const initialState: State = initState();
 
     if (type === 'crew') {
         const { data }: { data: Crew[] | null } = await getCrews(
@@ -26,11 +23,11 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             Number(page_size)
         );
 
-        const crewsMap: CrewsMap = {};
+        const crews: CrewsMap = {};
         data?.forEach(crew => {
-            crewsMap[crew.id] = crew;
+            crews[crew.id] = crew;
         });
-        initialState.crews = crewsMap;
+        initialState.crews = crews;
     }
     if (type === 'work') {
         const { data }: { data: Work[] | null } = await getWorks(
@@ -38,11 +35,11 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             Number(page_size)
         );
 
-        const worksMap: WorksMap = {};
+        const works: WorksMap = {};
         data?.forEach(work => {
-            worksMap[work.id] = work;
+            works[work.id] = work;
         });
-        initialState.works = worksMap;
+        initialState.works = works;
     }
 
     return (
