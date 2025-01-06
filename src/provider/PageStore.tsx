@@ -23,7 +23,7 @@ export const PageStoreProvider = ({
     const ref = useRef<PageStoreApi>(undefined);
 
     if (!ref.current) {
-        ref.current = createStore(initState(initialState));
+        ref.current = createStore(initialState ?? initState());
     }
 
     return (
