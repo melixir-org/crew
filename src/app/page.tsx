@@ -21,7 +21,6 @@ export default async function Home() {
                     <></>
                 )}
             </nav>
-            <WorkDesc id={'3fb01b33-511e-4cd6-9d71-08f6ce10330f'} />
             <main className="bg-primary-dark-bg w-full h-full">
                 <div className="flex justify-center w-full bg-primary-dark-bg h-screen">
                     <div className="w-9/12 flex flex-col justify-evenly items-center">

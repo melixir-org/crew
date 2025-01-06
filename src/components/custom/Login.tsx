@@ -9,7 +9,7 @@ const Login = () => {
                     </p>
                 </div>
                 <div className="h-full w-full md:w-6/12 bg-secondary-dark-bg flex flex-col justify-center items-center">
-                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-lighttxt max-w-[370px] justify-between gap-3">
+                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
                         <div className="head">
                             <h1 className="text-3xl font-semibold">
                                 Welcome Back!

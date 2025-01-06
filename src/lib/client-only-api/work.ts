@@ -39,6 +39,6 @@ export async function getAncestors({
 export async function getWorkData(workId: string) {
     return await supabaseBrowserClient
         .from('works')
-        .select('title, created_at, description')
+        .select('title, created_at, description, created_by')
         .eq('id', workId);
 }
