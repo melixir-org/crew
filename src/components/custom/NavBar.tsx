@@ -6,7 +6,7 @@ const Navbar = () => {
             <div className="flex w-full bg-slate-950 h-full">
                 <div className="w-9/12 flex justify-between mx-auto items-center">
                     <div className="flex justify-between items-center  gap-5 ">
-                        <h2 className=" font-bold text-xl">Melixir</h2>
+                        <Link href={'/'}><h2 className=" font-bold text-xl">Melixir</h2></Link>
                         <Link href={'/explore'}>Explore</Link>
                         <Link href={'/workspace'}>Workspace</Link>
                     </div>
