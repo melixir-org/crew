@@ -3,7 +3,7 @@
 import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
-import { type Store, createStore, initState } from '@/store';
+import { State, type Store, createStore, initState } from '@/store';
 
 export type PageStoreApi = ReturnType<typeof createStore>;
 
@@ -13,13 +13,17 @@ export const PageStoreContext = createContext<PageStoreApi | undefined>(
 
 export interface PageStoreProviderProps {
     children: ReactNode;
+    initialState?: State;
 }
 
-export const PageStoreProvider = ({ children }: PageStoreProviderProps) => {
-    const ref = useRef<PageStoreApi>();
+export const PageStoreProvider = ({
+    children,
+    initialState,
+}: PageStoreProviderProps) => {
+    const ref = useRef<PageStoreApi>(undefined);
 
     if (!ref.current) {
-        ref.current = createStore(initState());
+        ref.current = createStore(initState(initialState));
     }
 
     return (

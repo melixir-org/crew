@@ -1,8 +1,11 @@
 'use client';
 
+import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import RouteTabs from '@/components/custom/CrewWorkLayout/RouteTabs';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -16,6 +19,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
+    const workTitle = useCrewWorkLayoutStore(state => {
+        console.log(state, 'state');
+        const show = searchParams.get('show') ?? '';
+        // return show ? state.works[show].title : '';
+        return 'title of work';
+    });
+
+    console.log(workTitle, 'workTitle');
+
     return (
         <>
             <div className="p-6">
@@ -23,7 +35,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     className="text-2xl font-bold tracking-tight text-white cursor-pointer"
                     onClick={handleRouteChange}
                 >
-                    Title of the work goes here [CLICK TO GO BACK]
+                    {`${workTitle} [X]`}
                 </h1>
             </div>
             <div className="px-6">

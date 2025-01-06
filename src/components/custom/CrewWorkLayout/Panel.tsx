@@ -1,4 +1,3 @@
-'use client';
 import { Work } from '@/types/Work';
 
 import React, { useEffect, useState } from 'react';
@@ -10,8 +9,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { getWorks } from '@/lib/api/work';
-import { useGlobalStore } from '@/provider/GlobalStore';
+import { getWorks } from '@/lib/client-only-api/work';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
@@ -19,8 +18,8 @@ import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
 import WorkCard from '../WorkCard';
 
 const Panel = () => {
-    const worksFromStore = useGlobalStore(state => state.works);
-    const addWorks = useGlobalStore(state => state.addWorks);
+    const worksFromStore = useCrewWorkLayoutStore(state => state.works);
+    const addWorks = useCrewWorkLayoutStore(state => state.addWorks);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -52,9 +51,7 @@ const Panel = () => {
         fetchWorks(currentPage);
     }, [currentPage]);
 
-    const works = currentPageIds
-        .map(id => worksFromStore[id])
-        .filter(work => work !== undefined);
+    const works = currentPageIds.map(id => worksFromStore[id]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -113,11 +110,11 @@ const Panel = () => {
             </div>
             <ul className="flex-1 overflow-y-auto">
                 {works.map((work: Work, i: number) => (
-                    <li>
+                    <li key={i}>
                         <WorkCard
                             key={i}
                             id={i.toString()}
-                            title={work.title}
+                            title={work.title ?? ''}
                             highlighted={isWorkShown(i.toString())}
                             handleWorkClick={handleWorkClick}
                             handleIconClick={handleHierarchyClick}

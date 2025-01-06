@@ -1,8 +1,11 @@
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import 'server-only';
 
-export const createClient = () => {
-    const cookieStore = cookies();
+import { createServerClient } from '@supabase/ssr';
+import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
+
+export async function createSupabaseServerClient() {
+    const cookieStore =
+        (await cookies()) as unknown as UnsafeUnwrappedCookies as unknown as UnsafeUnwrappedCookies;
 
     return createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,11 +17,11 @@ export const createClient = () => {
                 },
                 setAll(cookiesToSet) {
                     try {
-                        cookiesToSet.forEach(({ name, value, options }) => {
-                            cookieStore.set(name, value, options);
-                        });
-                    } catch (error) {
-                        // The `set` method was called from a Server Component.
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options)
+                        );
+                    } catch {
+                        // The `setAll` method was called from a Server Component.
                         // This can be ignored if you have middleware refreshing
                         // user sessions.
                     }
@@ -26,4 +29,4 @@ export const createClient = () => {
             },
         }
     );
-};
+}

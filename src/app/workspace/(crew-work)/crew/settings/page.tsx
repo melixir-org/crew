@@ -1,11 +1,11 @@
 import { PageStoreProvider } from '@/provider/PageStore';
 
-const Crew = () => {
+const Settings = () => {
     return (
         <PageStoreProvider>
-            <div>Crew</div>
+            <div>Settings</div>
         </PageStoreProvider>
     );
 };
 
-export default Crew;
+export default Settings;
