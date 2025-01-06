@@ -17,7 +17,7 @@ const Navbar = () => {
                             </button>
                         </Link>
                         <Link href={'/sign-up'}>
-                            <button className=" bg-lighttxt text-slate-950 rounded-xl px-2 py-2 font-semibold">
+                            <button className=" bg-primary-light-bg text-slate-950 rounded-xl px-2 py-2 font-semibold">
                                 Sign Up
                             </button>
                         </Link>

@@ -26,7 +26,6 @@ const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
 
     return content ? (
         <div className="flex w-full">
-            <div className='w-3/12 flex justify-center items-center'><Panel/></div>
             <div className="flex flex-col bg-primary-dark-bg w-full pl-4">
                 <div className="w-full">
                     <div className="w-full flex justify-between items-center">

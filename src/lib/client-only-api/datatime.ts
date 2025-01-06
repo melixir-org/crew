@@ -1,7 +1,9 @@
 const getRelativeTime = (date: Date | string): string => {
     const now = new Date(); // Current time
     const givenDate = typeof date === 'string' ? new Date(date) : date;
-    const diffInSeconds = Math.floor((now.getTime() - givenDate.getTime()) / 1000);
+    const diffInSeconds = Math.floor(
+        (now.getTime() - givenDate.getTime()) / 1000
+    );
 
     if (diffInSeconds < 60) {
         return `${diffInSeconds} second${diffInSeconds === 1 ? '' : 's'} ago`;
@@ -36,4 +38,4 @@ const getRelativeTime = (date: Date | string): string => {
     return `${diffInYears} year${diffInYears === 1 ? '' : 's'} ago`;
 };
 
-export default getRelativeTime ;
+export default getRelativeTime;
