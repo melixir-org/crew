@@ -5,7 +5,7 @@ import getRelativeTime from '@/lib/api/datatime';
 import { useEffect, useState } from 'react';
 
 interface WorkDescProps {
-    id: any;
+    id: string;
 }
 
 const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
