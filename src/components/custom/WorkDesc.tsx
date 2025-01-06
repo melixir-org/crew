@@ -34,15 +34,24 @@ const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
                         </h1>
                         <h3>{time}</h3>
                     </div>
-                    <div className="buttons"><br/><br/></div>
+                    <div className="buttons">
+                        <br />
+                        <br />
+                    </div>
                 </div>
                 <div className="flex w-full">
                     <div className="bg-secondary-dark-bg border-dark-border border-[1px] rounded-lg p-4 w-8/12 gap-4">
-                        <h2 className='text-primary-light-bg font-medium text-xl'>Main Work Description</h2>
-                        <p className='text-primary-light-bg text-sm'>{content[0].description}</p>
+                        <h2 className="text-primary-light-bg font-medium text-xl">
+                            Main Work Description
+                        </h2>
+                        <p className="text-primary-light-bg text-sm">
+                            {content[0].description}
+                        </p>
                     </div>
                     <div className="right">
-                        <h2 className='text-primary-light-bg font-medium text-xl'>Assigned Senior Contributor</h2>
+                        <h2 className="text-primary-light-bg font-medium text-xl">
+                            Assigned Senior Contributor
+                        </h2>
                         <div className="banner">Rishabh</div>
                     </div>
                 </div>
