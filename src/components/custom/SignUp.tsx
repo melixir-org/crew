@@ -9,7 +9,7 @@ const SignUp = () => {
                     </p>
                 </div>
                 <div className="h-full w-full bg-secondary-dark-bg flex flex-col justify-center items-center md:w-6/12">
-                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
+                    <div className="flex flex-col py-6 px-4 border-2 border-auth-border bg-auth-card-bg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
                         <div className="head">
                             <h1 className="text-3xl font-semibold">
                                 Create an account
@@ -19,10 +19,10 @@ const SignUp = () => {
                             </p>
                         </div>
                         <div className="flex w-full justify-between">
-                            <button className="py-1 border-[1px] border-authborder rounded-md w-5/12">
+                            <button className="py-1 border-[1px] border-auth-border rounded-md w-5/12">
                                 Google
                             </button>
-                            <button className="py-1 border-[1px] border-authborder rounded-md w-5/12">
+                            <button className="py-1 border-[1px] border-auth-border rounded-md w-5/12">
                                 Facebook
                             </button>
                         </div>
@@ -35,14 +35,14 @@ const SignUp = () => {
                             <label className="flex flex-col">
                                 Name
                                 <input
-                                    className="border-[1px] border-authborder bg-authcardbg py-1 px-1 rounded-md"
+                                    className="border-[1px] border-auth-border bg-auth-card-bg py-1 px-1 rounded-md"
                                     placeholder="Password"
                                 />
                             </label>
                             <label className="flex flex-col">
                                 Email
                                 <input
-                                    className="border-[1px] border-authborder bg-authcardbg py-1 px-1 rounded-md"
+                                    className="border-[1px] border-auth-border bg-auth-card-bg py-1 px-1 rounded-md"
                                     placeholder="example@gmail.com"
                                 />
                             </label>
@@ -50,7 +50,7 @@ const SignUp = () => {
                                 Password
                                 <input
                                     type="password"
-                                    className="border-[1px] border-authborder bg-authcardbg py-1 px-1 rounded-md"
+                                    className="border-[1px] border-auth-border bg-auth-card-bg py-1 px-1 rounded-md"
                                     placeholder="Password"
                                 />
                             </label>

@@ -9,7 +9,7 @@ const Login = () => {
                     </p>
                 </div>
                 <div className="h-full w-full md:w-6/12 bg-secondary-dark-bg flex flex-col justify-center items-center">
-                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
+                    <div className="flex flex-col py-6 px-4 border-2 border-auth-border bg-auth-card-bg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
                         <div className="head">
                             <h1 className="text-3xl font-semibold">
                                 Welcome Back!
@@ -23,7 +23,7 @@ const Login = () => {
                             <label className="flex flex-col">
                                 Email
                                 <input
-                                    className="border-[1px] border-authborder bg-authcardbg  py-1 px-1 rounded-md"
+                                    className="border-[1px] border-auth-border bg-auth-card-bg  py-1 px-1 rounded-md"
                                     placeholder="example@gmail.com"
                                 />
                             </label>
@@ -31,7 +31,7 @@ const Login = () => {
                                 Password
                                 <input
                                     type="password"
-                                    className="border-[1px] border-authborder bg-authcardbg k py-1 px-1 rounded-md"
+                                    className="border-[1px] border-auth-border bg-auth-card-bg k py-1 px-1 rounded-md"
                                     placeholder="Password"
                                 />
                             </label>
@@ -44,10 +44,10 @@ const Login = () => {
                             <hr className="w-3/12" />
                         </div>
                         <div className="flex flex-col w-full justify-between gap-2">
-                            <button className="py-1 border-[1px] border-authborder rounded-md">
+                            <button className="py-1 border-[1px] border-auth-border rounded-md">
                                 Facebook
                             </button>
-                            <button className="py-1 border-[1px] border-authborder rounded-md">
+                            <button className="py-1 border-[1px] border-auth-border rounded-md">
                                 Github
                             </button>
                         </div>

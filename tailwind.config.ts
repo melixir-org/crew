@@ -12,8 +12,8 @@ const config: Config = {
     		colors: {
 				"primary-dark-bg": '#020010',
 				"secondary-dark-bg": '#0c1117',
-				authcardbg: '#09090B',
-				authborder: '#27272A',
+				"auth-card-bg": '#09090B',
+				"auth-border": '#27272A',
 				"dark-border": '#3D4249',
 				"primary-light-bg": '#FAFAFA',
 
