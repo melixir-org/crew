@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 const Navbar = () => {
     return (
-        <nav className="h-16 border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
-            <div className="flex w-full bg-slate-950 h-full">
+        <nav className="h-16 border-b border-zinc-800 bg-primary-dark-bg backdrop-blur supports-[backdrop-filter]:bg-black/60">
+            <div className="flex w-full bg-primary-dark-bg h-full">
                 <div className="w-9/12 flex justify-between mx-auto items-center">
                     <div className="flex justify-between items-center  gap-5 ">
                         <Link href={'/'}><h2 className=" font-bold text-xl">Melixir</h2></Link>
@@ -17,7 +17,7 @@ const Navbar = () => {
                             </button>
                         </Link>
                         <Link href={'/sign-up'}>
-                            <button className=" bg-slate-50 text-slate-950 rounded-xl px-2 py-2 font-semibold">
+                            <button className=" bg-primary-light-bg text-slate-950 rounded-xl px-2 py-2 font-semibold">
                                 Sign Up
                             </button>
                         </Link>

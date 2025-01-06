@@ -20,8 +20,8 @@ export default async function Home() {
                     <></>
                 )}
             </nav>
-            <main className="bg-slate-950 w-full h-full">
-                <div className="flex justify-center w-full bg-slate-950 h-screen">
+            <main className="bg-primary-dark-bg w-full h-full">
+                <div className="flex justify-center w-full bg-primary-dark-bg h-screen">
                     <div className="w-9/12 flex flex-col justify-evenly items-center">
                         <div className="flex flex-col justify-center items-center min-w-10 max-w-4xl">
                             <h1 className="text-5xl text-center">
@@ -34,7 +34,7 @@ export default async function Home() {
                             </p>
                         </div>
                         <div className="button">
-                            <button className="bg-slate-50 text-slate-950 font-semibold py-2 px-4 rounded-md">
+                            <button className="bg-primary-light-bg text-slate-950 font-semibold py-2 px-4 rounded-md">
                                 Find a Crew
                             </button>
                         </div>

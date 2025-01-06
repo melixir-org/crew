@@ -1,6 +1,7 @@
 import 'client-only';
 
 import { supabaseBrowserClient } from '@/lib/supabase/browser';
+import { Work } from '@/types/Work';
 
 export async function getWorks(page: number = 1, limit: number = 10) {
     try {
@@ -29,8 +30,19 @@ export async function getAncestors({
     workId: string;
     length: number;
 }) {
-    return await supabaseBrowserClient.rpc('get_ancestors', {
-        work_id: workId,
-        length: length,
-    });
+    return await supabaseBrowserClient
+        .rpc('get_ancestors', {
+            work_id: workId,
+            length: length,
+        })
+        .returns<Work[]>();
+}
+
+export async function getWorkData(workId: string) {
+    return await supabaseBrowserClient
+        .from('works')
+        .select('title, created_at, description, created_by')
+        .eq('id', workId)
+        .returns<Work[]>()
+        .single();
 }
