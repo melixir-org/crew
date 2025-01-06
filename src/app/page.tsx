@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { signOutAction } from './actions';
-import WorkDesc from '@/components/custom/WorkDesc';
 
 export default async function Home() {
     const {
