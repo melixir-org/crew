@@ -5,7 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 interface WorkDescProps {
-    id: any;
+    id: string;
 }
 
 const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
