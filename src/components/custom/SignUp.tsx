@@ -1,15 +1,15 @@
 const SignUp = () => {
     return (
-        <main className="bg-primarydarkbg w-full h-full">
-            <div className="flex h-screen bg-primarydarkbg w-full ">
+        <main className="bg-primary-dark-bg w-full h-full">
+            <div className="flex h-screen bg-primary-dark-bg w-full ">
                 <div className="h-full w-0 flex flex-col justify-center items-center md:w-6/12 overflow-hidden">
                     <h1 className="text-9xl font-semibold ">Melixir</h1>
                     <p className="text-center opacity-95 font-light">
                         Build Great Things Together
                     </p>
                 </div>
-                <div className="h-full w-full bg-secondarydarkbg flex flex-col justify-center items-center md:w-6/12">
-                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-primarylightbg max-w-[370px] justify-between gap-3">
+                <div className="h-full w-full bg-secondary-dark-bg flex flex-col justify-center items-center md:w-6/12">
+                    <div className="flex flex-col py-6 px-4 border-2 border-authborder bg-authcardbg rounded-xl text-primary-light-bg max-w-[370px] justify-between gap-3">
                         <div className="head">
                             <h1 className="text-3xl font-semibold">
                                 Create an account
@@ -55,7 +55,7 @@ const SignUp = () => {
                                 />
                             </label>
                         </form>
-                        <button className="bg-primarylightbg text-black py-1 rounded-md">
+                        <button className="bg-primary-light-bg text-black py-1 rounded-md">
                             Create Account
                         </button>
                     </div>

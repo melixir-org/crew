@@ -1,6 +1,6 @@
 'use client';
 
-import { getWorkData } from '@/lib/api/datadesc';
+import { getWorkData } from '@/lib/api/work';
 import getRelativeTime from '@/lib/api/datatime';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ interface WorkDescProps {
 
 const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
     const [content, setContent] = useState<any>(null);
-    let time: any;
+    
     useEffect(() => {
         const response = async () => {
             const data = await getWorkData(id);
@@ -19,12 +19,11 @@ const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
         response();
     }, [id]);
     console.log(content, 'content');
-    if (content) {
-        time = getRelativeTime(content[0].created_at)
-    }
+ 
+    const time:any = content ? getRelativeTime(content[0].created_at) : "fetching" ;
 
     return content ? (
-        <div className="flex flex-col justify-between gap-1 w-full p-3 bg-primarydarkbg border-[1px] border-bordersworkspace rounded-lg text-primarylightbg ">
+        <div className="flex flex-col justify-between gap-1 w-full p-3 bg-primary-dark-bg border-[1px] border-dark-border rounded-lg text-primary-light-bg ">
             <div className="flex justify-between w-full">
                 <h1 className="font-semibold size-4 w-fit">
                     {content[0].title}
