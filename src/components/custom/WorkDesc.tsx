@@ -18,7 +18,6 @@ const WorkDesc: React.FC<WorkDescProps> = ({ id }) => {
         };
         response();
     }, [id]);
-    console.log(content, 'content');
  
     const time:any = content ? getRelativeTime(content[0].created_at) : "fetching" ;
 
