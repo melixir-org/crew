@@ -12,9 +12,8 @@ export async function getWorkWithCrewMetaData({ workId }: { workId: string }) {
         .select('id, crew:crew_id (id, root_work:root_id (title, id))')
         .eq('id', workId)
         .returns<Work[]>()
-        .single()
+        .single();
 }
-
 
 export async function getCrews(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();

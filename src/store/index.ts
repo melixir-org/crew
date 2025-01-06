@@ -6,7 +6,7 @@ import { createStore as createZustandStore } from 'zustand/vanilla';
 
 export type State = {
     works: WorksMap;
-    crews : CrewsMap;
+    crews: CrewsMap;
 };
 
 export type Actions = {
@@ -14,11 +14,9 @@ export type Actions = {
     addCrews: (crews: Crew[]) => void;
 };
 
-export const initState = (response?: { type: string; data: CrewsMap | WorksMap }): State => {
-    if (response?.type === 'crew') {
-        return { works: {}, crews: response.data as CrewsMap };
-    } else if (response?.type === 'work') {
-        return { works: response.data as WorksMap, crews: {} };
+export const initState = (response?: State): State => {
+    if (response) {
+        return response;
     }
 
     return { works: {}, crews: {} };

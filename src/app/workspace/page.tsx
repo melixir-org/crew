@@ -2,6 +2,7 @@ import Workspace from '@/components/custom/Workspace';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
 import { PageStoreProvider } from '@/provider/PageStore';
+import { State } from '@/store';
 import { Crew } from '@/types/Crew';
 import { CrewsMap } from '@/types/CrewMap';
 import { Work } from '@/types/Work';
@@ -12,36 +13,40 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
-    const {page_index, page_size, type} = await searchParams;
+    const { page_index, page_size, type } = await searchParams;
 
-    const response : {
-        type: string;
-        data: CrewsMap | WorksMap;
-    } = {
-        type: '',
-        data: {},
+    const initialState: State = {
+        crews: {},
+        works: {},
     };
 
-    if(type === 'crew') {
-        const crewResponse = await getCrews(Number(page_index), Number(page_size));
-        response.type = type;
+    if (type === 'crew') {
+        const { data }: { data: Crew[] | null } = await getCrews(
+            Number(page_index),
+            Number(page_size)
+        );
+
         const crewsMap: CrewsMap = {};
-        (crewResponse.data as Crew[]).forEach((crew) => {
-            crewsMap[crew.id] = crew; 
+        data?.forEach(crew => {
+            crewsMap[crew.id] = crew;
         });
-        response.data = crewsMap;
-    } else if(type === 'work') {
-        const workResponse = await getWorks(Number(page_index), Number(page_size));
-        response.type = type;
+        initialState.crews = crewsMap;
+    }
+    if (type === 'work') {
+        const { data }: { data: Work[] | null } = await getWorks(
+            Number(page_index),
+            Number(page_size)
+        );
+
         const worksMap: WorksMap = {};
-        (workResponse.data as Work[]).forEach((work) => {
-            worksMap[work.id] = work; 
+        data?.forEach(work => {
+            worksMap[work.id] = work;
         });
-        response.data = worksMap;
+        initialState.works = worksMap;
     }
 
     return (
-        <PageStoreProvider response={response}>
+        <PageStoreProvider initialState={initialState}>
             <Workspace />
         </PageStoreProvider>
     );
