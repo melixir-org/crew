@@ -109,15 +109,16 @@ const Panel = () => {
                 <p>Crew</p>
             </div>
             <ul className="flex-1 overflow-y-auto">
-                {works.map((work: Work, i: number) => (
-                    <li key={i}>
+                {works.map((work: Work) => (
+                    <li key={work.id}>
                         <WorkCard
-                            key={i}
-                            id={i.toString()}
-                            title={work.title ?? ''}
-                            highlighted={isWorkShown(i.toString())}
-                            handleWorkClick={handleWorkClick}
-                            handleIconClick={handleHierarchyClick}
+                            key={work.id}
+                            title={work.title}
+                            highlighted={isWorkShown(work.id)}
+                            handleWorkClick={() => handleWorkClick(work.id)}
+                            handleIconClick={() =>
+                                handleHierarchyClick(work.id)
+                            }
                         />
                     </li>
                 ))}

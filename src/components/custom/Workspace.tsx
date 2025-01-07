@@ -78,11 +78,11 @@ function Workspace() {
 
     const crews = currentPageIds.map(id => crewsFromStore[id]);
 
-    const handleItemClick = (id: string) => {
+    const handleItemClick = (id: string, workId: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('entry', id);
-        params.set('show', id);
-        params.set('h', id);
+        params.set('show', workId);
+        params.set('h', workId);
         if (type === 'work') {
             params.set('panel', 'h');
             router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
@@ -124,12 +124,15 @@ function Workspace() {
                         <li key={item.id}>
                             <Card
                                 className={`cursor-pointer transition-colors ${
-                                    entry === item.root_work?.id
+                                    entry === item.id
                                         ? 'bg-secondary text-secondary-foreground'
                                         : 'bg-primary text-primary-foreground'
                                 }`}
                                 onClick={() =>
-                                    handleItemClick(item.root_work?.id ?? '')
+                                    handleItemClick(
+                                        item.id,
+                                        item?.root_work?.id ?? ''
+                                    )
                                 }
                             >
                                 <CardHeader>
