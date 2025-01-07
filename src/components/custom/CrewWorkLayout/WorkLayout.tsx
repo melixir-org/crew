@@ -3,15 +3,15 @@
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
-import RouteTabs from '@/components/custom/CrewWorkLayout/RouteTabs';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import RouteTabs from './RouteTabs';
+import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 
-interface LayoutProps {
+interface WorkLayoutProps {
     children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -19,10 +19,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
-    const crewTitle = useCrewWorkLayoutStore(state => {
+    const workTitle = useCrewWorkLayoutStore(state => {
         const show = searchParams.get('show') ?? '';
-        // const title = state.works[show].crew?.root_work?.title;
-        // return title ?? '';
+        // return show ? state.works[show].title : '';
         return 'title';
     });
 
@@ -33,15 +32,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     className="text-2xl font-bold tracking-tight text-white cursor-pointer"
                     onClick={handleRouteChange}
                 >
-                    {`${crewTitle} [X]`}
+                    {`${workTitle} [X]`}
                 </h1>
             </div>
             <div className="px-6">
-                <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
+                <RouteTabs routes={WORK_ROUTE_GROUP_ROUTES} />
                 <div className="mt-6">{children}</div>
             </div>
         </>
     );
 };
 
-export default Layout;
+export default WorkLayout;

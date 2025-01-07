@@ -3,15 +3,15 @@
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
-import RouteTabs from '@/components/custom/CrewWorkLayout/RouteTabs';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import RouteTabs from './RouteTabs';
+import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 
-interface LayoutProps {
+interface CrewLayoutProps {
     children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -19,14 +19,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
-    const workTitle = useCrewWorkLayoutStore(state => {
-        console.log(state, 'state');
+    const crewTitle = useCrewWorkLayoutStore(state => {
         const show = searchParams.get('show') ?? '';
-        // return show ? state.works[show].title : '';
-        return 'title of work';
+        // const title = state.works[show].crew?.root_work?.title;
+        // return title ?? '';
+        return 'title';
     });
-
-    console.log(workTitle, 'workTitle');
 
     return (
         <>
@@ -35,15 +33,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     className="text-2xl font-bold tracking-tight text-white cursor-pointer"
                     onClick={handleRouteChange}
                 >
-                    {`${workTitle} [X]`}
+                    {`${crewTitle} [X]`}
                 </h1>
             </div>
             <div className="px-6">
-                <RouteTabs routes={WORK_ROUTE_GROUP_ROUTES} />
+                <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
                 <div className="mt-6">{children}</div>
             </div>
         </>
     );
 };
 
-export default Layout;
+export default CrewLayout;

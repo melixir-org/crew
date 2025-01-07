@@ -1,4 +1,5 @@
 import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
+import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 
 import { PageStoreProvider } from '@/provider/PageStore';
 import { Work } from '@/types/Work';
@@ -19,8 +20,10 @@ const Crew = async ({
 
     return (
         <PageStoreProvider>
+            <MergeSsrStateIntoCrewWorkLayoutStore
+                ssrState={{ crews: {}, works: {} }}
+            />
             <div>Crew</div>
-            <div>crew title: {data?.crew?.root_work?.title}</div>
         </PageStoreProvider>
     );
 };
