@@ -3,7 +3,7 @@ import 'client-only';
 import { supabaseBrowserClient } from '@/lib/supabase/browser';
 import { Work } from '@/types/Work';
 
-export async function getWorks(pageIndex: number, pageSize: number = 10) {
+export async function getWorks(pageIndex: number, pageSize: number) {
     const { data, error, count } = await supabaseBrowserClient
         .from('works')
         .select('id, title, crew:crew_id (id, root_work:root_id (id, title))', {
