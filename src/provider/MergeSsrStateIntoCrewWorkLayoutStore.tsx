@@ -17,7 +17,7 @@ const MergeSsrStateIntoCrewWorkLayoutStore = ({
         set(state =>
             mergeWith(state, ssrState, (_, srcValue, key) => {
                 if (key === 'description') {
-                    return null;
+                    return '';
                 }
                 return isArray(srcValue) ? srcValue : undefined;
             })

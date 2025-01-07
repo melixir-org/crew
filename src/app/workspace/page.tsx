@@ -3,10 +3,10 @@ import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { initState, State } from '@/store';
-import { Crew } from '@/types/Crew';
-import { CrewsMap } from '@/types/CrewMap';
-import { Work } from '@/types/Work';
-import { WorksMap } from '@/types/WorksMap';
+import type { Crew } from '@/types/Crew';
+import type { CrewsMap } from '@/types/CrewMap';
+import type { Work } from '@/types/Work';
+import type { WorksMap } from '@/types/WorksMap';
 
 interface PageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

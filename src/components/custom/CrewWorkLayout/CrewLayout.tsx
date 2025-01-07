@@ -19,11 +19,9 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
-    const crewTitle = useCrewWorkLayoutStore(state => {
+    const crewTitle: string = useCrewWorkLayoutStore(state => {
         const show = searchParams.get('show') ?? '';
-        // const title = state.works[show].crew?.root_work?.title;
-        // return title ?? '';
-        return 'title';
+        return state.works[show]?.crew?.root_work?.title ?? '';
     });
 
     return (

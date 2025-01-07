@@ -7,7 +7,7 @@ import { Crew } from '@/types/Crew';
 export async function getWorkWithCrewMetaData({ workId }: { workId: string }) {
     return await supabaseBrowserClient
         .from('works')
-        .select('id, crew:crew_id (id, root_work:root_id (title, id))')
+        .select('id, title, crew:crew_id (id, root_work:root_id (id, title))')
         .eq('id', workId)
         .returns<Work[]>()
         .single();
