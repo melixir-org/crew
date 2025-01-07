@@ -69,14 +69,12 @@ const Panel = () => {
     };
 
     const handleWorkClick = (id: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('show', id);
+
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
-            const params = new URLSearchParams(searchParams.toString());
-            params.set('show', id);
             router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
-            return;
         } else {
-            const params = new URLSearchParams(searchParams.toString());
-            params.set('show', id);
             router.push(`${pathname}?${params.toString()}`);
         }
     };
@@ -85,7 +83,12 @@ const Panel = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('h', id);
         params.set('show', id);
-        router.push(`${pathname}?${params.toString()}`);
+
+        if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
+            router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
+        } else {
+            router.push(`${pathname}?${params.toString()}`);
+        }
     };
 
     const isWorkShown = (id: string) => {
