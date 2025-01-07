@@ -24,7 +24,7 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
     }
 
     return (
-        <PageStoreProvider>
+        <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
             <div>Work</div>
         </PageStoreProvider>

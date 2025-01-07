@@ -28,7 +28,7 @@ const Crew = async ({
     }
 
     return (
-        <PageStoreProvider>
+        <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
             <div>Crew</div>
         </PageStoreProvider>
