@@ -2,7 +2,6 @@ import { Crew } from '@/types/Crew';
 import { CrewsMap } from '@/types/CrewMap';
 import { Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
-import { isArray, mergeWith } from 'lodash-es';
 import { immer } from 'zustand/middleware/immer';
 import { createStore as createZustandStore } from 'zustand/vanilla';
 
@@ -14,7 +13,7 @@ export type State = {
 export type Actions = {
     addWorks: (works: Work[]) => void;
     addCrews: (crews: Crew[]) => void;
-    merge: (state: State) => void;
+    set: (fn: (state: State) => void) => void;
 };
 
 export const initState = (): State => {
@@ -27,11 +26,9 @@ export const createStore = (initialState: State) => {
     return createZustandStore<Store>()(
         immer(set => ({
             ...initialState,
-            merge: (payload: State) => {
+            set: fn => {
                 set(state => {
-                    mergeWith(state, payload, (_, b) =>
-                        isArray(b) ? b : undefined
-                    );
+                    fn(state);
                 });
             },
             addWorks: (works: Work[]) => {
