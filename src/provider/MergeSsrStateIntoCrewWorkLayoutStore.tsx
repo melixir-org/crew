@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { isArray, mergeWith } from 'lodash-es';
+import { isArray, isPlainObject, mergeWith } from 'lodash-es';
 
 import { useCrewWorkLayoutStore } from './CrewWorkLayoutStore';
 import { State } from '@/store';
@@ -15,11 +15,16 @@ const MergeSsrStateIntoCrewWorkLayoutStore = ({
 
     useEffect(() => {
         set(state =>
-            mergeWith(state, ssrState, (_, srcValue, key) => {
+            mergeWith(state, ssrState, (objValue, srcValue, key) => {
                 if (key === 'description') {
                     return '';
                 }
-                return isArray(srcValue) ? srcValue : undefined;
+                if (isArray(srcValue)) {
+                    return srcValue;
+                }
+                if (!isPlainObject(objValue) && isPlainObject(srcValue)) {
+                    return srcValue;
+                }
             })
         );
     }, []);
