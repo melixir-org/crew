@@ -5,12 +5,12 @@ export const WORKSPACE_ROUTE: Route = {
     pathname: '/workspace',
 };
 
-export const CREW_ROUTE: Route = {
+export const CREW_HOME_ROUTE: Route = {
     name: 'crew',
     pathname: '/workspace/crew',
 };
 
-export const WORK_ROUTE: Route = {
+export const WORK_HOME_ROUTE: Route = {
     name: 'work',
     pathname: '/workspace/work',
 };
@@ -25,5 +25,8 @@ export const LEVEL_ROUTE: Route = {
     pathname: '/workspace/work/level',
 };
 
-export const CREW_ROUTE_GROUP_ROUTES: Route[] = [CREW_ROUTE, SETTINGS_ROUTE];
-export const WORK_ROUTE_GROUP_ROUTES: Route[] = [WORK_ROUTE, LEVEL_ROUTE];
+export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
+    CREW_HOME_ROUTE,
+    SETTINGS_ROUTE,
+];
+export const WORK_ROUTE_GROUP_ROUTES: Route[] = [WORK_HOME_ROUTE, LEVEL_ROUTE];

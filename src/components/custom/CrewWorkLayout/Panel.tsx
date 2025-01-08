@@ -14,7 +14,7 @@ import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getRouteGroup } from '@/lib/utils';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
-import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
+import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import WorkCard from '../WorkCard';
 
 const Panel = () => {
@@ -65,7 +65,7 @@ const Panel = () => {
     if (error) return <div>Error: {error}</div>;
 
     const handleCrewClick = () => {
-        router.push(`${CREW_ROUTE.pathname}?${searchParams.toString()}`);
+        router.push(`${CREW_HOME_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
     const handleWorkClick = (id: string) => {
@@ -73,7 +73,7 @@ const Panel = () => {
         params.set('show', id);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
-            router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
+            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
             router.push(`${pathname}?${params.toString()}`);
         }
@@ -85,7 +85,7 @@ const Panel = () => {
         params.set('show', id);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
-            router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
+            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
             router.push(`${pathname}?${params.toString()}`);
         }

@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CREW_ROUTE, WORK_ROUTE } from '@/app/routes';
+import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import { getCrews } from '@/lib/client-only-api/crew';
 import { useQuery } from '@tanstack/react-query';
 import { usePageStore } from '@/provider/PageStore';
@@ -86,10 +86,10 @@ function Workspace() {
         params.set('h', workId);
         if (type === 'work') {
             params.set('panel', 'h');
-            router.push(`${WORK_ROUTE.pathname}?${params.toString()}`);
+            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
             params.set('panel', 'm');
-            router.push(`${CREW_ROUTE.pathname}?${params.toString()}`);
+            router.push(`${CREW_HOME_ROUTE.pathname}?${params.toString()}`);
         }
     };
 
