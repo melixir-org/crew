@@ -54,6 +54,7 @@ function Workspace() {
                 };
                 return {
                     id: String(item.id),
+                    title: item.title,
                     root_work: item.root_work ? root_work : null,
                 };
             });
@@ -136,9 +137,7 @@ function Workspace() {
                                 }
                             >
                                 <CardHeader>
-                                    <CardTitle>
-                                        {item.root_work?.title}
-                                    </CardTitle>
+                                    <CardTitle>{item.title}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <p

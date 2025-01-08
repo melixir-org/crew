@@ -21,7 +21,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     const crewTitle: string = useCrewWorkLayoutStore(state => {
         const show = searchParams.get('show') ?? '';
-        return state.works[show]?.crew?.root_work?.title ?? '';
+        return state.works[show]?.crew?.title ?? '';
     });
 
     return (

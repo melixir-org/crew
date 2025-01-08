@@ -6,9 +6,12 @@ import { Work } from '@/types/Work';
 export async function getWorks(pageIndex: number, pageSize: number) {
     const { data, error, count } = await supabaseBrowserClient
         .from('works')
-        .select('id, title, crew:crew_id (id, root_work:root_id (id, title))', {
-            count: 'exact',
-        })
+        .select(
+            'id, title, crew:crew_id (id, title, root_work:root_id (id, title))',
+            {
+                count: 'exact',
+            }
+        )
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Work[]>();
 
