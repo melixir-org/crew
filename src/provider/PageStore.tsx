@@ -20,14 +20,16 @@ export const PageStoreProvider = ({
     children,
     initialState,
 }: PageStoreProviderProps) => {
-    const ref = useRef<PageStoreApi>(undefined);
+    const initialStateRef = useRef(initialState);
+    const storeRef = useRef<PageStoreApi>(undefined);
 
-    if (!ref.current) {
-        ref.current = createStore(initialState ?? initState());
+    if (initialStateRef.current !== initialState || !storeRef.current) {
+        storeRef.current = createStore(initialState ?? initState());
+        initialStateRef.current = initialState;
     }
 
     return (
-        <PageStoreContext.Provider value={ref.current}>
+        <PageStoreContext.Provider value={storeRef.current}>
             {children}
         </PageStoreContext.Provider>
     );

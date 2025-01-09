@@ -13,12 +13,12 @@ export async function getWorks(pageIndex: number, pageSize: number) {
         .returns<Work[]>();
 }
 
-export async function getWorkDescAndContributors(workId: string) {
+export async function getWorkForWorkHomePage({ workId }: { workId: string }) {
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, created_at, crew:crew_id (id, title), description, title, created_by, assignment (user_id:id, assigned_at, unassigned_at)`
+            `id, title, description, crew:crew_id (id, title), assignment (user_id:id, assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .returns<Work[]>()
