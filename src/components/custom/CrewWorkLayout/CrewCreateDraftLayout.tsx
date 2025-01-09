@@ -8,9 +8,7 @@ import { Button } from '@/components/ui/button';
 import { CREW_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { CREW } from '@/lib/constants';
 
-interface CrewCreateDraftLayoutProps {}
-
-const CrewCreateDraftLayout: React.FC<CrewCreateDraftLayoutProps> = ({}) => {
+const CrewCreateDraftLayout = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -22,7 +20,9 @@ const CrewCreateDraftLayout: React.FC<CrewCreateDraftLayoutProps> = ({}) => {
             }?${searchParams.toString()}`
         );
     };
-    const { setCrewDraftValidationOn } = useCrewWorkLayoutStore(store => store);
+    const { setCrewDraftValidationOn, resetCrewDraft } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -38,7 +38,7 @@ const CrewCreateDraftLayout: React.FC<CrewCreateDraftLayoutProps> = ({}) => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button>Discard</Button>
+                    <Button onClick={resetCrewDraft}>Discard</Button>
                 ) : (
                     <Button
                         onClick={() => {

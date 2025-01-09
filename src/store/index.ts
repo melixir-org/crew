@@ -25,7 +25,9 @@ export type Actions = {
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
     setCrewDraftValidationOn: (pathname: string, v: boolean) => void;
+    resetCrewDraft: () => void;
     setWorkDraftValidationOn: (pathname: string, v: boolean) => void;
+    resetWorkDraft: () => void;
 };
 
 export const initState = (): State => {
@@ -84,9 +86,19 @@ export const createStore = (initialState: State) => {
                     state.crewDraft.routes[pathname].validationOn = v;
                 });
             },
+            resetCrewDraft: () => {
+                set(state => {
+                    state.crewDraft = initState().crewDraft;
+                });
+            },
             setWorkDraftValidationOn: (pathname: string, v: boolean) => {
                 set(state => {
                     state.workDraft.routes[pathname].validationOn = v;
+                });
+            },
+            resetWorkDraft: () => {
+                set(state => {
+                    state.workDraft = initState().workDraft;
                 });
             },
         }))

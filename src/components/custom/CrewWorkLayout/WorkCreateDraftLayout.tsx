@@ -8,9 +8,7 @@ import { Button } from '@/components/ui/button';
 import { WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { WORK } from '@/lib/constants';
 
-interface WorkCreateDraftLayoutProps {}
-
-const WorkCreateDraftLayout: React.FC<WorkCreateDraftLayoutProps> = ({}) => {
+const WorkCreateDraftLayout = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -22,7 +20,10 @@ const WorkCreateDraftLayout: React.FC<WorkCreateDraftLayoutProps> = ({}) => {
             }?${searchParams.toString()}`
         );
     };
-    const { setWorkDraftValidationOn } = useCrewWorkLayoutStore(store => store);
+
+    const { setWorkDraftValidationOn, resetWorkDraft } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -38,7 +39,7 @@ const WorkCreateDraftLayout: React.FC<WorkCreateDraftLayoutProps> = ({}) => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button>Discard</Button>
+                    <Button onClick={resetWorkDraft}>Discard</Button>
                 ) : (
                     <Button
                         onClick={() => {

@@ -6,12 +6,12 @@ export const WORKSPACE_ROUTE: Route = {
 };
 
 export const CREW_HOME_ROUTE: Route = {
-    name: 'crew home',
+    name: 'crew',
     pathname: '/workspace/crew',
 };
 
 export const WORK_HOME_ROUTE: Route = {
-    name: 'work home',
+    name: 'work',
     pathname: '/workspace/work',
 };
 
