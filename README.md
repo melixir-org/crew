@@ -4,6 +4,17 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+windows: install nvm-windows
+mac: install nvm
+
+use nvm-windows/nvm to manage npm & node version, check our version of npm & node below:
+
+-> npm -v
+10.8.2
+
+-> node -v
+v20.18.0
+
 First, run the development server:
 
 ```bash
