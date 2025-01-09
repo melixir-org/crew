@@ -2,9 +2,9 @@
 
 import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
-import { isEqual } from 'lodash-es';
 
 import { State, type Store, createStore, initState } from '@/store';
+import { mergeOverride } from '@/store/utils';
 
 export type PageStoreApi = ReturnType<typeof createStore>;
 
@@ -21,11 +21,19 @@ export const PageStoreProvider = ({
     children,
     initialState,
 }: PageStoreProviderProps) => {
-    const initialStateRef = useRef<State>(undefined);
+    const initialStateRef = useRef<State>(initialState);
     const storeRef = useRef<PageStoreApi>(undefined);
 
-    if (!isEqual(initialStateRef.current, initialState) || !storeRef.current) {
+    if (!storeRef.current) {
         storeRef.current = createStore(initialState ?? initState());
+    }
+
+    if (initialStateRef.current !== initialState) {
+        if (initialState) {
+            storeRef.current.setState(store =>
+                mergeOverride(store, initialState)
+            );
+        }
         initialStateRef.current = initialState;
     }
 
