@@ -2,6 +2,7 @@
 
 import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
+import { isEqual } from 'lodash-es';
 
 import { State, type Store, createStore, initState } from '@/store';
 
@@ -20,10 +21,10 @@ export const PageStoreProvider = ({
     children,
     initialState,
 }: PageStoreProviderProps) => {
-    const initialStateRef = useRef(initialState);
+    const initialStateRef = useRef<State>(undefined);
     const storeRef = useRef<PageStoreApi>(undefined);
 
-    if (initialStateRef.current !== initialState || !storeRef.current) {
+    if (!isEqual(initialStateRef.current, initialState) || !storeRef.current) {
         storeRef.current = createStore(initialState ?? initState());
         initialStateRef.current = initialState;
     }
