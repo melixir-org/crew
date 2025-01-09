@@ -4,15 +4,24 @@ import { updateDescription } from '@/lib/client-only-api/work';
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const WorkDesc = () => {
     const id: any = useSearchParams().get('show');
     const result = usePageStore(store => store.works[id]);
-
+    const tt: any = result.description;
     const [editing, setEditing] = useState<boolean>(false);
-    const [text, setText] = useState<any>(result.description);
-    const [initialText, setInitialText] = useState<string>(text);
+    const [text, setText] = useState<any>('');
+    const [initialText, setInitialText] = useState<string>('');
+    const [assignments, setAssignments] = useState<any>(null);
+
+    useEffect(() => {
+        setText(tt);
+        setInitialText(tt);
+        if (result.assignment) {
+            setAssignments(result.assignment);
+        }
+    }, [id]);
 
     const toggleEditing = () => {
         setEditing(!editing);
@@ -53,13 +62,13 @@ const WorkDesc = () => {
                                 />
                                 <div className="flex gap-1">
                                     <button
-                                        className="text-xs text-primary-light-bg px-2 py-1 rounded-[54px] border-[1px] border-dark-border bg-secondary-dark-bg"
+                                        className="text-xs text-primary-light-bg px-3 py-1 rounded-[54px] border-[1px] border-dark-border bg-secondary-dark-bg"
                                         onClick={handleSave}
                                     >
                                         Save
                                     </button>
                                     <button
-                                        className="text-xs text-primary-light-bg px-2 py-1 rounded-[54px] border-[1px] border-dark-border"
+                                        className="text-xs text-primary-light-bg px-3 py-1 rounded-[54px] border-[1px] border-dark-border"
                                         onClick={handleCancel}
                                     >
                                         Cancel
@@ -72,7 +81,7 @@ const WorkDesc = () => {
                                     {text}
                                 </p>
                                 <button
-                                    className="text-xs text-primary-light-bg px-2 py-1 rounded-[54px] border-[1px] border-dark-border w-fit"
+                                    className="text-xs text-primary-light-bg px-3 py-1 rounded-[54px] border-[1px] border-dark-border w-fit"
                                     onClick={toggleEditing}
                                 >
                                     Edit
@@ -84,9 +93,13 @@ const WorkDesc = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Assigned Senior Contributor
                         </h2>
-                        {/*assignments?.map((assignment: any, index: number) => (
-                            <AssignmentCard key={index} data={assignment} />
-                        ))*/}
+                        {assignments?.map((assignment: any, index: number) =>
+                            !assignment.unassgined_at ? (
+                                <AssignmentCard key={index} data={assignment} />
+                            ) : (
+                                <></>
+                            )
+                        )}
                     </div>
                 </div>
             </div>
