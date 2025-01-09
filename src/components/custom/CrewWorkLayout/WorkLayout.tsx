@@ -27,15 +27,15 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
 
     return (
         <>
-            <div className="p-6">
+            <div className="p-6 bg-primary-dark-bg">
                 <h1
-                    className="text-2xl font-bold tracking-tight text-white cursor-pointer"
+                    className="text-2xl font-bold tracking-tight text-primary-light-bg bg-primary-dark-bg cursor-pointer"
                     onClick={handleRouteChange}
                 >
                     {`${workTitle} [X]`}
                 </h1>
             </div>
-            <div className="px-6">
+            <div className="px-6 bg-primary-dark-bg">
                 <RouteTabs routes={WORK_ROUTE_GROUP_ROUTES} />
                 <div className="mt-6">{children}</div>
                 <WorkCreateDraftLayout />

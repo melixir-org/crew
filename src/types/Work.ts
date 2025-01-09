@@ -1,3 +1,4 @@
+import { Assignment } from './Assignment';
 import { Crew } from './Crew';
 
 export interface Work {
@@ -5,4 +6,5 @@ export interface Work {
     title: string;
     description?: string;
     crew?: Crew;
+    assignment?: Assignment[];
 }
