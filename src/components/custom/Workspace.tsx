@@ -1,14 +1,15 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import { useEffect, useState } from 'react';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
-import { getCrews } from '@/lib/client-only-api/crew';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { getCrews } from '@/lib/client-only-api/crew';
 import { usePageStore } from '@/provider/PageStore';
+import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
+import { CREW, WORK } from '@/lib/constants';
 import { Crew } from '@/types/Crew';
 
 function Workspace() {
@@ -16,7 +17,7 @@ function Workspace() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const crewsFromStore = usePageStore(state => state.crews);
-    const addCrews = usePageStore(state => state.addCrews);
+    const setCrews = usePageStore(state => state.setCrews);
     const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
 
     const handleTypeChange = (type: string) => {
@@ -27,7 +28,7 @@ function Workspace() {
 
     const pageIndex = searchParams.get('page_index') || '0';
     const pageSize = searchParams.get('page_size') || '10';
-    const type = searchParams.get('type') || 'work';
+    const type = searchParams.get('type') || WORK;
 
     const {
         isLoading,
@@ -70,12 +71,12 @@ function Workspace() {
             });
 
             if (newOrUpdatedCrews.length > 0) {
-                addCrews(newOrUpdatedCrews);
+                setCrews(newOrUpdatedCrews);
             }
             const ids = transformedData.map((crew: Crew) => crew.id) || [];
             setCurrentPageIds(ids);
         }
-    }, [isSuccess, response?.data, crewsFromStore, addCrews]);
+    }, [isSuccess, response?.data, crewsFromStore]);
 
     const crews = currentPageIds.map(id => crewsFromStore[id]);
 
@@ -84,7 +85,7 @@ function Workspace() {
         params.set('entry', id);
         params.set('show', workId);
         params.set('h', workId);
-        if (type === 'work') {
+        if (type === WORK) {
             params.set('panel', 'h');
             router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
@@ -104,7 +105,7 @@ function Workspace() {
                 className="w-full"
             >
                 <TabsList className="bg-zinc-900 border border-zinc-800">
-                    {['crew', 'work'].map(t => (
+                    {[CREW, WORK].map(t => (
                         <TabsTrigger
                             key={t}
                             value={t}

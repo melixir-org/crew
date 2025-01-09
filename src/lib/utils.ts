@@ -1,11 +1,12 @@
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import {
     CREW_ROUTE_GROUP,
     RouteGroup,
     WORK_ROUTE_GROUP,
 } from '@/types/RouteGroup';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

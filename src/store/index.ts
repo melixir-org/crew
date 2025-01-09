@@ -10,50 +10,47 @@ import { WorkRouteGroupMap } from '@/types/WorkRouteGroupMap';
 import { WorksMap } from '@/types/WorksMap';
 
 export type State = {
-    works: WorksMap;
     crews: CrewsMap;
-    createCrew: {
+    works: WorksMap;
+    crewDraft: {
         routes: CrewRouteGroupMap;
     };
-    createWork: {
+    workDraft: {
         routes: WorkRouteGroupMap;
     };
 };
 
 export type Actions = {
-    addWorks: (works: Work[]) => void;
-    addCrews: (crews: Crew[]) => void;
     set: (fn: (state: State) => void) => void;
+    setCrews: (crews: Crew[]) => void;
+    setWorks: (works: Work[]) => void;
+    setCrewDraftValidationOn: (pathname: string, v: boolean) => void;
+    setWorkDraftValidationOn: (pathname: string, v: boolean) => void;
 };
 
-const initCrew = (): Crew => ({
-    id: '',
-    title: '',
-});
-
-const initWork = (): Work => ({
-    id: '',
-    title: '',
-    description: '',
-});
-
 export const initState = (): State => {
-    const crewRouteGroupData: CrewRouteGroupMap = {};
-    const workRouteGroupData: WorkRouteGroupMap = {};
+    const crewRouteGroupMap: CrewRouteGroupMap = {};
+    const workRouteGroupMap: WorkRouteGroupMap = {};
 
     CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-        crewRouteGroupData[route.pathname] = initCrew();
+        crewRouteGroupMap[route.pathname] = {
+            validationOn: false,
+            data: { id: '', title: '' },
+        };
     });
 
     WORK_ROUTE_GROUP_ROUTES.forEach(route => {
-        workRouteGroupData[route.pathname] = initWork();
+        workRouteGroupMap[route.pathname] = {
+            validationOn: false,
+            data: { id: '', title: '', description: '' },
+        };
     });
 
     return {
-        works: {},
         crews: {},
-        createCrew: { routes: crewRouteGroupData },
-        createWork: { routes: workRouteGroupData },
+        works: {},
+        crewDraft: { routes: crewRouteGroupMap },
+        workDraft: { routes: workRouteGroupMap },
     };
 };
 
@@ -68,18 +65,28 @@ export const createStore = (initialState: State) => {
                     fn(state);
                 });
             },
-            addWorks: (works: Work[]) => {
+            setCrews: (crews: Crew[]) => {
+                crews.forEach(crew => {
+                    set(state => {
+                        state.crews[crew.id] = crew;
+                    });
+                });
+            },
+            setWorks: (works: Work[]) => {
                 works.forEach(work => {
                     set(state => {
                         state.works[work.id] = work;
                     });
                 });
             },
-            addCrews: (crews: Crew[]) => {
-                crews.forEach(crew => {
-                    set(state => {
-                        state.crews[crew.id] = crew;
-                    });
+            setCrewDraftValidationOn: (pathname: string, v: boolean) => {
+                set(state => {
+                    state.crewDraft.routes[pathname].validationOn = v;
+                });
+            },
+            setWorkDraftValidationOn: (pathname: string, v: boolean) => {
+                set(state => {
+                    state.workDraft.routes[pathname].validationOn = v;
                 });
             },
         }))

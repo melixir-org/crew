@@ -1,8 +1,9 @@
 import Workspace from '@/components/custom/Workspace';
+import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
-import { PageStoreProvider } from '@/provider/PageStore';
 import { initState, State } from '@/store';
+import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
 import type { CrewsMap } from '@/types/CrewMap';
 import type { Work } from '@/types/Work';
@@ -17,7 +18,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     const initialState: State = initState();
 
-    if (type === 'crew') {
+    if (type === CREW) {
         const { data }: { data: Crew[] | null } = await getCrews(
             Number(page_index),
             Number(page_size)
@@ -29,7 +30,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         });
         initialState.crews = crews;
     }
-    if (type === 'work') {
+    if (type === WORK) {
         const { data }: { data: Work[] | null } = await getWorks(
             Number(page_index),
             Number(page_size)

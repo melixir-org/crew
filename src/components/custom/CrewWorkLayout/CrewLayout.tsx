@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import CrewCreateDraftLayout from './CrewCreateDraftLayout';
 import RouteTabs from './RouteTabs';
 import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 
@@ -37,6 +38,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
             <div className="px-6">
                 <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
                 <div className="mt-6">{children}</div>
+                <CrewCreateDraftLayout />
             </div>
         </>
     );

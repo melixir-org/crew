@@ -19,7 +19,7 @@ import WorkCard from '../WorkCard';
 
 const Panel = () => {
     const worksFromStore = useCrewWorkLayoutStore(state => state.works);
-    const addWorks = useCrewWorkLayoutStore(state => state.addWorks);
+    const setWorks = useCrewWorkLayoutStore(state => state.setWorks);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -37,7 +37,7 @@ const Panel = () => {
                 if (!response.ok) {
                     throw new Error('Response was not ok');
                 }
-                addWorks(response.data);
+                setWorks(response.data);
                 const ids = response.data?.map((work: Work) => work.id) || [];
                 setCurrentPageIds(ids);
                 setTotalPages(response.totalPages || 1);
