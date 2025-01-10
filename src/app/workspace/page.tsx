@@ -1,4 +1,4 @@
-import Workspace from '@/components/custom/Workspace';
+import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';

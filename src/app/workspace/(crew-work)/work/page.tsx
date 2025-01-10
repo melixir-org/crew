@@ -1,8 +1,10 @@
 import { isArray } from 'lodash-es';
-import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
+
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
+import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { initState, State } from '@/store';
+import { getWorkForWorkHomePage } from '@/lib/server-only-api/work';
 import type { Work } from '@/types/Work';
 
 interface PageProps {
@@ -15,7 +17,7 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
 
     const initialState: State = initState();
 
-    const { data }: { data: Work | null } = await getWorkWithCrewMetaData({
+    const { data }: { data: Work | null } = await getWorkForWorkHomePage({
         workId,
     });
 
@@ -23,10 +25,14 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
         initialState.works[data.id] = data;
     }
 
+    if (data?.crew) {
+        initialState.crews[data.crew.id] = data.crew;
+    }
+
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <div>Work</div>
+            <WorkHome />
         </PageStoreProvider>
     );
 };

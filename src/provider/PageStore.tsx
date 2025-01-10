@@ -4,6 +4,7 @@ import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
 
 import { State, type Store, createStore, initState } from '@/store';
+import { mergeOverride } from '@/store/utils';
 
 export type PageStoreApi = ReturnType<typeof createStore>;
 
@@ -20,14 +21,24 @@ export const PageStoreProvider = ({
     children,
     initialState,
 }: PageStoreProviderProps) => {
-    const ref = useRef<PageStoreApi>(undefined);
+    const initialStateRef = useRef<State>(initialState);
+    const storeRef = useRef<PageStoreApi>(undefined);
 
-    if (!ref.current) {
-        ref.current = createStore(initialState ?? initState());
+    if (!storeRef.current) {
+        storeRef.current = createStore(initialState ?? initState());
+    }
+
+    if (initialStateRef.current !== initialState) {
+        if (initialState) {
+            storeRef.current.setState(store =>
+                mergeOverride(store, initialState)
+            );
+        }
+        initialStateRef.current = initialState;
     }
 
     return (
-        <PageStoreContext.Provider value={ref.current}>
+        <PageStoreContext.Provider value={storeRef.current}>
             {children}
         </PageStoreContext.Provider>
     );

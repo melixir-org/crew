@@ -39,3 +39,10 @@ export async function getWorkData(workId: string) {
         .returns<Work[]>()
         .single();
 }
+
+export async function updateDescription(workId: string, newData: string) {
+    return await supabaseBrowserClient
+        .from('works')
+        .update({ description: newData })
+        .eq('id', workId);
+}
