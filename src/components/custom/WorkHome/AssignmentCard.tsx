@@ -16,7 +16,7 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ data }) => {
                     {time}
                 </h6>
             </div>
-            <div className="name">{data.id}</div>
+            <div className="name">{data.user_id}</div>
         </div>
     );
 };
