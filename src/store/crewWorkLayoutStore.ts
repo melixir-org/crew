@@ -1,11 +1,11 @@
-import { createStore as createZustandStore } from 'zustand/vanilla';
+import { createStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
 
 import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { createCrew, Crew } from '@/types/Crew';
-import { CrewsMap } from '@/types/CrewMap';
 import { createWork, Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
+import { CrewsMap } from '@/types/CrewMap';
 
 type CrewRouteGroupCreateDraftMap = {
     [key: string]: { validationOn: boolean; data: Crew };
@@ -15,19 +15,7 @@ type WorkRouteGroupCreateDraftMap = {
     [key: string]: { validationOn: boolean; data: Work };
 };
 
-type CrewUpdateDraft = {
-    on: boolean;
-    validationOn: boolean;
-    data: Crew;
-};
-
-type WorkUpdateDraft = {
-    on: boolean;
-    validationOn: boolean;
-    data: Work;
-};
-
-export type State = {
+export type CrewWorkLayoutState = {
     crews: CrewsMap;
     works: WorksMap;
     crewCreateDraft: {
@@ -36,12 +24,10 @@ export type State = {
     workCreateDraft: {
         routes: WorkRouteGroupCreateDraftMap;
     };
-    crewUpdateDraft: CrewUpdateDraft;
-    workUpdateDraft: WorkUpdateDraft;
 };
 
-export type Actions = {
-    set: (fn: (state: State) => void) => void;
+export type CrewWorkLayoutActions = {
+    set: (fn: (state: CrewWorkLayoutState) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
     setCrewCreateDraft: (
@@ -52,11 +38,9 @@ export type Actions = {
     ) => void;
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
-    setCrewUpdateDraft: (fn: (state: CrewUpdateDraft) => void) => void;
-    setWorkUpdateDraft: (fn: (state: WorkUpdateDraft) => void) => void;
 };
 
-export const initState = (): State => {
+export const initCrewWorkLayoutState = (): CrewWorkLayoutState => {
     const CrewRouteGroupCreateDraftMap: CrewRouteGroupCreateDraftMap = {};
     const WorkRouteGroupCreateDraftMap: WorkRouteGroupCreateDraftMap = {};
 
@@ -79,23 +63,17 @@ export const initState = (): State => {
         works: {},
         crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
         workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
-        crewUpdateDraft: {
-            on: false,
-            validationOn: false,
-            data: createCrew(),
-        },
-        workUpdateDraft: {
-            on: false,
-            validationOn: false,
-            data: createWork(),
-        },
     };
 };
 
-export type Store = { state: State } & { actions: Actions };
+export type CrewWorkLayoutStore = { state: CrewWorkLayoutState } & {
+    actions: CrewWorkLayoutActions;
+};
 
-export const createStore = (initialState: State) => {
-    return createZustandStore<Store>()(
+export const createCrewWorkLayoutStore = (
+    initialState: CrewWorkLayoutState
+) => {
+    return createStore<CrewWorkLayoutStore>()(
         immer(set => ({
             state: initialState,
             actions: {
@@ -138,16 +116,6 @@ export const createStore = (initialState: State) => {
                     set(store => {
                         store.state.workCreateDraft =
                             initialState.workCreateDraft;
-                    });
-                },
-                setCrewUpdateDraft: fn => {
-                    set(store => {
-                        fn(store.state.crewUpdateDraft);
-                    });
-                },
-                setWorkUpdateDraft: fn => {
-                    set(store => {
-                        fn(store.state.workUpdateDraft);
                     });
                 },
             },

@@ -2,7 +2,10 @@ import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
-import { initState, State } from '@/store';
+import {
+    initCrewWorkLayoutState,
+    CrewWorkLayoutState,
+} from '@/store/crewWorkLayoutStore';
 import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
 import type { CrewsMap } from '@/types/CrewMap';
@@ -16,7 +19,7 @@ interface PageProps {
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const { page_index, page_size, type } = await searchParams;
 
-    const initialState: State = initState();
+    const initialState: CrewWorkLayoutState = initCrewWorkLayoutState();
 
     if (type === CREW) {
         const { data }: { data: Crew[] | null } = await getCrews(

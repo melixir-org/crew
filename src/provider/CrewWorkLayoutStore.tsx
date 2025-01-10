@@ -3,9 +3,15 @@
 import { type ReactNode, createContext, useRef, useContext } from 'react';
 import { useStore } from 'zustand';
 
-import { type Store, createStore, initState } from '@/store';
+import {
+    type CrewWorkLayoutStore,
+    createCrewWorkLayoutStore,
+    initCrewWorkLayoutState,
+} from '@/store/crewWorkLayoutStore';
 
-export type CrewWorkLayoutStoreApi = ReturnType<typeof createStore>;
+export type CrewWorkLayoutStoreApi = ReturnType<
+    typeof createCrewWorkLayoutStore
+>;
 
 export const CrewWorkLayoutStoreContext = createContext<
     CrewWorkLayoutStoreApi | undefined
@@ -21,7 +27,7 @@ export const CrewWorkLayoutStoreProvider = ({
     const ref = useRef<CrewWorkLayoutStoreApi>(undefined);
 
     if (!ref.current) {
-        ref.current = createStore(initState());
+        ref.current = createCrewWorkLayoutStore(initCrewWorkLayoutState());
     }
 
     return (
@@ -32,7 +38,7 @@ export const CrewWorkLayoutStoreProvider = ({
 };
 
 export const useCrewWorkLayoutStore = <T,>(
-    selector: (store: Store) => T
+    selector: (store: CrewWorkLayoutStore) => T
 ): T => {
     const context = useContext(CrewWorkLayoutStoreContext);
 

@@ -3,13 +3,13 @@
 import { useEffect } from 'react';
 
 import { useCrewWorkLayoutStore } from './CrewWorkLayoutStore';
-import { State } from '@/store';
 import { mergeOverride } from '@/store/utils';
+import { CrewWorkLayoutState } from '@/store/crewWorkLayoutStore';
 
 const MergeSsrStateIntoCrewWorkLayoutStore = ({
     mergeState,
 }: {
-    mergeState: State;
+    mergeState: Partial<CrewWorkLayoutState>;
 }) => {
     const { set } = useCrewWorkLayoutStore(store => store.actions);
 
