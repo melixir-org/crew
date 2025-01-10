@@ -1,12 +1,14 @@
 import getRelativeTime from '@/lib/client-only-api/datatime';
+import { Assignment } from '@/types/Assignment';
 
 interface AssignmentCardProps {
-    data: any;
+    data: Assignment;
 }
 
 const AssignmentCard: React.FC<AssignmentCardProps> = ({ data }) => {
     const time = getRelativeTime(data.assigned_at);
-    return data ? (
+
+    return (
         <div className="w-full p-3 bg-secondary-dark-bg border-[1px] border-dark-border rounded-lg flex flex-col gap-1 mt-1">
             <div className="flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">Assigned To</h5>
@@ -14,10 +16,8 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ data }) => {
                     {time}
                 </h6>
             </div>
-            <div className="name">{data.user_id}</div>
+            <div className="name">{data.id}</div>
         </div>
-    ) : (
-        <></>
     );
 };
 

@@ -1,7 +1,7 @@
 import { isArray } from 'lodash-es';
 
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
-import WorkDesc from '@/components/custom/WorkDesc';
+import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { initState, State } from '@/store';
 import { getWorkForWorkHomePage } from '@/lib/server-only-api/work';
@@ -32,7 +32,7 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <WorkDesc />
+            <WorkHome />
         </PageStoreProvider>
     );
 };
