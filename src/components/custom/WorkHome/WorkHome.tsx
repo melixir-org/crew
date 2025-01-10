@@ -36,13 +36,9 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Assigned Senior Contributor
                         </h2>
-                        {assignment.map((a: Assignment) =>
-                            !a.unassigned_at ? (
-                                <AssignmentCard key={a.id} data={a} />
-                            ) : (
-                                <></>
-                            )
-                        )}
+                        {assignment.map((a: Assignment) => (
+                            <AssignmentCard key={a.id} data={a} />
+                        ))}
                     </div>
                 </div>
             </div>

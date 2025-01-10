@@ -21,6 +21,7 @@ export async function getWorkForWorkHomePage({ workId }: { workId: string }) {
             `id, title, description, crew:crew_id (id, title), assignment (id, user_id, assigned_at, unassigned_at)`
         )
         .eq('id', workId)
+        .is('assignment.unassigned_at', null)
         .returns<Work[]>()
         .single();
 }
