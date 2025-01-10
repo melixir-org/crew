@@ -21,9 +21,8 @@ const WorkCreateDraftLayout = () => {
         );
     };
 
-    const { setWorkDraftValidationOn, resetWorkDraft } = useCrewWorkLayoutStore(
-        store => store
-    );
+    const { setWorkDraftValidationOn, setWorkDraftToInitialState } =
+        useCrewWorkLayoutStore(store => store);
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -39,7 +38,9 @@ const WorkCreateDraftLayout = () => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button onClick={resetWorkDraft}>Discard</Button>
+                    <Button onClick={setWorkDraftToInitialState}>
+                        Discard
+                    </Button>
                 ) : (
                     <Button
                         onClick={() => {

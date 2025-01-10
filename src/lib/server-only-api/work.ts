@@ -18,7 +18,7 @@ export async function getWorkForWorkHomePage({ workId }: { workId: string }) {
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, description, crew:crew_id (id, title), assignment (id, user_id, assigned_at, unassigned_at)`
+            `id, title, description, crew:crew_id (id, title), assignment (id, user_id, assigned_at)`
         )
         .eq('id', workId)
         .is('assignment.unassigned_at', null)

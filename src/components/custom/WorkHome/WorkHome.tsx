@@ -34,7 +34,7 @@ const WorkHome = () => {
                     </div>
                     <div className="pl-3 w-96">
                         <h2 className="text-primary-light-bg font-medium text-xl">
-                            Assigned Senior Contributor
+                            Assigned Contributors
                         </h2>
                         {assignment.map((a: Assignment) => (
                             <AssignmentCard key={a.id} data={a} />

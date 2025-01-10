@@ -20,9 +20,8 @@ const CrewCreateDraftLayout = () => {
             }?${searchParams.toString()}`
         );
     };
-    const { setCrewDraftValidationOn, resetCrewDraft } = useCrewWorkLayoutStore(
-        store => store
-    );
+    const { setCrewDraftValidationOn, setCrewDraftToInitialState } =
+        useCrewWorkLayoutStore(store => store);
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -38,7 +37,9 @@ const CrewCreateDraftLayout = () => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button onClick={resetCrewDraft}>Discard</Button>
+                    <Button onClick={setCrewDraftToInitialState}>
+                        Discard
+                    </Button>
                 ) : (
                     <Button
                         onClick={() => {
