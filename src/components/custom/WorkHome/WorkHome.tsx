@@ -5,13 +5,43 @@ import { useSearchParams } from 'next/navigation';
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
 import { Assignment } from '@/types/Assignment';
+import { Work } from '@/types/Work';
 
 const WorkHome = () => {
-    const id: string = useSearchParams().get('show') ?? '';
-    const work = usePageStore(store => store.works[id]);
+    const searchParams = useSearchParams();
 
-    const description = work?.description ?? '';
-    const assignment = work?.assignment ?? [];
+    const workId: string = searchParams.get('show') ?? '';
+    const { works, workUpdateDraft } = usePageStore(store => store.state);
+    const { setWorks, setWorkUpdateDraft } = usePageStore(
+        store => store.actions
+    );
+
+    const work: Work = works[workId];
+
+    const description =
+        (workUpdateDraft.on
+            ? workUpdateDraft.data.description
+            : work.description) ?? '';
+
+    const assignment = work.assignment ?? [];
+
+    const setUpdateDescriptionModeOn = () => {
+        setWorkUpdateDraft(workUpdateDraft => {
+            workUpdateDraft.on = true;
+            workUpdateDraft.data = work;
+        });
+    };
+
+    const setUpdateDescriptionModeOff = () => {
+        setWorkUpdateDraft(workUpdateDraft => {
+            workUpdateDraft.on = false;
+        });
+    };
+
+    const saveDescription = () => {
+        setWorks([workUpdateDraft.data]);
+        setUpdateDescriptionModeOff();
+    };
 
     return (
         <div className="flex w-full bg-primary-dark-bg">
@@ -25,7 +55,6 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Description
                         </h2>
-
                         <div className="flex flex-col gap-2">
                             <p className="text-primary-light-bg text-sm">
                                 {description}

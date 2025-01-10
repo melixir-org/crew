@@ -31,7 +31,7 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
 
     return (
         <PageStoreProvider initialState={initialState}>
-            <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
+            <MergeSsrStateIntoCrewWorkLayoutStore mergeState={initialState} />
             <WorkHome />
         </PageStoreProvider>
     );

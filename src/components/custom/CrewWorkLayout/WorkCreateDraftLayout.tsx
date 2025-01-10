@@ -21,8 +21,9 @@ const WorkCreateDraftLayout = () => {
         );
     };
 
-    const { setWorkDraftValidationOn, setWorkDraftToInitialState } =
-        useCrewWorkLayoutStore(store => store);
+    const { setWorkCreateDraft, resetWorkCreateDraft } = useCrewWorkLayoutStore(
+        store => store.actions
+    );
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -38,9 +39,7 @@ const WorkCreateDraftLayout = () => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button onClick={setWorkDraftToInitialState}>
-                        Discard
-                    </Button>
+                    <Button onClick={resetWorkCreateDraft}>Discard</Button>
                 ) : (
                     <Button
                         onClick={() => {
@@ -54,7 +53,11 @@ const WorkCreateDraftLayout = () => {
                     <Button
                         onClick={() => {
                             WORK_ROUTE_GROUP_ROUTES.forEach(route => {
-                                setWorkDraftValidationOn(route.pathname, false);
+                                setWorkCreateDraft(workCreateDraft => {
+                                    workCreateDraft.routes[
+                                        route.pathname
+                                    ].validationOn = true;
+                                });
                             });
                         }}
                     >
@@ -63,7 +66,10 @@ const WorkCreateDraftLayout = () => {
                 ) : (
                     <Button
                         onClick={() => {
-                            setWorkDraftValidationOn(pathname, true);
+                            setWorkCreateDraft(workCreateDraft => {
+                                workCreateDraft.routes[pathname].validationOn =
+                                    true;
+                            });
                             redirectToPageWithIndex(currentPageIndex + 1);
                         }}
                     >

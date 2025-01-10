@@ -16,8 +16,8 @@ function Workspace() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const crewsFromStore = usePageStore(state => state.crews);
-    const setCrews = usePageStore(state => state.setCrews);
+    const crewsFromStore = usePageStore(store => store.state.crews);
+    const setCrews = usePageStore(store => store.actions.setCrews);
     const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
 
     const handleTypeChange = (type: string) => {

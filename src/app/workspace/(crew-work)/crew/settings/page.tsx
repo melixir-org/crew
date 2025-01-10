@@ -1,12 +1,11 @@
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
+import { initState } from '@/store';
 
 const Settings = () => {
     return (
         <PageStoreProvider>
-            <MergeSsrStateIntoCrewWorkLayoutStore
-                ssrState={{ crews: {}, works: {} }}
-            />
+            <MergeSsrStateIntoCrewWorkLayoutStore mergeState={initState()} />
             <div>Settings</div>
         </PageStoreProvider>
     );

@@ -18,8 +18,8 @@ import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import WorkCard from '../WorkCard';
 
 const Panel = () => {
-    const worksFromStore = useCrewWorkLayoutStore(state => state.works);
-    const setWorks = useCrewWorkLayoutStore(state => state.setWorks);
+    const worksFromStore = useCrewWorkLayoutStore(store => store.state.works);
+    const setWorks = useCrewWorkLayoutStore(store => store.actions.setWorks);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);

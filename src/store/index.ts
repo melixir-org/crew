@@ -2,104 +2,154 @@ import { createStore as createZustandStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
 
 import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
-import { Crew } from '@/types/Crew';
+import { createCrew, Crew } from '@/types/Crew';
 import { CrewsMap } from '@/types/CrewMap';
-import { CrewRouteGroupMap } from '@/types/CrewRouteGroupMap';
-import { Work } from '@/types/Work';
-import { WorkRouteGroupMap } from '@/types/WorkRouteGroupMap';
+import { createWork, Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
+
+type CrewRouteGroupCreateDraftMap = {
+    [key: string]: { validationOn: boolean; data: Crew };
+};
+
+type WorkRouteGroupCreateDraftMap = {
+    [key: string]: { validationOn: boolean; data: Work };
+};
+
+type CrewUpdateDraft = {
+    on: boolean;
+    validationOn: boolean;
+    data: Crew;
+};
+
+type WorkUpdateDraft = {
+    on: boolean;
+    validationOn: boolean;
+    data: Work;
+};
 
 export type State = {
     crews: CrewsMap;
     works: WorksMap;
-    crewDraft: {
-        routes: CrewRouteGroupMap;
+    crewCreateDraft: {
+        routes: CrewRouteGroupCreateDraftMap;
     };
-    workDraft: {
-        routes: WorkRouteGroupMap;
+    workCreateDraft: {
+        routes: WorkRouteGroupCreateDraftMap;
     };
+    crewUpdateDraft: CrewUpdateDraft;
+    workUpdateDraft: WorkUpdateDraft;
 };
 
 export type Actions = {
     set: (fn: (state: State) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
-    setCrewDraftValidationOn: (pathname: string, v: boolean) => void;
-    setCrewDraftToInitialState: () => void;
-    setWorkDraftValidationOn: (pathname: string, v: boolean) => void;
-    setWorkDraftToInitialState: () => void;
+    setCrewCreateDraft: (
+        fn: (state: { routes: CrewRouteGroupCreateDraftMap }) => void
+    ) => void;
+    setWorkCreateDraft: (
+        fn: (state: { routes: WorkRouteGroupCreateDraftMap }) => void
+    ) => void;
+    resetCrewCreateDraft: () => void;
+    resetWorkCreateDraft: () => void;
+    setCrewUpdateDraft: (fn: (state: CrewUpdateDraft) => void) => void;
+    setWorkUpdateDraft: (fn: (state: WorkUpdateDraft) => void) => void;
 };
 
 export const initState = (): State => {
-    const crewRouteGroupMap: CrewRouteGroupMap = {};
-    const workRouteGroupMap: WorkRouteGroupMap = {};
+    const CrewRouteGroupCreateDraftMap: CrewRouteGroupCreateDraftMap = {};
+    const WorkRouteGroupCreateDraftMap: WorkRouteGroupCreateDraftMap = {};
 
     CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-        crewRouteGroupMap[route.pathname] = {
+        CrewRouteGroupCreateDraftMap[route.pathname] = {
             validationOn: false,
-            data: { id: '', title: '' },
+            data: createCrew(),
         };
     });
 
     WORK_ROUTE_GROUP_ROUTES.forEach(route => {
-        workRouteGroupMap[route.pathname] = {
+        WorkRouteGroupCreateDraftMap[route.pathname] = {
             validationOn: false,
-            data: { id: '', title: '', description: '' },
+            data: createWork(),
         };
     });
 
     return {
         crews: {},
         works: {},
-        crewDraft: { routes: crewRouteGroupMap },
-        workDraft: { routes: workRouteGroupMap },
+        crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
+        workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
+        crewUpdateDraft: {
+            on: false,
+            validationOn: false,
+            data: createCrew(),
+        },
+        workUpdateDraft: {
+            on: false,
+            validationOn: false,
+            data: createWork(),
+        },
     };
 };
 
-export type Store = State & Actions;
+export type Store = { state: State } & { actions: Actions };
 
 export const createStore = (initialState: State) => {
     return createZustandStore<Store>()(
         immer(set => ({
-            ...initialState,
-            set: fn => {
-                set(state => {
-                    fn(state);
-                });
-            },
-            setCrews: (crews: Crew[]) => {
-                crews.forEach(crew => {
-                    set(state => {
-                        state.crews[crew.id] = crew;
+            state: initialState,
+            actions: {
+                set: fn => {
+                    set(store => {
+                        fn(store.state);
                     });
-                });
-            },
-            setWorks: (works: Work[]) => {
-                works.forEach(work => {
-                    set(state => {
-                        state.works[work.id] = work;
+                },
+                setCrews: (crews: Crew[]) => {
+                    crews.forEach(crew => {
+                        set(store => {
+                            store.state.crews[crew.id] = crew;
+                        });
                     });
-                });
-            },
-            setCrewDraftValidationOn: (pathname: string, v: boolean) => {
-                set(state => {
-                    state.crewDraft.routes[pathname].validationOn = v;
-                });
-            },
-            setCrewDraftToInitialState: () => {
-                set(state => {
-                    state.crewDraft = initState().crewDraft;
-                });
-            },
-            setWorkDraftValidationOn: (pathname: string, v: boolean) => {
-                set(state => {
-                    state.workDraft.routes[pathname].validationOn = v;
-                });
-            },
-            setWorkDraftToInitialState: () => {
-                set(state => {
-                    state.workDraft = initState().workDraft;
-                });
+                },
+                setWorks: (works: Work[]) => {
+                    works.forEach(work => {
+                        set(store => {
+                            store.state.works[work.id] = work;
+                        });
+                    });
+                },
+                setCrewCreateDraft: fn => {
+                    set(store => {
+                        fn(store.state.crewCreateDraft);
+                    });
+                },
+                setWorkCreateDraft: fn => {
+                    set(store => {
+                        fn(store.state.workCreateDraft);
+                    });
+                },
+                resetCrewCreateDraft: () => {
+                    set(store => {
+                        store.state.crewCreateDraft =
+                            initialState.crewCreateDraft;
+                    });
+                },
+                resetWorkCreateDraft: () => {
+                    set(store => {
+                        store.state.workCreateDraft =
+                            initialState.workCreateDraft;
+                    });
+                },
+                setCrewUpdateDraft: fn => {
+                    set(store => {
+                        fn(store.state.crewUpdateDraft);
+                    });
+                },
+                setWorkUpdateDraft: fn => {
+                    set(store => {
+                        fn(store.state.workUpdateDraft);
+                    });
+                },
             },
         }))
     );

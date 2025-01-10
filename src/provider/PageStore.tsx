@@ -31,7 +31,7 @@ export const PageStoreProvider = ({
     if (initialStateRef.current !== initialState) {
         if (initialState) {
             storeRef.current.setState(store =>
-                mergeOverride(store, initialState)
+                mergeOverride(store.state, initialState)
             );
         }
         initialStateRef.current = initialState;

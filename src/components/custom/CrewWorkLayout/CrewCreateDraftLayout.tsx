@@ -20,8 +20,9 @@ const CrewCreateDraftLayout = () => {
             }?${searchParams.toString()}`
         );
     };
-    const { setCrewDraftValidationOn, setCrewDraftToInitialState } =
-        useCrewWorkLayoutStore(store => store);
+    const { setCrewCreateDraft, resetCrewCreateDraft } = useCrewWorkLayoutStore(
+        store => store.actions
+    );
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -37,9 +38,7 @@ const CrewCreateDraftLayout = () => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button onClick={setCrewDraftToInitialState}>
-                        Discard
-                    </Button>
+                    <Button onClick={resetCrewCreateDraft}>Discard</Button>
                 ) : (
                     <Button
                         onClick={() => {
@@ -53,7 +52,11 @@ const CrewCreateDraftLayout = () => {
                     <Button
                         onClick={() => {
                             CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-                                setCrewDraftValidationOn(route.pathname, false);
+                                setCrewCreateDraft(crewCreateDraft => {
+                                    crewCreateDraft.routes[
+                                        route.pathname
+                                    ].validationOn = true;
+                                });
                             });
                         }}
                     >
@@ -62,7 +65,10 @@ const CrewCreateDraftLayout = () => {
                 ) : (
                     <Button
                         onClick={() => {
-                            setCrewDraftValidationOn(pathname, true);
+                            setCrewCreateDraft(crewCreateDraft => {
+                                crewCreateDraft.routes[pathname].validationOn =
+                                    true;
+                            });
                             redirectToPageWithIndex(currentPageIndex + 1);
                         }}
                     >
