@@ -6,6 +6,7 @@ import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
+import { updateDescription } from '@/lib/client-only-api/work';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
@@ -28,6 +29,12 @@ const WorkHome = () => {
 
     const assignment = work.assignment ?? [];
 
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setWorkUpdateDraft(workUpdateDraft => {
+            workUpdateDraft.data.description = e.target.value;
+        });
+    };
+
     const setUpdateDescriptionModeOn = () => {
         setWorkUpdateDraft(workUpdateDraft => {
             workUpdateDraft.on = true;
@@ -42,8 +49,14 @@ const WorkHome = () => {
     };
 
     const saveDescription = () => {
-        setWorks([workUpdateDraft.data]);
-        setUpdateDescriptionModeOff();
+        try {
+            const temp = workUpdateDraft.data.description ?? description;
+            updateDescription(workId, temp);
+            setWorks([workUpdateDraft.data]);
+            setUpdateDescriptionModeOff();
+        } catch {
+            setUpdateDescriptionModeOff();
+        }
     };
 
     return (
@@ -58,11 +71,42 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Description
                         </h2>
-                        <div className="flex flex-col gap-2">
-                            <p className="text-primary-light-bg text-sm">
-                                {description}
-                            </p>
-                        </div>
+                        {workUpdateDraft.on ? (
+                            <div className="flex flex-col gap-2">
+                                <textarea
+                                    rows={1}
+                                    value={description}
+                                    onChange={handleChange}
+                                    className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
+                                />
+                                <div className="buttons">
+                                    <button
+                                        className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
+                                        onClick={saveDescription}
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
+                                        onClick={setUpdateDescriptionModeOff}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col gap-2">
+                                <p className="text-primary-light-bg text-sm">
+                                    {description}
+                                </p>
+                                <button
+                                    className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
+                                    onClick={setUpdateDescriptionModeOn}
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                        )}
                     </div>
                     <div className="pl-3 w-96">
                         <h2 className="text-primary-light-bg font-medium text-xl">

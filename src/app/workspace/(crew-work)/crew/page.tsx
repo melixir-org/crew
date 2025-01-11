@@ -1,10 +1,10 @@
 import { isArray } from 'lodash-es';
-
+import { getCrewForCrewHomepage } from '@/lib/server-only-api/crew';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
-import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
+import CrewHome from '@/components/custom/CrewHome/CrewHome';
 
 const Crew = async ({
     searchParams,
@@ -16,7 +16,7 @@ const Crew = async ({
 
     const initialState: PageState = initPageState();
 
-    const { data }: { data: Work | null } = await getWorkWithCrewMetaData({
+    const { data }: { data: Work | null } = await getCrewForCrewHomepage({
         workId,
     });
 
@@ -31,7 +31,7 @@ const Crew = async ({
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <div>Crew</div>
+            <CrewHome />
         </PageStoreProvider>
     );
 };
