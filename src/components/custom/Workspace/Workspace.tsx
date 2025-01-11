@@ -1,24 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getCrews } from '@/lib/client-only-api/crew';
 import { usePageStore } from '@/provider/PageStore';
 import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import { CREW, WORK } from '@/lib/constants';
-import { Crew } from '@/types/Crew';
 
-function Workspace() {
+function Workspace({ ids }: { ids: string[] }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const { crews: crewsFromStore } = usePageStore(store => store.server);
-    const { setCrews } = usePageStore(store => store);
-    const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
+
+    const { crews, works } = usePageStore(store => store.server);
+
+    const pageIndex = searchParams.get('page_index') || '0';
+    const pageSize = searchParams.get('page_size') || '10';
+    const type = searchParams.get('type') || WORK;
+    const entry = searchParams.get('entry');
 
     const handleTypeChange = (type: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -26,59 +26,15 @@ function Workspace() {
         router.replace(`${pathname}?${params.toString()}`);
     };
 
-    const pageIndex = searchParams.get('page_index') || '0';
-    const pageSize = searchParams.get('page_size') || '10';
-    const type = searchParams.get('type') || WORK;
-
-    const {
-        isLoading,
-        error,
-        data: response,
-        isSuccess,
-    } = useQuery({
-        queryKey: ['crewData'],
-        queryFn: () => getCrews(Number(pageIndex), Number(pageSize)),
-    });
-
-    useEffect(() => {
+    const handlePageChange = (pageIndex: number, pageSize: number) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('page_index', pageIndex.toString());
         params.set('page_size', pageSize.toString());
-        params.set('type', type);
-        // router.replace(`${pathname}?${params.toString()}`);
+        router.replace(`${pathname}?${params.toString()}`);
+    };
 
-        if (isSuccess && response.data !== null) {
-            const transformedData = response.data.map(item => {
-                const root_work = {
-                    id: String(item.root_work?.id),
-                    title: item.root_work?.title,
-                };
-                return {
-                    id: String(item.id),
-                    title: item.title,
-                    root_work: item.root_work ? root_work : null,
-                };
-            });
-
-            const currentCrews = crewsFromStore;
-
-            const newOrUpdatedCrews = transformedData.filter((crew: Crew) => {
-                const existingCrew = currentCrews[crew.id];
-                return (
-                    !existingCrew ||
-                    JSON.stringify(existingCrew) !== JSON.stringify(crew)
-                );
-            });
-
-            if (newOrUpdatedCrews.length > 0) {
-                setCrews(newOrUpdatedCrews);
-            }
-            const ids = transformedData.map((crew: Crew) => crew.id) || [];
-            setCurrentPageIds(ids);
-        }
-    }, [isSuccess, response?.data, crewsFromStore]);
-
-    const crews = currentPageIds.map(id => crewsFromStore[id]);
+    const workItems = ids.map(id => works[id]);
+    const crewItems = ids.map(id => crews[id]);
 
     const handleItemClick = (id: string, workId: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -93,8 +49,6 @@ function Workspace() {
             router.push(`${CREW_HOME_ROUTE.pathname}?${params.toString()}`);
         }
     };
-
-    const entry = searchParams.get('entry');
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
@@ -116,44 +70,39 @@ function Workspace() {
                     ))}
                 </TabsList>
             </Tabs>
-            {error ? (
-                <div>Error: {error.message}</div>
-            ) : isLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <ul className="space-y-4">
-                    {crews.map(item => (
-                        <li key={item.id}>
-                            <Card
-                                className={`cursor-pointer transition-colors ${
-                                    entry === item.id
-                                        ? 'bg-secondary text-secondary-foreground'
-                                        : 'bg-primary text-primary-foreground'
-                                }`}
-                                onClick={() =>
-                                    handleItemClick(
-                                        item.id,
-                                        item?.root_work?.id ?? ''
-                                    )
-                                }
-                            >
-                                <CardHeader>
-                                    <CardTitle>{item.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p
-                                        className={
-                                            entry === item.id
-                                                ? 'text-secondary-foreground'
-                                                : 'text-primary-foreground'
-                                        }
-                                    ></p>
-                                </CardContent>
-                            </Card>
-                        </li>
-                    ))}
-                </ul>
-            )}
+
+            <ul className="space-y-4">
+                {(type === WORK ? workItems : crewItems).map(item => (
+                    <li key={item.id}>
+                        <Card
+                            className={`cursor-pointer transition-colors ${
+                                entry === item.id
+                                    ? 'bg-secondary text-secondary-foreground'
+                                    : 'bg-primary text-primary-foreground'
+                            }`}
+                            onClick={() =>
+                                handleItemClick(
+                                    item.id,
+                                    type === CREW ? item.root_work?.id : item.id
+                                )
+                            }
+                        >
+                            <CardHeader>
+                                <CardTitle>{item.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p
+                                    className={
+                                        entry === item.id
+                                            ? 'text-secondary-foreground'
+                                            : 'text-primary-foreground'
+                                    }
+                                ></p>
+                            </CardContent>
+                        </Card>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

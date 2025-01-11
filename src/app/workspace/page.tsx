@@ -1,3 +1,5 @@
+import { isArray } from 'lodash-es';
+
 import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrews } from '@/lib/server-only-api/crew';
@@ -14,38 +16,44 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
-    const { page_index, page_size, type } = await searchParams;
+    const {
+        page_index = '0',
+        page_size = '10',
+        type = WORK,
+    } = await searchParams;
+
+    const pi = isArray(page_index) ? Number(page_index[0]) : Number(page_index);
+    const ps = isArray(page_size) ? Number(page_size[0]) : Number(page_size);
+    const t = isArray(type) ? type[0] : type;
 
     const initialState: PageState = initPageState();
+    const ids: string[] = [];
 
-    if (type === CREW) {
-        const { data }: { data: Crew[] | null } = await getCrews(
-            Number(page_index),
-            Number(page_size)
-        );
+    if (t === CREW) {
+        const { data }: { data: Crew[] | null } = await getCrews(pi, ps);
 
         const crews: CrewsMap = {};
         data?.forEach(crew => {
             crews[crew.id] = crew;
+            ids.push(crew.id);
         });
         initialState.server.crews = crews;
     }
-    if (type === WORK) {
-        const { data }: { data: Work[] | null } = await getWorks(
-            Number(page_index),
-            Number(page_size)
-        );
+
+    if (t === WORK) {
+        const { data }: { data: Work[] | null } = await getWorks(pi, ps);
 
         const works: WorksMap = {};
         data?.forEach(work => {
             works[work.id] = work;
+            ids.push(work.id);
         });
         initialState.server.works = works;
     }
 
     return (
         <PageStoreProvider initialState={initialState}>
-            <Workspace />
+            <Workspace ids={ids} />
         </PageStoreProvider>
     );
 };

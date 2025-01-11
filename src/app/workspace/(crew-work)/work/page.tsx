@@ -7,11 +7,11 @@ import { getWorkForWorkHomePage } from '@/lib/server-only-api/work';
 import { initPageState, PageState } from '@/store/pageStore';
 import type { Work } from '@/types/Work';
 
-interface PageProps {
+const Work = async ({
+    searchParams,
+}: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-const Work: React.FC<PageProps> = async ({ searchParams }) => {
+}) => {
     const { show = '' } = await searchParams;
     const workId = isArray(show) ? show[0] : show;
 
