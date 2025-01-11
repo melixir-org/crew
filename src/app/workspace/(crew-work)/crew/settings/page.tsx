@@ -5,9 +5,7 @@ import { initPageState } from '@/store/pageStore';
 const Settings = () => {
     return (
         <PageStoreProvider>
-            <MergeSsrStateIntoCrewWorkLayoutStore
-                mergeState={{ server: initPageState().server }}
-            />
+            <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initPageState()} />
             <div>Settings</div>
         </PageStoreProvider>
     );
