@@ -26,7 +26,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const ps = isArray(page_size) ? Number(page_size[0]) : Number(page_size);
     const t = isArray(type) ? type[0] : type;
 
-    const initialState: PageState = initPageState();
+    let initialState: PageState | undefined = undefined;
     const ids: string[] = [];
 
     if (t === CREW) {
@@ -37,7 +37,8 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             crews[crew.id] = crew;
             ids.push(crew.id);
         });
-        initialState.server.crews = crews;
+
+        initialState = initPageState({ server: { crews } });
     }
 
     if (t === WORK) {
@@ -48,7 +49,8 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             works[work.id] = work;
             ids.push(work.id);
         });
-        initialState.server.works = works;
+
+        initialState = initPageState({ server: { works } });
     }
 
     return (

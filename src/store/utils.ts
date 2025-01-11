@@ -1,7 +1,7 @@
 import { isArray, isPlainObject, mergeWith } from 'lodash-es';
 
-export function mergeOverride(a: object, b: object): void {
-    mergeWith(a, b, (objValue, srcValue) => {
+export function mergeOverride(a: object, b: object | undefined | null): void {
+    mergeWith(a, b ?? {}, (objValue, srcValue) => {
         if (isArray(srcValue)) {
             return srcValue;
         }

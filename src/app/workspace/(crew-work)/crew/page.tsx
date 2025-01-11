@@ -14,18 +14,19 @@ const Crew = async ({
     const { show = '' } = await searchParams;
     const workId = isArray(show) ? show[0] : show;
 
-    const initialState: PageState = initPageState();
+    let initialState: PageState | undefined = undefined;
 
     const { data }: { data: Work | null } = await getWorkWithCrewMetaData({
         workId,
     });
 
-    if (data) {
-        initialState.server.works[data.id] = data;
-    }
-
-    if (data?.crew) {
-        initialState.server.crews[data.crew.id] = data.crew;
+    if (data && data.crew) {
+        initialState = initPageState({
+            server: {
+                works: { [data.id]: data },
+                crews: { [data.crew.id]: data.crew },
+            },
+        });
     }
 
     return (
