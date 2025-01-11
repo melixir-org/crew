@@ -20,8 +20,9 @@ const CrewCreateDraftLayout = () => {
             }?${searchParams.toString()}`
         );
     };
+
     const { setCrewCreateDraft, resetCrewCreateDraft } = useCrewWorkLayoutStore(
-        store => store.actions
+        store => store
     );
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(

@@ -4,8 +4,8 @@ import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCr
 import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getWorkForWorkHomePage } from '@/lib/server-only-api/work';
-import type { Work } from '@/types/Work';
 import { initPageState, PageState } from '@/store/pageStore';
+import type { Work } from '@/types/Work';
 
 interface PageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -22,16 +22,18 @@ const Work: React.FC<PageProps> = async ({ searchParams }) => {
     });
 
     if (data) {
-        initialState.works[data.id] = data;
+        initialState.server.works[data.id] = data;
     }
 
     if (data?.crew) {
-        initialState.crews[data.crew.id] = data.crew;
+        initialState.server.crews[data.crew.id] = data.crew;
     }
 
     return (
         <PageStoreProvider initialState={initialState}>
-            <MergeSsrStateIntoCrewWorkLayoutStore mergeState={initialState} />
+            <MergeSsrStateIntoCrewWorkLayoutStore
+                mergeState={{ server: initialState.server }}
+            />
             <WorkHome />
         </PageStoreProvider>
     );

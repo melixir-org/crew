@@ -2,10 +2,7 @@ import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrews } from '@/lib/server-only-api/crew';
 import { getWorks } from '@/lib/server-only-api/work';
-import {
-    initCrewWorkLayoutState,
-    CrewWorkLayoutState,
-} from '@/store/crewWorkLayoutStore';
+import { initPageState, PageState } from '@/store/pageStore';
 import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
 import type { CrewsMap } from '@/types/CrewMap';
@@ -19,7 +16,7 @@ interface PageProps {
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const { page_index, page_size, type } = await searchParams;
 
-    const initialState: CrewWorkLayoutState = initCrewWorkLayoutState();
+    const initialState: PageState = initPageState();
 
     if (type === CREW) {
         const { data }: { data: Crew[] | null } = await getCrews(
@@ -31,7 +28,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         data?.forEach(crew => {
             crews[crew.id] = crew;
         });
-        initialState.crews = crews;
+        initialState.server.crews = crews;
     }
     if (type === WORK) {
         const { data }: { data: Work[] | null } = await getWorks(
@@ -43,7 +40,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         data?.forEach(work => {
             works[work.id] = work;
         });
-        initialState.works = works;
+        initialState.server.works = works;
     }
 
     return (

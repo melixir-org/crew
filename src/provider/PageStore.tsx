@@ -2,7 +2,6 @@
 
 import { type ReactNode, createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
-import { cloneDeep } from 'lodash-es';
 
 import {
     type PageState,
@@ -10,7 +9,6 @@ import {
     createPageStore,
     initPageState,
 } from '@/store/pageStore';
-import { mergeOverride } from '@/store/utils';
 
 export type PageStoreApi = ReturnType<typeof createPageStore>;
 
@@ -36,14 +34,12 @@ export const PageStoreProvider = ({
 
     if (initialStateRef.current !== initialState) {
         if (initialState) {
-            const state: PageState = cloneDeep(
-                storeRef.current.getState().state
-            );
-            mergeOverride(state, {
-                crews: initialState.crews,
-                works: initialState.works,
-            });
-            storeRef.current = createPageStore(state);
+            const currentPageState: PageState = storeRef.current.getState();
+            const newPageState: PageState = initPageState();
+
+            newPageState.server = initialState.server;
+            newPageState.client = currentPageState.client;
+            storeRef.current = createPageStore(newPageState);
         }
         initialStateRef.current = initialState;
     }

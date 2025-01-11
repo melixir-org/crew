@@ -11,10 +11,13 @@ const WorkHome = () => {
     const searchParams = useSearchParams();
 
     const workId: string = searchParams.get('show') ?? '';
-    const { works, workUpdateDraft } = usePageStore(store => store.state);
-    const { setWorks, setWorkUpdateDraft } = usePageStore(
-        store => store.actions
-    );
+
+    const {
+        server: { works },
+        client: { workUpdateDraft },
+    } = usePageStore(store => store);
+
+    const { setWorks, setWorkUpdateDraft } = usePageStore(store => store);
 
     const work: Work = works[workId];
 

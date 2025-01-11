@@ -22,7 +22,7 @@ const WorkCreateDraftLayout = () => {
     };
 
     const { setWorkCreateDraft, resetWorkCreateDraft } = useCrewWorkLayoutStore(
-        store => store.actions
+        store => store
     );
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(

@@ -29,4 +29,10 @@ export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
     CREW_HOME_ROUTE,
     SETTINGS_ROUTE,
 ];
+
 export const WORK_ROUTE_GROUP_ROUTES: Route[] = [WORK_HOME_ROUTE, LEVEL_ROUTE];
+
+export const ALL_ROUTES = [
+    ...CREW_ROUTE_GROUP_ROUTES,
+    ...WORK_ROUTE_GROUP_ROUTES,
+];

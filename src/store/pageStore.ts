@@ -18,15 +18,21 @@ type WorkUpdateDraft = {
     data: Work;
 };
 
-export type PageState = {
+type Server = {
     crews: CrewsMap;
     works: WorksMap;
-    crewUpdateDraft: CrewUpdateDraft;
-    workUpdateDraft: WorkUpdateDraft;
+};
+
+export type PageState = {
+    server: Server;
+    client: {
+        crewUpdateDraft: CrewUpdateDraft;
+        workUpdateDraft: WorkUpdateDraft;
+    };
 };
 
 export type PageActions = {
-    set: (fn: (state: PageState) => void) => void;
+    setServer: (fn: (server: Server) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
     setCrewUpdateDraft: (fn: (state: CrewUpdateDraft) => void) => void;
@@ -35,57 +41,56 @@ export type PageActions = {
 
 export const initPageState = (): PageState => {
     return {
-        crews: {},
-        works: {},
-        crewUpdateDraft: {
-            on: false,
-            validationOn: false,
-            data: createCrew(),
-        },
-        workUpdateDraft: {
-            on: false,
-            validationOn: false,
-            data: createWork(),
+        server: { crews: {}, works: {} },
+        client: {
+            crewUpdateDraft: {
+                on: false,
+                validationOn: false,
+                data: createCrew(),
+            },
+            workUpdateDraft: {
+                on: false,
+                validationOn: false,
+                data: createWork(),
+            },
         },
     };
 };
 
-export type PageStore = { state: PageState } & { actions: PageActions };
+export type PageStore = PageState & PageActions;
 
 export const createPageStore = (initialState: PageState) => {
     return createStore<PageStore>()(
         immer(set => ({
-            state: initialState,
-            actions: {
-                set: fn => {
+            ...initialState,
+            setServer: fn => {
+                set(store => {
+                    fn(store.server);
+                });
+            },
+            setCrews: (crews: Crew[]) => {
+                crews.forEach(crew => {
                     set(store => {
-                        fn(store.state);
+                        store.server.crews[crew.id] = crew;
                     });
-                },
-                setCrews: (crews: Crew[]) => {
-                    crews.forEach(crew => {
-                        set(store => {
-                            store.state.crews[crew.id] = crew;
-                        });
-                    });
-                },
-                setWorks: (works: Work[]) => {
-                    works.forEach(work => {
-                        set(store => {
-                            store.state.works[work.id] = work;
-                        });
-                    });
-                },
-                setCrewUpdateDraft: fn => {
+                });
+            },
+            setWorks: (works: Work[]) => {
+                works.forEach(work => {
                     set(store => {
-                        fn(store.state.crewUpdateDraft);
+                        store.server.works[work.id] = work;
                     });
-                },
-                setWorkUpdateDraft: fn => {
-                    set(store => {
-                        fn(store.state.workUpdateDraft);
-                    });
-                },
+                });
+            },
+            setCrewUpdateDraft: fn => {
+                set(store => {
+                    fn(store.client.crewUpdateDraft);
+                });
+            },
+            setWorkUpdateDraft: fn => {
+                set(store => {
+                    fn(store.client.workUpdateDraft);
+                });
             },
         }))
     );

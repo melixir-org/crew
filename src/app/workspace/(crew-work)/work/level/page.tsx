@@ -6,7 +6,7 @@ const Level = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore
-                mergeState={initPageState()}
+                mergeState={{ server: initPageState().server }}
             />
             <div>Level</div>
         </PageStoreProvider>

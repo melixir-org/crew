@@ -2,10 +2,8 @@ import { isArray } from 'lodash-es';
 import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { createWork, type Work } from '@/types/Work';
+import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
-import { createCrew } from '@/types/Crew';
-import { initCrewWorkLayoutState } from '@/store/crewWorkLayoutStore';
 
 const Crew = async ({
     searchParams,
@@ -22,16 +20,18 @@ const Crew = async ({
     });
 
     if (data) {
-        initialState.works[data.id] = data;
+        initialState.server.works[data.id] = data;
     }
 
     if (data?.crew) {
-        initialState.crews[data.crew.id] = data.crew;
+        initialState.server.crews[data.crew.id] = data.crew;
     }
 
     return (
         <PageStoreProvider initialState={initialState}>
-            <MergeSsrStateIntoCrewWorkLayoutStore mergeState={initialState} />
+            <MergeSsrStateIntoCrewWorkLayoutStore
+                mergeState={{ server: initialState.server }}
+            />
             <div>Crew</div>
         </PageStoreProvider>
     );

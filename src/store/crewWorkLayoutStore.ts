@@ -15,19 +15,25 @@ type WorkRouteGroupCreateDraftMap = {
     [key: string]: { validationOn: boolean; data: Work };
 };
 
-export type CrewWorkLayoutState = {
+type Server = {
     crews: CrewsMap;
     works: WorksMap;
-    crewCreateDraft: {
-        routes: CrewRouteGroupCreateDraftMap;
-    };
-    workCreateDraft: {
-        routes: WorkRouteGroupCreateDraftMap;
+};
+
+export type CrewWorkLayoutState = {
+    server: Server;
+    client: {
+        crewCreateDraft: {
+            routes: CrewRouteGroupCreateDraftMap;
+        };
+        workCreateDraft: {
+            routes: WorkRouteGroupCreateDraftMap;
+        };
     };
 };
 
 export type CrewWorkLayoutActions = {
-    set: (fn: (state: CrewWorkLayoutState) => void) => void;
+    setServer: (fn: (server: Server) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
     setCrewCreateDraft: (
@@ -59,65 +65,62 @@ export const initCrewWorkLayoutState = (): CrewWorkLayoutState => {
     });
 
     return {
-        crews: {},
-        works: {},
-        crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
-        workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
+        server: { crews: {}, works: {} },
+        client: {
+            crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
+            workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
+        },
     };
 };
 
-export type CrewWorkLayoutStore = { state: CrewWorkLayoutState } & {
-    actions: CrewWorkLayoutActions;
-};
+export type CrewWorkLayoutStore = CrewWorkLayoutState & CrewWorkLayoutActions;
 
 export const createCrewWorkLayoutStore = (
     initialState: CrewWorkLayoutState
 ) => {
     return createStore<CrewWorkLayoutStore>()(
         immer(set => ({
-            state: initialState,
-            actions: {
-                set: fn => {
+            ...initialState,
+            setServer: fn => {
+                set(store => {
+                    fn(store.server);
+                });
+            },
+            setCrews: (crews: Crew[]) => {
+                crews.forEach(crew => {
                     set(store => {
-                        fn(store.state);
+                        store.server.crews[crew.id] = crew;
                     });
-                },
-                setCrews: (crews: Crew[]) => {
-                    crews.forEach(crew => {
-                        set(store => {
-                            store.state.crews[crew.id] = crew;
-                        });
-                    });
-                },
-                setWorks: (works: Work[]) => {
-                    works.forEach(work => {
-                        set(store => {
-                            store.state.works[work.id] = work;
-                        });
-                    });
-                },
-                setCrewCreateDraft: fn => {
+                });
+            },
+            setWorks: (works: Work[]) => {
+                works.forEach(work => {
                     set(store => {
-                        fn(store.state.crewCreateDraft);
+                        store.server.works[work.id] = work;
                     });
-                },
-                setWorkCreateDraft: fn => {
-                    set(store => {
-                        fn(store.state.workCreateDraft);
-                    });
-                },
-                resetCrewCreateDraft: () => {
-                    set(store => {
-                        store.state.crewCreateDraft =
-                            initialState.crewCreateDraft;
-                    });
-                },
-                resetWorkCreateDraft: () => {
-                    set(store => {
-                        store.state.workCreateDraft =
-                            initialState.workCreateDraft;
-                    });
-                },
+                });
+            },
+            setCrewCreateDraft: fn => {
+                set(store => {
+                    fn(store.client.crewCreateDraft);
+                });
+            },
+            setWorkCreateDraft: fn => {
+                set(store => {
+                    fn(store.client.workCreateDraft);
+                });
+            },
+            resetCrewCreateDraft: () => {
+                set(store => {
+                    store.client.crewCreateDraft =
+                        initialState.client.crewCreateDraft;
+                });
+            },
+            resetWorkCreateDraft: () => {
+                set(store => {
+                    store.client.workCreateDraft =
+                        initialState.client.workCreateDraft;
+                });
             },
         }))
     );

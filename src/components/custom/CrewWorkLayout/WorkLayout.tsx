@@ -22,7 +22,7 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
 
     const workTitle: string = useCrewWorkLayoutStore(store => {
         const show = searchParams.get('show') ?? '';
-        return store.state.works[show]?.title ?? '';
+        return store.server.works[show]?.title ?? '';
     });
 
     return (

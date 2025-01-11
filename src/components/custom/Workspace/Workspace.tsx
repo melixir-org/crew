@@ -16,8 +16,8 @@ function Workspace() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const crewsFromStore = usePageStore(store => store.state.crews);
-    const { setCrews } = usePageStore(store => store.actions);
+    const { crews: crewsFromStore } = usePageStore(store => store.server);
+    const { setCrews } = usePageStore(store => store);
     const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
 
     const handleTypeChange = (type: string) => {
@@ -45,7 +45,7 @@ function Workspace() {
         params.set('page_index', pageIndex.toString());
         params.set('page_size', pageSize.toString());
         params.set('type', type);
-        // router.replace(`${pathname}?${params.toString()}`);
+        router.replace(`${pathname}?${params.toString()}`);
 
         if (isSuccess && response.data !== null) {
             const transformedData = response.data.map(item => {
