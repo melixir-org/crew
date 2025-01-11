@@ -45,7 +45,7 @@ function Workspace() {
         params.set('page_index', pageIndex.toString());
         params.set('page_size', pageSize.toString());
         params.set('type', type);
-        router.replace(`${pathname}?${params.toString()}`);
+        // router.replace(`${pathname}?${params.toString()}`);
 
         if (isSuccess && response.data !== null) {
             const transformedData = response.data.map(item => {
