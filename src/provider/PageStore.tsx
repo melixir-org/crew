@@ -29,18 +29,16 @@ export const PageStoreProvider = ({
     const storeRef = useRef<PageStoreApi>(undefined);
 
     if (!storeRef.current) {
-        storeRef.current = createPageStore(initialState ?? initPageState());
+        storeRef.current = createPageStore(initPageState(initialState));
     }
 
-    if (initialStateRef.current !== initialState) {
-        if (initialState) {
-            const currentPageState: PageState = storeRef.current.getState();
-            const newPageState: PageState = initPageState();
-
-            newPageState.server = initialState.server;
-            newPageState.client = currentPageState.client;
-            storeRef.current = createPageStore(newPageState);
-        }
+    if (initialStateRef.current !== initialState && initialState) {
+        const currentState: PageState = storeRef.current.getState();
+        const newState: PageState = initPageState({
+            server: initialState.server,
+            client: currentState.client,
+        });
+        storeRef.current = createPageStore(newState);
         initialStateRef.current = initialState;
     }
 

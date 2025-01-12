@@ -6,6 +6,8 @@ import { createCrew, Crew } from '@/types/Crew';
 import { createWork, Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
 import { CrewsMap } from '@/types/CrewMap';
+import { mergeOverride } from './utils';
+import { DeepPartial } from '@/types/DeepPartial';
 
 type CrewRouteGroupCreateDraftMap = {
     [key: string]: { validationOn: boolean; data: Crew };
@@ -46,7 +48,9 @@ export type CrewWorkLayoutActions = {
     resetWorkCreateDraft: () => void;
 };
 
-export const initCrewWorkLayoutState = (): CrewWorkLayoutState => {
+export const initCrewWorkLayoutState = (
+    partialState?: DeepPartial<CrewWorkLayoutState>
+): CrewWorkLayoutState => {
     const CrewRouteGroupCreateDraftMap: CrewRouteGroupCreateDraftMap = {};
     const WorkRouteGroupCreateDraftMap: WorkRouteGroupCreateDraftMap = {};
 
@@ -64,13 +68,17 @@ export const initCrewWorkLayoutState = (): CrewWorkLayoutState => {
         };
     });
 
-    return {
+    const state: CrewWorkLayoutState = {
         server: { crews: {}, works: {} },
         client: {
             crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
             workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
         },
     };
+
+    mergeOverride(state, partialState);
+
+    return state;
 };
 
 export type CrewWorkLayoutStore = CrewWorkLayoutState & CrewWorkLayoutActions;

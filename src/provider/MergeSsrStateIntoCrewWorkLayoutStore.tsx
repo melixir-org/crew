@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { useCrewWorkLayoutStore } from './CrewWorkLayoutStore';
 import { mergeOverride } from '@/store/utils';
+import { DeepPartial } from '@/types/DeepPartial';
 import { PageState } from '@/store/pageStore';
 
 // SSR state is always up-to-date with the server
@@ -11,12 +12,12 @@ import { PageState } from '@/store/pageStore';
 const MergeSsrStateIntoCrewWorkLayoutStore = ({
     ssrState,
 }: {
-    ssrState: PageState;
+    ssrState?: DeepPartial<PageState>;
 }) => {
     const { setServer } = useCrewWorkLayoutStore(store => store);
 
     useEffect(() => {
-        setServer(server => mergeOverride(server, ssrState.server));
+        setServer(server => mergeOverride(server, ssrState?.server));
     }, [ssrState]);
 
     return null;

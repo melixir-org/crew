@@ -5,6 +5,8 @@ import { createCrew, Crew } from '@/types/Crew';
 import { CrewsMap } from '@/types/CrewMap';
 import { createWork, Work } from '@/types/Work';
 import { WorksMap } from '@/types/WorksMap';
+import { mergeOverride } from './utils';
+import { DeepPartial } from '@/types/DeepPartial';
 
 type CrewUpdateDraft = {
     on: boolean;
@@ -39,8 +41,10 @@ export type PageActions = {
     setWorkUpdateDraft: (fn: (state: WorkUpdateDraft) => void) => void;
 };
 
-export const initPageState = (): PageState => {
-    return {
+export const initPageState = (
+    partialPageState?: DeepPartial<PageState>
+): PageState => {
+    const pageState: PageState = {
         server: { crews: {}, works: {} },
         client: {
             crewUpdateDraft: {
@@ -55,6 +59,10 @@ export const initPageState = (): PageState => {
             },
         },
     };
+
+    mergeOverride(pageState, partialPageState);
+
+    return pageState;
 };
 
 export type PageStore = PageState & PageActions;
