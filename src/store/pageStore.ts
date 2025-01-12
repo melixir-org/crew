@@ -1,24 +1,17 @@
 import { createStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
 
-import { createCrew, Crew } from '@/types/Crew';
-import { CrewsMap } from '@/types/CrewMap';
-import { createWork, Work } from '@/types/Work';
-import { WorksMap } from '@/types/WorksMap';
 import { mergeOverride } from './utils';
+import { Crew } from '@/types/Crew';
+import { CrewsMap } from '@/types/CrewMap';
+import { Work } from '@/types/Work';
+import { WorksMap } from '@/types/WorksMap';
 import { DeepPartial } from '@/types/DeepPartial';
-
-type CrewUpdateDraft = {
-    on: boolean;
-    validationOn: boolean;
-    data: Crew;
-};
-
-type WorkUpdateDraft = {
-    on: boolean;
-    validationOn: boolean;
-    data: Work;
-};
+import { CrewUpdateDraft } from '@/types/CrewUpdateDraft';
+import {
+    createWorkUpdateDraft,
+    WorkUpdateDraft,
+} from '@/types/WorkUpdateDraft';
 
 type Server = {
     crews: CrewsMap;
@@ -28,8 +21,8 @@ type Server = {
 export type PageState = {
     server: Server;
     client: {
-        crewUpdateDraft: CrewUpdateDraft;
-        workUpdateDraft: WorkUpdateDraft;
+        crewUpdateDrafts: { [key: string]: CrewUpdateDraft };
+        workUpdateDrafts: { [key: string]: WorkUpdateDraft };
     };
 };
 
@@ -37,8 +30,18 @@ export type PageActions = {
     setServer: (fn: (server: Server) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
-    setCrewUpdateDraft: (fn: (state: CrewUpdateDraft) => void) => void;
-    setWorkUpdateDraft: (fn: (state: WorkUpdateDraft) => void) => void;
+    setWork: (workId: string, fn: (state: Work) => void) => void;
+    setCrewUpdateDraft: (
+        crewId: string,
+        fn: (state: CrewUpdateDraft) => void
+    ) => void;
+    getIsWorkUpdateDraftOn: (workId: string) => boolean;
+    setWorkUpdateDraftOn: (workId: string, data: Work) => void;
+    setWorkUpdateDraftOff: (workId: string) => void;
+    setWorkUpdateDraft: (
+        workId: string,
+        fn: (state: WorkUpdateDraft) => void
+    ) => void;
 };
 
 export const initPageState = (
@@ -46,18 +49,7 @@ export const initPageState = (
 ): PageState => {
     const pageState: PageState = {
         server: { crews: {}, works: {} },
-        client: {
-            crewUpdateDraft: {
-                on: false,
-                validationOn: false,
-                data: createCrew(),
-            },
-            workUpdateDraft: {
-                on: false,
-                validationOn: false,
-                data: createWork(),
-            },
-        },
+        client: { crewUpdateDrafts: {}, workUpdateDrafts: {} },
     };
 
     mergeOverride(pageState, partialPageState);
@@ -69,7 +61,7 @@ export type PageStore = PageState & PageActions;
 
 export const createPageStore = (initialState: PageState) => {
     return createStore<PageStore>()(
-        immer(set => ({
+        immer((set, get) => ({
             ...initialState,
             setServer: fn => {
                 set(store => {
@@ -90,14 +82,33 @@ export const createPageStore = (initialState: PageState) => {
                     });
                 });
             },
-            setCrewUpdateDraft: fn => {
+            setWork: (workId, fn) => {
                 set(store => {
-                    fn(store.client.crewUpdateDraft);
+                    fn(store.server.works[workId]);
                 });
             },
-            setWorkUpdateDraft: fn => {
+            setCrewUpdateDraft: (crewId, fn) => {
                 set(store => {
-                    fn(store.client.workUpdateDraft);
+                    fn(store.client.crewUpdateDrafts[crewId]);
+                });
+            },
+            getIsWorkUpdateDraftOn: workId => {
+                return Boolean(get().client.workUpdateDrafts[workId]);
+            },
+            setWorkUpdateDraftOn: (workId, data) => {
+                set(store => {
+                    store.client.workUpdateDrafts[workId] =
+                        createWorkUpdateDraft(data);
+                });
+            },
+            setWorkUpdateDraftOff: workId => {
+                set(store => {
+                    delete store.client.workUpdateDrafts[workId];
+                });
+            },
+            setWorkUpdateDraft: (workId, fn) => {
+                set(store => {
+                    fn(store.client.workUpdateDrafts[workId]);
                 });
             },
         }))

@@ -1,10 +1,10 @@
 import { isArray } from 'lodash-es';
-
+import { getWorkForCrewHomePage } from '@/lib/server-only-api/crew';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
-import { getWorkWithCrewMetaData } from '@/lib/server-only-api/crew';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
+import CrewHome from '@/components/custom/CrewHome/CrewHome';
 
 const Crew = async ({
     searchParams,
@@ -14,16 +14,19 @@ const Crew = async ({
     const { show = '' } = await searchParams;
     const workId = isArray(show) ? show[0] : show;
 
-    let initialState: PageState | undefined = undefined;
-
-    const { data }: { data: Work | null } = await getWorkWithCrewMetaData({
+    const { data }: { data: Work | null } = await getWorkForCrewHomePage({
         workId,
     });
 
-    if (data && data.crew) {
+    let initialState: PageState | undefined = undefined;
+
+    if (data && data.crew && data.crew.root_work) {
         initialState = initPageState({
             server: {
-                works: { [data.id]: data },
+                works: {
+                    [data.id]: data,
+                    [data.crew.root_work.id]: data.crew.root_work,
+                },
                 crews: { [data.crew.id]: data.crew },
             },
         });
@@ -32,7 +35,7 @@ const Crew = async ({
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <div>Crew</div>
+            <CrewHome />
         </PageStoreProvider>
     );
 };

@@ -15,11 +15,11 @@ const Work = async ({
     const { show = '' } = await searchParams;
     const workId = isArray(show) ? show[0] : show;
 
-    let initialState: PageState | undefined = undefined;
-
     const { data }: { data: Work | null } = await getWorkForWorkHomePage({
         workId,
     });
+
+    let initialState: PageState | undefined = undefined;
 
     if (data && data.crew) {
         initialState = initPageState({

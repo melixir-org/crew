@@ -40,7 +40,7 @@ export async function getWorkData(workId: string) {
         .single();
 }
 
-export async function updateDescription(workId: string, newData: string) {
+export async function updateDescriptionApi(workId: string, newData: string) {
     return await supabaseBrowserClient
         .from('works')
         .update({ description: newData })

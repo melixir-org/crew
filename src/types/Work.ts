@@ -15,6 +15,6 @@ export function createWork(
     description?: string,
     crew?: Crew,
     assignment?: Assignment[]
-) {
+): Work {
     return { id, title, description, crew, assignment };
 }
