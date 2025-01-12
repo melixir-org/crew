@@ -7,7 +7,7 @@ import { FormEvent, useState } from "react";
 export default function Login() {
     const [error, setError] = useState("");
 
-    const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const response = await logInAction(formData);
@@ -20,37 +20,38 @@ export default function Login() {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-w-64 w-96 text-center justify-center">
-                <h1 className="text-2xl font-medium">Sign in</h1>
-                <p className="text-sm text-foreground">
+        <div className="flex flex-col items-center justify-start min-h-screen mt-12">
+            {/* Login Form placed after the header */}
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full max-w-sm text-center">
+                <h1 className="text-2xl font-medium text-white">Sign in</h1>
+                <p className="text-sm text-white">
                     Don&apos;t have an account?{" "}
-                    <Link className="text-foreground font-medium underline" href="/sign-up">
+                    <Link className="text-white font-medium underline" href="/sign-up">
                         Sign up
                     </Link>
                 </p>
                 {error && <p className="text-red-500">{error}</p>}
                 <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email" className="text-white">Email</label>
                     <input className="text-black" name="email" placeholder="you@example.com" required />
                     <div className="flex justify-between items-center">
-                        <label htmlFor="password">Password</label>
-                        <Link className="text-xs text-foreground underline" href="/forgot-password">
+                        <label htmlFor="password" className="text-white">Password</label>
+                        <Link className="text-xs text-white underline" href="/forgot-password">
                             Forgot Password?
                         </Link>
                     </div>
                     <input
-                        className="text-black" 
+                        className="text-black"
                         type="password"
                         name="password"
                         placeholder="Your password"
                         required
                     />
-                    <button type="submit">
+                    <button className="mt-4 py-1 px-6 bg-white text-black font-bold rounded-lg" type="submit">
                         Sign in
                     </button>
                 </div>
             </form>
-        </>
+        </div>
     );
 }
