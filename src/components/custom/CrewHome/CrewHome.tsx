@@ -7,7 +7,7 @@ import { updateDescription } from '@/lib/client-only-api/work';
 
 const CrewHome = () => {
     const searchParamas = useSearchParams();
-    const rootWorkId: string = searchParamas.get('show') ?? '';
+    const workId: string = searchParamas.get('show') ?? '';
     const {
         server: { works },
         client: { workUpdateDraft },
@@ -15,7 +15,7 @@ const CrewHome = () => {
 
     const { setWorks, setWorkUpdateDraft } = usePageStore(store => store);
 
-    const currentWork: Work = works[rootWorkId];
+    const currentWork: Work = works[workId];
     const work: Work = currentWork.crew?.root_work ?? currentWork;
 
     const description =
@@ -42,11 +42,10 @@ const CrewHome = () => {
         });
     };
 
-    const saveDescription = () => {
+    const saveDescription = async () => {
         try {
-            const temp = workUpdateDraft.data.description ?? description;
-            const response = updateDescription(workUpdateDraft.data.id, temp);
-            console.log(response);
+            const temp = workUpdateDraft.data.description;
+            await updateDescription(workUpdateDraft.data.id, temp);
             setWorks([workUpdateDraft.data]);
             setUpdateDescriptionModeOff();
         } catch {

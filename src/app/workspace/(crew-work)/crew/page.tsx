@@ -1,5 +1,5 @@
 import { isArray } from 'lodash-es';
-import { getCrewForCrewHomepage } from '@/lib/server-only-api/crew';
+import { getWorkForCrewHomepage } from '@/lib/server-only-api/crew';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { type Work } from '@/types/Work';
@@ -16,7 +16,7 @@ const Crew = async ({
 
     const initialState: PageState = initPageState();
 
-    const { data }: { data: Work | null } = await getCrewForCrewHomepage({
+    const { data }: { data: Work | null } = await getWorkForCrewHomepage({
         workId,
     });
 

@@ -27,6 +27,8 @@ const WorkHome = () => {
             ? workUpdateDraft.data.description
             : work.description) ?? '';
 
+    console.log(description);
+
     const assignment = work.assignment ?? [];
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -48,10 +50,10 @@ const WorkHome = () => {
         });
     };
 
-    const saveDescription = () => {
+    const saveDescription = async () => {
         try {
-            const temp = workUpdateDraft.data.description ?? description;
-            updateDescription(workId, temp);
+            const temp = workUpdateDraft.data.description;
+            const res = await updateDescription(workId, temp);
             setWorks([workUpdateDraft.data]);
             setUpdateDescriptionModeOff();
         } catch {
