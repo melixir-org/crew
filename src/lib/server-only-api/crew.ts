@@ -25,12 +25,12 @@ export async function getCrews(pageIndex: number, pageSize: number) {
         .returns<Crew[]>();
 }
 
-export async function getWorkForCrewHomepage({ workId }: { workId: string }) {
+export async function getWorkForCrewHomePage({ workId }: { workId: string }) {
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .from('works')
         .select(
-            'id, crew:crew_id (id, title, root_work:root_id (id, description))'
+            'id, title, crew:crew_id (id, title, root_work:root_id (id, title, description))'
         )
         .eq('id', workId)
         .returns<Work[]>()

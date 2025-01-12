@@ -1,56 +1,42 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+
 import { usePageStore } from '@/provider/PageStore';
+import { updateDescriptionApi } from '@/lib/client-only-api/work';
 import { Work } from '@/types/Work';
-import { updateDescription } from '@/lib/client-only-api/work';
+import { Crew } from '@/types/Crew';
 
 const CrewHome = () => {
     const searchParamas = useSearchParams();
     const workId: string = searchParamas.get('show') ?? '';
+
     const {
-        server: { works },
-        client: { workUpdateDraft },
+        server: { crews, works },
+        client: { workUpdateDrafts },
+        setWork,
+        getIsWorkUpdateDraftOn,
+        setWorkUpdateDraftOn,
+        setWorkUpdateDraftOff,
+        setWorkUpdateDraft,
     } = usePageStore(store => store);
 
-    const { setWorks, setWorkUpdateDraft } = usePageStore(store => store);
-
-    const currentWork: Work = works[workId];
-    const work: Work = currentWork.crew?.root_work ?? currentWork;
+    const crew: Crew = crews[works[workId].crew?.id ?? ''];
+    const rootWork: Work = works[crew.root_work?.id ?? ''];
 
     const description =
-        (workUpdateDraft.on
-            ? workUpdateDraft.data.description
-            : work.description) ?? '';
+        (getIsWorkUpdateDraftOn(rootWork.id)
+            ? workUpdateDrafts[rootWork.id].data.description
+            : rootWork.description) ?? '';
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.data.description = e.target.value;
-        });
-    };
-
-    const setUpdateDescriptionModeOn = () => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.on = true;
-            workUpdateDraft.data = work;
-        });
-    };
-
-    const setUpdateDescriptionModeOff = () => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.on = false;
-        });
-    };
-
-    const saveDescription = async () => {
+    const updateDescription = async () => {
         try {
-            const temp = workUpdateDraft.data.description;
-            await updateDescription(workUpdateDraft.data.id, temp);
-            setWorks([workUpdateDraft.data]);
-            setUpdateDescriptionModeOff();
-        } catch {
-            setUpdateDescriptionModeOff();
-        }
+            await updateDescriptionApi(rootWork.id, description);
+            setWork(rootWork.id, work => {
+                work.description = description;
+            });
+            setWorkUpdateDraftOff(rootWork.id);
+        } catch {}
     };
 
     return (
@@ -61,24 +47,34 @@ const CrewHome = () => {
                 <h2 className="text-primary-light-bg text-lg font-medium">
                     About The Crew
                 </h2>
-                {workUpdateDraft.on ? (
+                {getIsWorkUpdateDraftOn(rootWork.id) ? (
                     <div className="flex flex-col gap-2">
                         <textarea
                             rows={1}
                             value={description}
-                            onChange={handleChange}
+                            onChange={e =>
+                                setWorkUpdateDraft(
+                                    rootWork.id,
+                                    workUpdateDraft => {
+                                        workUpdateDraft.data.description =
+                                            e.target.value;
+                                    }
+                                )
+                            }
                             className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
                         />
                         <div className="buttons">
                             <button
                                 className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                onClick={saveDescription}
+                                onClick={updateDescription}
                             >
                                 Save
                             </button>
                             <button
                                 className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                onClick={setUpdateDescriptionModeOff}
+                                onClick={() =>
+                                    setWorkUpdateDraftOff(rootWork.id)
+                                }
                             >
                                 Cancel
                             </button>
@@ -91,7 +87,9 @@ const CrewHome = () => {
                         </p>
                         <button
                             className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                            onClick={setUpdateDescriptionModeOn}
+                            onClick={() =>
+                                setWorkUpdateDraftOn(rootWork.id, rootWork)
+                            }
                         >
                             Edit
                         </button>

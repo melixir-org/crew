@@ -4,62 +4,42 @@ import { useSearchParams } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
+import { updateDescriptionApi } from '@/lib/client-only-api/work';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
-import { updateDescription } from '@/lib/client-only-api/work';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
-
     const workId: string = searchParams.get('show') ?? '';
 
     const {
         server: { works },
-        client: { workUpdateDraft },
+        client: { workUpdateDrafts },
+        setWork,
+        getIsWorkUpdateDraftOn,
+        setWorkUpdateDraftOn,
+        setWorkUpdateDraftOff,
+        setWorkUpdateDraft,
     } = usePageStore(store => store);
-
-    const { setWorks, setWorkUpdateDraft } = usePageStore(store => store);
 
     const work: Work = works[workId];
 
     const description =
-        (workUpdateDraft.on
-            ? workUpdateDraft.data.description
+        (getIsWorkUpdateDraftOn(workId)
+            ? workUpdateDrafts[workId].data.description
             : work.description) ?? '';
 
-    console.log(description);
-
-    const assignment = work.assignment ?? [];
-
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.data.description = e.target.value;
-        });
-    };
-
-    const setUpdateDescriptionModeOn = () => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.on = true;
-            workUpdateDraft.data = work;
-        });
-    };
-
-    const setUpdateDescriptionModeOff = () => {
-        setWorkUpdateDraft(workUpdateDraft => {
-            workUpdateDraft.on = false;
-        });
-    };
-
-    const saveDescription = async () => {
+    const updateDescription = async () => {
         try {
-            const temp = workUpdateDraft.data.description;
-            const res = await updateDescription(workId, temp);
-            setWorks([workUpdateDraft.data]);
-            setUpdateDescriptionModeOff();
-        } catch {
-            setUpdateDescriptionModeOff();
-        }
+            await updateDescriptionApi(workId, description);
+            setWork(workId, work => {
+                work.description = description;
+            });
+            setWorkUpdateDraftOff(workId);
+        } catch {}
     };
+
+    const assignment: Assignment[] = work.assignment ?? [];
 
     return (
         <div className="flex w-full bg-primary-dark-bg">
@@ -73,24 +53,34 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Description
                         </h2>
-                        {workUpdateDraft.on ? (
+                        {getIsWorkUpdateDraftOn(workId) ? (
                             <div className="flex flex-col gap-2">
                                 <textarea
                                     rows={1}
                                     value={description}
-                                    onChange={handleChange}
+                                    onChange={e =>
+                                        setWorkUpdateDraft(
+                                            workId,
+                                            workUpdateDraft => {
+                                                workUpdateDraft.data.description =
+                                                    e.target.value;
+                                            }
+                                        )
+                                    }
                                     className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
                                 />
                                 <div className="buttons">
                                     <button
                                         className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                        onClick={saveDescription}
+                                        onClick={updateDescription}
                                     >
                                         Save
                                     </button>
                                     <button
                                         className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                        onClick={setUpdateDescriptionModeOff}
+                                        onClick={() =>
+                                            setWorkUpdateDraftOff(workId)
+                                        }
                                     >
                                         Cancel
                                     </button>
@@ -103,7 +93,9 @@ const WorkHome = () => {
                                 </p>
                                 <button
                                     className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                    onClick={setUpdateDescriptionModeOn}
+                                    onClick={() =>
+                                        setWorkUpdateDraftOn(workId, work)
+                                    }
                                 >
                                     Edit
                                 </button>
@@ -114,7 +106,7 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Assigned Contributors
                         </h2>
-                        {assignment.map((a: Assignment) => (
+                        {assignment.map(a => (
                             <AssignmentCard key={a.id} data={a} />
                         ))}
                     </div>

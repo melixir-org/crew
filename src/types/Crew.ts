@@ -10,6 +10,6 @@ export function createCrew(
     id: string = '',
     title: string = '',
     root_work?: Work
-) {
+): Crew {
     return { id, title, root_work };
 }
