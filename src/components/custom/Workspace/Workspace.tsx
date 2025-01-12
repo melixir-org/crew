@@ -1,12 +1,13 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePageStore } from '@/provider/PageStore';
 import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import { CREW, WORK } from '@/lib/constants';
+import { Crew } from '@/types/Crew';
+import { Work } from '@/types/Work';
 
 function Workspace({ ids }: { ids: string[] }) {
     const router = useRouter();
@@ -50,59 +51,84 @@ function Workspace({ ids }: { ids: string[] }) {
         }
     };
 
-    return (
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-            <h1 className="text-3xl font-bold mb-6">{type} list</h1>
-            <Tabs
-                value={type}
-                onValueChange={value => handleTypeChange(value)}
-                className="w-full"
-            >
-                <TabsList className="bg-zinc-900 border border-zinc-800">
-                    {[CREW, WORK].map(t => (
-                        <TabsTrigger
-                            key={t}
-                            value={t}
-                            className="data-[state=active]:bg-zinc-800"
-                        >
-                            {t}
-                        </TabsTrigger>
-                    ))}
-                </TabsList>
-            </Tabs>
+    const handleCreateCrewClick = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('create_mode', 'crew');
+        router.push(`/workspace/crew?${params.toString()}`);
+    };
 
-            <ul className="space-y-4">
-                {(type === WORK ? workItems : crewItems).map(item => (
-                    <li key={item.id}>
-                        <Card
-                            className={`cursor-pointer transition-colors ${
-                                entry === item.id
-                                    ? 'bg-secondary text-secondary-foreground'
-                                    : 'bg-primary text-primary-foreground'
-                            }`}
-                            onClick={() =>
-                                handleItemClick(
-                                    item.id,
-                                    type === CREW ? item.root_work?.id : item.id
-                                )
-                            }
-                        >
-                            <CardHeader>
-                                <CardTitle>{item.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p
-                                    className={
-                                        entry === item.id
-                                            ? 'text-secondary-foreground'
-                                            : 'text-primary-foreground'
-                                    }
-                                ></p>
-                            </CardContent>
-                        </Card>
-                    </li>
-                ))}
-            </ul>
+    // Type guard to check if it's a Crew
+    const isCrew = (item: Work | Crew): item is Crew => {
+        return (item as Crew).root_work !== undefined;
+    };
+
+    return (
+        <div className="relative min-h-screen">
+            {/* "Create a Crew" button positioned at the top-left */}
+            <button
+                onClick={handleCreateCrewClick}
+                className="absolute top-4 left-4 w-96 h-10 bg-white text-black font-bold rounded-md shadow-md flex items-center justify-center space-x-2"
+            >
+                <span className="text-black text-3xl font-bold">+</span>
+                <span className="font-bold">Create a Crew</span>
+            </button>
+
+            {/* Main Content */}
+            <div className="container mx-auto px-4 py-8 max-w-2xl">
+                <h1 className="text-3xl font-bold mb-6">{type} list</h1>
+                <Tabs
+                    value={type}
+                    onValueChange={value => handleTypeChange(value)}
+                    className="w-full"
+                >
+                    <TabsList className="bg-zinc-900 border border-zinc-800">
+                        {[CREW, WORK].map(t => (
+                            <TabsTrigger
+                                key={t}
+                                value={t}
+                                className="data-[state=active]:bg-zinc-800"
+                            >
+                                {t}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                </Tabs>
+
+                <ul className="space-y-4">
+                    {(type === WORK ? workItems : crewItems).map(item => (
+                        <li key={item.id}>
+                            <Card
+                                className={`cursor-pointer transition-colors ${
+                                    entry === item.id
+                                        ? 'bg-secondary text-secondary-foreground'
+                                        : 'bg-primary text-primary-foreground'
+                                }`}
+                                onClick={() => {
+                                    const workId =
+                                        type === CREW && isCrew(item)
+                                            ? item.root_work!.id
+                                            : item.id;
+
+                                    handleItemClick(item.id, workId);
+                                }}
+                            >
+                                <CardHeader>
+                                    <CardTitle>{item.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p
+                                        className={
+                                            entry === item.id
+                                                ? 'text-secondary-foreground'
+                                                : 'text-primary-foreground'
+                                        }
+                                    ></p>
+                                </CardContent>
+                            </Card>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
