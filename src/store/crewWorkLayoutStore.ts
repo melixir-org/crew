@@ -7,11 +7,11 @@ import { createWork, Work } from '@/types/Work';
 import { mergeOverride } from './utils';
 import { DeepPartial } from '@/types/DeepPartial';
 
-type CrewRouteGroupCreateDraftMap = {
+type CrewCreateDraftRoutes = {
     [key: string]: { validationOn: boolean; data: Crew };
 };
 
-type WorkRouteGroupCreateDraftMap = {
+type WorkCreateDraftRoutes = {
     [key: string]: { validationOn: boolean; data: Work };
 };
 
@@ -24,10 +24,10 @@ export type CrewWorkLayoutState = {
     server: Server;
     client: {
         crewCreateDraft: {
-            routes: CrewRouteGroupCreateDraftMap;
+            routes: CrewCreateDraftRoutes;
         };
         workCreateDraft: {
-            routes: WorkRouteGroupCreateDraftMap;
+            routes: WorkCreateDraftRoutes;
         };
     };
 };
@@ -37,10 +37,10 @@ export type CrewWorkLayoutActions = {
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
     setCrewCreateDraft: (
-        fn: (state: { routes: CrewRouteGroupCreateDraftMap }) => void
+        fn: (state: { routes: CrewCreateDraftRoutes }) => void
     ) => void;
     setWorkCreateDraft: (
-        fn: (state: { routes: WorkRouteGroupCreateDraftMap }) => void
+        fn: (state: { routes: WorkCreateDraftRoutes }) => void
     ) => void;
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
@@ -49,8 +49,8 @@ export type CrewWorkLayoutActions = {
 export const initCrewWorkLayoutState = (
     partialState?: DeepPartial<CrewWorkLayoutState>
 ): CrewWorkLayoutState => {
-    const CrewRouteGroupCreateDraftMap: CrewRouteGroupCreateDraftMap = {};
-    const WorkRouteGroupCreateDraftMap: WorkRouteGroupCreateDraftMap = {};
+    const CrewRouteGroupCreateDraftMap: CrewCreateDraftRoutes = {};
+    const WorkRouteGroupCreateDraftMap: WorkCreateDraftRoutes = {};
 
     CREW_ROUTE_GROUP_ROUTES.forEach(route => {
         CrewRouteGroupCreateDraftMap[route.pathname] = {
