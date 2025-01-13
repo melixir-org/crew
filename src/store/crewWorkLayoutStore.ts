@@ -4,8 +4,6 @@ import { immer } from 'zustand/middleware/immer';
 import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { createCrew, Crew } from '@/types/Crew';
 import { createWork, Work } from '@/types/Work';
-import { WorksMap } from '@/types/WorksMap';
-import { CrewsMap } from '@/types/CrewMap';
 import { mergeOverride } from './utils';
 import { DeepPartial } from '@/types/DeepPartial';
 
@@ -18,8 +16,8 @@ type WorkRouteGroupCreateDraftMap = {
 };
 
 type Server = {
-    crews: CrewsMap;
-    works: WorksMap;
+    crews: { [key: string]: Crew };
+    works: { [key: string]: Work };
 };
 
 export type CrewWorkLayoutState = {

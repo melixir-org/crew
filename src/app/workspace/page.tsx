@@ -7,9 +7,7 @@ import { getWorks } from '@/lib/server-only-api/work';
 import { initPageState, PageState } from '@/store/pageStore';
 import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
-import type { CrewsMap } from '@/types/CrewMap';
 import type { Work } from '@/types/Work';
-import type { WorksMap } from '@/types/WorksMap';
 
 interface PageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -32,7 +30,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     if (t === CREW) {
         const { data }: { data: Crew[] | null } = await getCrews(pi, ps);
 
-        const crews: CrewsMap = {};
+        const crews: { [key: string]: Crew } = {};
         data?.forEach(crew => {
             crews[crew.id] = crew;
             ids.push(crew.id);
@@ -44,7 +42,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     if (t === WORK) {
         const { data }: { data: Work[] | null } = await getWorks(pi, ps);
 
-        const works: WorksMap = {};
+        const works: { [key: string]: Work } = {};
         data?.forEach(work => {
             works[work.id] = work;
             ids.push(work.id);

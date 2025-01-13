@@ -3,9 +3,7 @@ import { immer } from 'zustand/middleware/immer';
 
 import { mergeOverride } from './utils';
 import { Crew } from '@/types/Crew';
-import { CrewsMap } from '@/types/CrewMap';
 import { Work } from '@/types/Work';
-import { WorksMap } from '@/types/WorksMap';
 import { DeepPartial } from '@/types/DeepPartial';
 import { CrewUpdateDraft } from '@/types/CrewUpdateDraft';
 import {
@@ -14,8 +12,8 @@ import {
 } from '@/types/WorkUpdateDraft';
 
 type Server = {
-    crews: CrewsMap;
-    works: WorksMap;
+    crews: { [key: string]: Crew };
+    works: { [key: string]: Work };
 };
 
 export type PageState = {
