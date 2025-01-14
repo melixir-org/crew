@@ -38,8 +38,10 @@ export type CrewWorkLayoutState = {
 
 export type CrewWorkLayoutActions = {
     setServer: (fn: (server: Server) => void) => void;
-    setCrews: (crews: Crew[]) => void;
-    setWorks: (works: Work[]) => void;
+    addCrews: (crews: Crew[]) => void;
+    addWorks: (works: Work[]) => void;
+    setCrew: (crewId: string, fn: (state: Crew) => void) => void;
+    setWork: (workId: string, fn: (state: Work) => void) => void;
     setCrewCreateDraftRoute: (
         pathname: string,
         fn: (state: CrewCreateDraftRoute) => void
@@ -92,18 +94,28 @@ export const createCrewWorkLayoutStore = (
                     fn(store.server);
                 });
             },
-            setCrews: (crews: Crew[]) => {
+            addCrews: (crews: Crew[]) => {
                 crews.forEach(crew => {
                     set(store => {
                         store.server.crews[crew.id] = crew;
                     });
                 });
             },
-            setWorks: (works: Work[]) => {
+            addWorks: (works: Work[]) => {
                 works.forEach(work => {
                     set(store => {
                         store.server.works[work.id] = work;
                     });
+                });
+            },
+            setCrew: (crewId, fn) => {
+                set(store => {
+                    fn(store.server.crews[crewId]);
+                });
+            },
+            setWork: (workId, fn) => {
+                set(store => {
+                    fn(store.server.works[workId]);
                 });
             },
             setCrewCreateDraftRoute: (pathname, fn) => {

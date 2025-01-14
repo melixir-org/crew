@@ -21,7 +21,7 @@ const Panel = () => {
     const { works: worksFromStore } = useCrewWorkLayoutStore(
         store => store.server
     );
-    const { setWorks } = useCrewWorkLayoutStore(store => store);
+    const { addWorks } = useCrewWorkLayoutStore(store => store);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -39,7 +39,7 @@ const Panel = () => {
                 if (!response.ok) {
                     throw new Error('Response was not ok');
                 }
-                setWorks(response.data);
+                addWorks(response.data);
                 const ids = response.data?.map((work: Work) => work.id) || [];
                 setCurrentPageIds(ids);
                 setTotalPages(response.totalPages || 1);
