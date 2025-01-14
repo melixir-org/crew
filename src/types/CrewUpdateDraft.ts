@@ -1,10 +1,10 @@
-import { createCrew, Crew } from './Crew';
+import { Crew } from './Crew';
 
 export type CrewUpdateDraft = {
     validationOn: boolean;
-    data: Crew;
+    crew: Crew;
 };
 
-export function createCrewUpdateDraft(data: Crew): CrewUpdateDraft {
-    return { validationOn: false, data };
+export function createCrewUpdateDraft(crew: Crew): CrewUpdateDraft {
+    return { validationOn: false, crew };
 }

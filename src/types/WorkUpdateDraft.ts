@@ -1,10 +1,10 @@
-import { createWork, Work } from './Work';
+import { Work } from './Work';
 
 export type WorkUpdateDraft = {
     validationOn: boolean;
-    data: Work;
+    work: Work;
 };
 
-export function createWorkUpdateDraft(data: Work): WorkUpdateDraft {
-    return { validationOn: false, data };
+export function createWorkUpdateDraft(work: Work): WorkUpdateDraft {
+    return { validationOn: false, work };
 }

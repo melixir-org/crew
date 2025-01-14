@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Button } from '@/components/ui/button';
-import { CREW_ROUTE_GROUP_ROUTES } from '@/app/routes';
+import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { CREW } from '@/lib/constants';
 
 const CrewCreateDraftLayout = () => {
@@ -21,9 +21,8 @@ const CrewCreateDraftLayout = () => {
         );
     };
 
-    const { setCrewCreateDraft, resetCrewCreateDraft } = useCrewWorkLayoutStore(
-        store => store
-    );
+    const { setCrewCreateDraftRoute, resetCrewCreateDraft } =
+        useCrewWorkLayoutStore(store => store);
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -39,7 +38,22 @@ const CrewCreateDraftLayout = () => {
         return (
             <div>
                 {isFirstPage ? (
-                    <Button onClick={resetCrewCreateDraft}>Discard</Button>
+                    <Button
+                        onClick={() => {
+                            resetCrewCreateDraft();
+                            const params = new URLSearchParams(
+                                searchParams.toString()
+                            );
+                            params.delete('create_mode');
+                            router.push(
+                                `${
+                                    WORKSPACE_ROUTE.pathname
+                                }?${params.toString()}`
+                            );
+                        }}
+                    >
+                        Discard
+                    </Button>
                 ) : (
                     <Button
                         onClick={() => {
@@ -53,11 +67,12 @@ const CrewCreateDraftLayout = () => {
                     <Button
                         onClick={() => {
                             CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-                                setCrewCreateDraft(crewCreateDraft => {
-                                    crewCreateDraft.routes[
-                                        route.pathname
-                                    ].validationOn = true;
-                                });
+                                setCrewCreateDraftRoute(
+                                    route.pathname,
+                                    route => {
+                                        route.validationOn = true;
+                                    }
+                                );
                             });
                         }}
                     >
@@ -66,9 +81,8 @@ const CrewCreateDraftLayout = () => {
                 ) : (
                     <Button
                         onClick={() => {
-                            setCrewCreateDraft(crewCreateDraft => {
-                                crewCreateDraft.routes[pathname].validationOn =
-                                    true;
+                            setCrewCreateDraftRoute(pathname, route => {
+                                route.validationOn = true;
                             });
                             redirectToPageWithIndex(currentPageIndex + 1);
                         }}

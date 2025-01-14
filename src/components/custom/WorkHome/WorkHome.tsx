@@ -26,7 +26,7 @@ const WorkHome = () => {
 
     const description =
         (getIsWorkUpdateDraftOn(workId)
-            ? workUpdateDrafts[workId].data.description
+            ? workUpdateDrafts[workId].work.description
             : work.description) ?? '';
 
     const updateDescription = async () => {
@@ -62,7 +62,7 @@ const WorkHome = () => {
                                         setWorkUpdateDraft(
                                             workId,
                                             workUpdateDraft => {
-                                                workUpdateDraft.data.description =
+                                                workUpdateDraft.work.description =
                                                     e.target.value;
                                             }
                                         )

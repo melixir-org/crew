@@ -2,17 +2,25 @@ import { createStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
 
 import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
-import { createCrew, Crew } from '@/types/Crew';
-import { createWork, Work } from '@/types/Work';
-import { mergeOverride } from './utils';
+import { Crew } from '@/types/Crew';
+import { Work } from '@/types/Work';
 import { DeepPartial } from '@/types/DeepPartial';
+import {
+    createWorkCreateDraftRoute,
+    WorkCreateDraftRoute,
+} from '@/types/WorkCreateDraftRoute';
+import {
+    createCrewCreateDraftRoute,
+    CrewCreateDraftRoute,
+} from '@/types/CrewCreateDraftRoute';
+import { mergeOverride } from '@/store/utils';
 
-type CrewCreateDraftRoutes = {
-    [key: string]: { validationOn: boolean; data: Crew };
+type CrewCreateDraft = {
+    [key: string]: CrewCreateDraftRoute;
 };
 
-type WorkCreateDraftRoutes = {
-    [key: string]: { validationOn: boolean; data: Work };
+type WorkCreateDraft = {
+    [key: string]: WorkCreateDraftRoute;
 };
 
 type Server = {
@@ -23,12 +31,8 @@ type Server = {
 export type CrewWorkLayoutState = {
     server: Server;
     client: {
-        crewCreateDraft: {
-            routes: CrewCreateDraftRoutes;
-        };
-        workCreateDraft: {
-            routes: WorkCreateDraftRoutes;
-        };
+        crewCreateDraft: CrewCreateDraft;
+        workCreateDraft: WorkCreateDraft;
     };
 };
 
@@ -36,11 +40,13 @@ export type CrewWorkLayoutActions = {
     setServer: (fn: (server: Server) => void) => void;
     setCrews: (crews: Crew[]) => void;
     setWorks: (works: Work[]) => void;
-    setCrewCreateDraft: (
-        fn: (state: { routes: CrewCreateDraftRoutes }) => void
+    setCrewCreateDraftRoute: (
+        pathname: string,
+        fn: (state: CrewCreateDraftRoute) => void
     ) => void;
-    setWorkCreateDraft: (
-        fn: (state: { routes: WorkCreateDraftRoutes }) => void
+    setWorkCreateDraftRoute: (
+        pathname: string,
+        fn: (state: WorkCreateDraftRoute) => void
     ) => void;
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
@@ -49,28 +55,22 @@ export type CrewWorkLayoutActions = {
 export const initCrewWorkLayoutState = (
     partialState?: DeepPartial<CrewWorkLayoutState>
 ): CrewWorkLayoutState => {
-    const CrewRouteGroupCreateDraftMap: CrewCreateDraftRoutes = {};
-    const WorkRouteGroupCreateDraftMap: WorkCreateDraftRoutes = {};
+    const crewRoutes: CrewCreateDraft = {};
+    const workRoutes: WorkCreateDraft = {};
 
     CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-        CrewRouteGroupCreateDraftMap[route.pathname] = {
-            validationOn: false,
-            data: createCrew(),
-        };
+        crewRoutes[route.pathname] = createCrewCreateDraftRoute();
     });
 
     WORK_ROUTE_GROUP_ROUTES.forEach(route => {
-        WorkRouteGroupCreateDraftMap[route.pathname] = {
-            validationOn: false,
-            data: createWork(),
-        };
+        workRoutes[route.pathname] = createWorkCreateDraftRoute();
     });
 
     const state: CrewWorkLayoutState = {
         server: { crews: {}, works: {} },
         client: {
-            crewCreateDraft: { routes: CrewRouteGroupCreateDraftMap },
-            workCreateDraft: { routes: WorkRouteGroupCreateDraftMap },
+            crewCreateDraft: crewRoutes,
+            workCreateDraft: workRoutes,
         },
     };
 
@@ -106,14 +106,14 @@ export const createCrewWorkLayoutStore = (
                     });
                 });
             },
-            setCrewCreateDraft: fn => {
+            setCrewCreateDraftRoute: (pathname, fn) => {
                 set(store => {
-                    fn(store.client.crewCreateDraft);
+                    fn(store.client.crewCreateDraft[pathname]);
                 });
             },
-            setWorkCreateDraft: fn => {
+            setWorkCreateDraftRoute: (pathname, fn) => {
                 set(store => {
-                    fn(store.client.workCreateDraft);
+                    fn(store.client.workCreateDraft[pathname]);
                 });
             },
             resetCrewCreateDraft: () => {

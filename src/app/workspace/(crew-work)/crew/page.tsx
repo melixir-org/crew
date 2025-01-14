@@ -11,25 +11,28 @@ const Crew = async ({
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-    const { show = '' } = await searchParams;
-    const workId = isArray(show) ? show[0] : show;
-
-    const { data }: { data: Work | null } = await getWorkForCrewHomePage({
-        workId,
-    });
+    const { show = '', create_mode } = await searchParams;
 
     let initialState: PageState | undefined = undefined;
 
-    if (data && data.crew && data.crew.root_work) {
-        initialState = initPageState({
-            server: {
-                works: {
-                    [data.id]: data,
-                    [data.crew.root_work.id]: data.crew.root_work,
-                },
-                crews: { [data.crew.id]: data.crew },
-            },
+    if (!create_mode) {
+        const workId = isArray(show) ? show[0] : show;
+
+        const { data }: { data: Work | null } = await getWorkForCrewHomePage({
+            workId,
         });
+
+        if (data && data.crew && data.crew.root_work) {
+            initialState = initPageState({
+                server: {
+                    works: {
+                        [data.id]: data,
+                        [data.crew.root_work.id]: data.crew.root_work,
+                    },
+                    crews: { [data.crew.id]: data.crew },
+                },
+            });
+        }
     }
 
     return (

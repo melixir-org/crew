@@ -93,10 +93,10 @@ export const createPageStore = (initialState: PageState) => {
             getIsWorkUpdateDraftOn: workId => {
                 return Boolean(get().client.workUpdateDrafts[workId]);
             },
-            setWorkUpdateDraftOn: (workId, data) => {
+            setWorkUpdateDraftOn: (workId, work) => {
                 set(store => {
                     store.client.workUpdateDrafts[workId] =
-                        createWorkUpdateDraft(data);
+                        createWorkUpdateDraft(work);
                 });
             },
             setWorkUpdateDraftOff: workId => {
