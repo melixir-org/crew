@@ -1,7 +1,14 @@
-import 'client-only';
-
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
+import { supabaseBrowserClient } from '../supabase/browser';
 import { Work } from '@/types/Work';
+import { Crew } from '@/types/Crew';
+
+export async function createCrewApi(crew: Crew) {
+    return await supabaseBrowserClient
+        .rpc('create_crew', { input_data: crew })
+        .returns<Crew>();
+}
+
+import 'client-only';
 
 export async function getWorks(pageIndex: number, pageSize: number) {
     const { data, error, count } = await supabaseBrowserClient

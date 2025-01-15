@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
-import { updateDescriptionApi } from '@/lib/client-only-api/work';
+import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
 

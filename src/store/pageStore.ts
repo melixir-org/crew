@@ -44,14 +44,14 @@ export type PageActions = {
 };
 
 export const initPageState = (
-    partialPageState?: DeepPartial<PageState>
+    ...partialPageState: DeepPartial<PageState | undefined>[]
 ): PageState => {
     const pageState: PageState = {
         server: { crews: {}, works: {} },
         client: { crewUpdateDrafts: {}, workUpdateDrafts: {} },
     };
 
-    mergeOverride(pageState, partialPageState);
+    mergeOverride(pageState, ...partialPageState);
 
     return pageState;
 };

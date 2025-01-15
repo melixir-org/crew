@@ -2,8 +2,8 @@ import { isArray } from 'lodash-es';
 
 import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getCrews } from '@/lib/server-only-api/crew';
-import { getWorks } from '@/lib/server-only-api/work';
+import { getCrews } from '@/lib/server-only-api';
+import { getWorks } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';

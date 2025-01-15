@@ -3,7 +3,7 @@ import { isArray } from 'lodash-es';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getWorkForWorkHomePage } from '@/lib/server-only-api/work';
+import { getWorkForWorkHomePage } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import type { Work } from '@/types/Work';
 

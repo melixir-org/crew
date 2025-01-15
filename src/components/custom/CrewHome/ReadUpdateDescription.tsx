@@ -1,6 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 
-import { updateDescriptionApi } from '@/lib/client-only-api/work';
+import { updateDescriptionApi } from '@/lib/client-only-api';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';

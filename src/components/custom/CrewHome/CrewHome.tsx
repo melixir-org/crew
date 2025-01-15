@@ -9,6 +9,7 @@ import CreateDescription from './CreateDescription';
 const CrewHome = () => {
     const searchParams = useSearchParams();
     const createMode = searchParams.get('create_mode');
+
     return (
         <div className="flex flex-col bg-primary-dark-bg w-full">
             <br />

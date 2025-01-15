@@ -9,7 +9,8 @@ const CreateDescription = () => {
         setCrewCreateDraftRoute,
     } = useCrewWorkLayoutStore(store => store);
 
-    const description = crewCreateDraft[pathname].work.description ?? '';
+    const description =
+        crewCreateDraft[pathname].crew.root_work?.description ?? '';
 
     return (
         <div className="flex flex-col gap-2">
@@ -18,7 +19,9 @@ const CreateDescription = () => {
                 value={description}
                 onChange={e =>
                     setCrewCreateDraftRoute(pathname, route => {
-                        route.work.description = e.target.value;
+                        if (route.crew.root_work) {
+                            route.crew.root_work.description = e.target.value;
+                        }
                     })
                 }
                 className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"

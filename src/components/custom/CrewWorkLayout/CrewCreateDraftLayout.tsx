@@ -5,24 +5,35 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Button } from '@/components/ui/button';
-import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import {
+    CREW_HOME_ROUTE,
+    CREW_ROUTE_GROUP_ROUTES,
+    SETTINGS_ROUTE,
+    WORKSPACE_ROUTE,
+} from '@/app/routes';
 import { CREW } from '@/lib/constants';
+import { isCrewHomeValid } from '@/components/custom/CrewHome/validation';
+import { createCrew, Crew } from '@/types/Crew';
+import { createCrewApi } from '@/lib/client-only-api';
+import { mergeOverride } from '@/store/utils';
+import { createWork } from '@/types/Work';
+import { TO_DO } from '@/types/WorkStatus';
+
+const routeValidations: Record<string, (crew: Crew) => boolean> = {
+    [CREW_HOME_ROUTE.pathname]: isCrewHomeValid,
+    [SETTINGS_ROUTE.pathname]: () => true,
+};
 
 const CrewCreateDraftLayout = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const redirectToPageWithIndex = (index: number) => {
-        router.push(
-            `${
-                CREW_ROUTE_GROUP_ROUTES[index].pathname
-            }?${searchParams.toString()}`
-        );
-    };
-
-    const { setCrewCreateDraftRoute, resetCrewCreateDraft } =
-        useCrewWorkLayoutStore(store => store);
+    const {
+        getCrewCreateDraftRoute,
+        setCrewCreateDraftRoute,
+        resetCrewCreateDraft,
+    } = useCrewWorkLayoutStore(store => store);
 
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -33,6 +44,32 @@ const CrewCreateDraftLayout = () => {
     const isFirstPage = currentPageIndex === 0;
 
     const createMode = searchParams.get('create_mode');
+
+    const redirectToPageWithIndex = (index: number) => {
+        if (index !== currentPageIndex) {
+            router.push(
+                `${
+                    CREW_ROUTE_GROUP_ROUTES[index].pathname
+                }?${searchParams.toString()}`
+            );
+        }
+    };
+
+    const validateAllRoute = () =>
+        CREW_ROUTE_GROUP_ROUTES.reduce((p, route, index) => {
+            if (p === -1) {
+                setCrewCreateDraftRoute(route.pathname, r => {
+                    r.validationOn = true;
+                });
+
+                const r = getCrewCreateDraftRoute(route.pathname);
+                if (!routeValidations[route.pathname](r.crew)) {
+                    return index;
+                }
+            }
+
+            return p;
+        }, -1);
 
     if (createMode === CREW) {
         return (
@@ -65,15 +102,51 @@ const CrewCreateDraftLayout = () => {
                 )}
                 {isLastPage ? (
                     <Button
-                        onClick={() => {
-                            CREW_ROUTE_GROUP_ROUTES.forEach(route => {
-                                setCrewCreateDraftRoute(
-                                    route.pathname,
-                                    route => {
-                                        route.validationOn = true;
-                                    }
+                        onClick={async () => {
+                            const index = validateAllRoute();
+                            if (index >= 0) {
+                                redirectToPageWithIndex(index);
+                            } else {
+                                const payload = createCrew(
+                                    undefined,
+                                    undefined,
+                                    createWork(
+                                        undefined,
+                                        undefined,
+                                        undefined,
+                                        undefined,
+                                        undefined,
+                                        TO_DO
+                                    )
                                 );
-                            });
+                                mergeOverride(
+                                    payload,
+                                    ...CREW_ROUTE_GROUP_ROUTES.map(
+                                        r =>
+                                            getCrewCreateDraftRoute(r.pathname)
+                                                .crew
+                                    ),
+                                    createCrew(undefined, 'Crew title is here')
+                                );
+
+                                const { data } = await createCrewApi(payload);
+
+                                const rootWorkId: string =
+                                    data?.root_work?.id ?? '';
+
+                                const params = new URLSearchParams(
+                                    searchParams.toString()
+                                );
+                                params.delete('create_mode');
+                                params.set('show', rootWorkId);
+                                params.set('h', rootWorkId);
+                                params.set('panel', 'h');
+                                router.push(
+                                    `${
+                                        CREW_HOME_ROUTE.pathname
+                                    }?${params.toString()}`
+                                );
+                            }
                         }}
                     >
                         Create

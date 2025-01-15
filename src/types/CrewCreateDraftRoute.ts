@@ -1,12 +1,14 @@
 import { createCrew, Crew } from './Crew';
-import { createWork, Work } from './Work';
+import { createWork } from './Work';
 
 export type CrewCreateDraftRoute = {
     validationOn: boolean;
     crew: Crew;
-    work: Work;
 };
 
 export function createCrewCreateDraftRoute(): CrewCreateDraftRoute {
-    return { validationOn: false, crew: createCrew(), work: createWork() };
+    return {
+        validationOn: false,
+        crew: createCrew(undefined, undefined, createWork()),
+    };
 }

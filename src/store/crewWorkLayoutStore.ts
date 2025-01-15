@@ -42,10 +42,12 @@ export type CrewWorkLayoutActions = {
     addWorks: (works: Work[]) => void;
     setCrew: (crewId: string, fn: (state: Crew) => void) => void;
     setWork: (workId: string, fn: (state: Work) => void) => void;
+    getCrewCreateDraftRoute: (pathname: string) => CrewCreateDraftRoute;
     setCrewCreateDraftRoute: (
         pathname: string,
         fn: (state: CrewCreateDraftRoute) => void
     ) => void;
+    getWorkCreateDraftRoute: (pathname: string) => WorkCreateDraftRoute;
     setWorkCreateDraftRoute: (
         pathname: string,
         fn: (state: WorkCreateDraftRoute) => void
@@ -55,7 +57,7 @@ export type CrewWorkLayoutActions = {
 };
 
 export const initCrewWorkLayoutState = (
-    partialState?: DeepPartial<CrewWorkLayoutState>
+    ...partialState: DeepPartial<CrewWorkLayoutState | undefined>[]
 ): CrewWorkLayoutState => {
     const crewRoutes: CrewCreateDraft = {};
     const workRoutes: WorkCreateDraft = {};
@@ -76,7 +78,7 @@ export const initCrewWorkLayoutState = (
         },
     };
 
-    mergeOverride(state, partialState);
+    mergeOverride(state, ...partialState);
 
     return state;
 };
@@ -87,7 +89,7 @@ export const createCrewWorkLayoutStore = (
     initialState: CrewWorkLayoutState
 ) => {
     return createStore<CrewWorkLayoutStore>()(
-        immer(set => ({
+        immer((set, get) => ({
             ...initialState,
             setServer: fn => {
                 set(store => {
@@ -118,10 +120,16 @@ export const createCrewWorkLayoutStore = (
                     fn(store.server.works[workId]);
                 });
             },
+            getCrewCreateDraftRoute: pathname => {
+                return get().client.crewCreateDraft[pathname];
+            },
             setCrewCreateDraftRoute: (pathname, fn) => {
                 set(store => {
                     fn(store.client.crewCreateDraft[pathname]);
                 });
+            },
+            getWorkCreateDraftRoute: pathname => {
+                return get().client.workCreateDraft[pathname];
             },
             setWorkCreateDraftRoute: (pathname, fn) => {
                 set(store => {

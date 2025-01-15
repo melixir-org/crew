@@ -1,5 +1,5 @@
 import { isArray } from 'lodash-es';
-import { getWorkForCrewHomePage } from '@/lib/server-only-api/crew';
+import { getWorkForCrewHomePage } from '@/lib/server-only-api';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { type Work } from '@/types/Work';
@@ -23,15 +23,23 @@ const Crew = async ({
         });
 
         if (data && data.crew && data.crew.root_work) {
-            initialState = initPageState({
-                server: {
-                    works: {
-                        [data.id]: data,
-                        [data.crew.root_work.id]: data.crew.root_work,
+            initialState = initPageState(
+                {
+                    server: {
+                        works: {
+                            [data.id]: data,
+                        },
+                        crews: { [data.crew.id]: data.crew },
                     },
-                    crews: { [data.crew.id]: data.crew },
                 },
-            });
+                {
+                    server: {
+                        works: {
+                            [data.crew.root_work.id]: data.crew.root_work,
+                        },
+                    },
+                }
+            );
         }
     }
 
