@@ -14,6 +14,8 @@ const Panel = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
+    const show = searchParams.get('show') ?? '';
+
     const {
         server: { works },
         addWorks,
@@ -21,8 +23,6 @@ const Panel = () => {
 
     const [loading, setLoading] = useState(true);
     const [ancestorIds, setAncestorIds] = useState<string[]>([]);
-
-    const show = searchParams.get('show') ?? '';
 
     useEffect(() => {
         (async () => {
@@ -93,7 +93,7 @@ const Panel = () => {
                 }`}
                 onClick={() => handleCrewClick()}
             >
-                <p>Crew</p>
+                <p>{works[show]?.crew?.title ?? ''}</p>
             </div>
             <ul className="flex-1 overflow-y-auto">
                 {ancestorWorks.map((work: Work) => (
