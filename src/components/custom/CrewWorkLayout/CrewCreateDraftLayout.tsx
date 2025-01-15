@@ -109,7 +109,7 @@ const CrewCreateDraftLayout = () => {
                             } else {
                                 const payload = createCrew(
                                     undefined,
-                                    undefined,
+                                    'Crew title is here',
                                     createWork(
                                         undefined,
                                         undefined,
@@ -126,7 +126,7 @@ const CrewCreateDraftLayout = () => {
                                             getCrewCreateDraftRoute(r.pathname)
                                                 .crew
                                     ),
-                                    createCrew(undefined, 'Crew title is here')
+                                    payload
                                 );
 
                                 const { data } = await createCrewApi(payload);
@@ -138,6 +138,7 @@ const CrewCreateDraftLayout = () => {
                                     searchParams.toString()
                                 );
                                 params.delete('create_mode');
+                                params.set('entry', rootWorkId);
                                 params.set('show', rootWorkId);
                                 params.set('h', rootWorkId);
                                 params.set('panel', 'h');

@@ -3,7 +3,7 @@ import { isArray } from 'lodash-es';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getWorkForWorkHomePage } from '@/lib/server-only-api';
+import { getWorkForWorkHomePageApi } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import type { Work } from '@/types/Work';
 
@@ -15,7 +15,7 @@ const Work = async ({
     const { show = '' } = await searchParams;
     const workId = isArray(show) ? show[0] : show;
 
-    const { data }: { data: Work | null } = await getWorkForWorkHomePage({
+    const { data }: { data: Work | null } = await getWorkForWorkHomePageApi({
         workId,
     });
 

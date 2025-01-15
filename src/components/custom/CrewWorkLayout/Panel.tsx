@@ -1,70 +1,50 @@
-import { Work } from '@/types/Work';
-
 import React, { useEffect, useState } from 'react';
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from '@/components/ui/pagination';
-import { getWorks } from '@/lib/client-only-api';
-import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import WorkCard from '../WorkCard';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { getRouteGroup } from '@/lib/utils';
+import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
-import WorkCard from '../WorkCard';
+import { getAncestorsApi } from '@/lib/client-only-api';
 
 const Panel = () => {
-    const { works: worksFromStore } = useCrewWorkLayoutStore(
-        store => store.server
-    );
-    const { addWorks } = useCrewWorkLayoutStore(store => store);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState<number>(1);
-    const [currentPageIds, setCurrentPageIds] = useState<string[]>([]);
-
-    const itemsPerPage = 10;
-
-    useEffect(() => {
-        const fetchWorks = async (page: number) => {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await getWorks(page, itemsPerPage);
-                if (!response.ok) {
-                    throw new Error('Response was not ok');
-                }
-                addWorks(response.data);
-                const ids = response.data?.map((work: Work) => work.id) || [];
-                setCurrentPageIds(ids);
-                setTotalPages(response.totalPages || 1);
-            } catch (error: unknown) {
-                setError(error as string);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchWorks(currentPage);
-    }, [currentPage]);
-
-    const works = currentPageIds.map(id => worksFromStore[id]);
-
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
-
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    const {
+        server: { works },
+        addWorks,
+    } = useCrewWorkLayoutStore(store => store);
+
+    const [loading, setLoading] = useState(true);
+    const [ancestorIds, setAncestorIds] = useState<string[]>([]);
+
+    const show = searchParams.get('show') ?? '';
+
+    useEffect(() => {
+        (async () => {
+            setLoading(true);
+            try {
+                const { data } = await getAncestorsApi({
+                    workId: show,
+                    length: 5,
+                });
+
+                const d = data ?? [];
+
+                addWorks(d);
+                setAncestorIds(d.map(work => work.id).reverse());
+            } catch (e) {
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, []);
+
+    const ancestorWorks = ancestorIds.map(id => works[id]);
 
     const handleCrewClick = () => {
         router.push(`${CREW_HOME_ROUTE.pathname}?${searchParams.toString()}`);
@@ -100,6 +80,8 @@ const Panel = () => {
         );
     };
 
+    if (loading) return <div>Loading...</div>;
+
     return (
         <div className="w-96 bg-black text-white h-screen flex flex-col">
             <div className="p-4 text-lg font-semibold text-center">Works</div>
@@ -114,7 +96,7 @@ const Panel = () => {
                 <p>Crew</p>
             </div>
             <ul className="flex-1 overflow-y-auto">
-                {works.map((work: Work) => (
+                {ancestorWorks.map((work: Work) => (
                     <li key={work.id}>
                         <WorkCard
                             key={work.id}
@@ -128,58 +110,6 @@ const Panel = () => {
                     </li>
                 ))}
             </ul>
-            <Pagination className="my-10">
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious
-                            onClick={() =>
-                                handlePageChange(
-                                    currentPage > 1 ? currentPage - 1 : 1
-                                )
-                            }
-                            className={
-                                currentPage === 1
-                                    ? 'cursor-not-allowed opacity-50'
-                                    : ''
-                            }
-                        />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink
-                            onClick={() => handlePageChange(1)}
-                            isActive={currentPage === 1}
-                        >
-                            1
-                        </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink onClick={() => handlePageChange(2)}>
-                            2
-                        </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink onClick={() => handlePageChange(3)}>
-                            3
-                        </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationNext
-                            onClick={() =>
-                                handlePageChange(
-                                    currentPage === totalPages
-                                        ? currentPage
-                                        : currentPage + 1
-                                )
-                            }
-                            className={
-                                currentPage === totalPages
-                                    ? 'cursor-not-allowed opacity-50'
-                                    : ''
-                            }
-                        />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
         </div>
     );
 };

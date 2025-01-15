@@ -68,17 +68,19 @@ export const createPageStore = (initialState: PageState) => {
                 });
             },
             addCrews: (crews: Crew[]) => {
-                crews.forEach(crew => {
-                    set(store => {
-                        store.server.crews[crew.id] = crew;
-                    });
+                set(store => {
+                    mergeOverride(
+                        store.server.crews,
+                        ...crews.map(crew => ({ [crew.id]: crew }))
+                    );
                 });
             },
             addWorks: (works: Work[]) => {
-                works.forEach(work => {
-                    set(store => {
-                        store.server.works[work.id] = work;
-                    });
+                set(store => {
+                    mergeOverride(
+                        store.server.works,
+                        ...works.map(work => ({ [work.id]: work }))
+                    );
                 });
             },
             setCrew: (crewId, fn) => {

@@ -1,16 +1,27 @@
-import { isArray, isPlainObject, mergeWith } from 'lodash-es';
+import { isPlainObject } from 'lodash-es';
+
+function baseMerge(destination: any, source: any) {
+    if (isPlainObject(source)) {
+        const result: Record<string, any> = isPlainObject(destination)
+            ? destination
+            : {};
+
+        Object.keys(source).forEach(key => {
+            result[key] = baseMerge(result[key], source[key]);
+        });
+
+        return result;
+    }
+
+    return source === undefined ? destination : source;
+}
 
 export function mergeOverride(
-    a: object,
-    ...b: (object | undefined | null)[]
+    destination: Record<string, any>,
+    ...sources: any[]
 ): void {
-    mergeWith(a, ...b, (objValue: any, srcValue: any) => {
-        if (isArray(srcValue)) {
-            return srcValue;
-        }
-        if (!isPlainObject(objValue) && isPlainObject(srcValue)) {
-            return srcValue;
-        }
+    sources.forEach(source => {
+        baseMerge(destination, source);
     });
 }
 

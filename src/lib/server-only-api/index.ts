@@ -4,18 +4,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 
-export async function getWorkWithCrewMetaData({ workId }: { workId: string }) {
-    const supabaseServerClient = await createSupabaseServerClient();
-
-    return await supabaseServerClient
-        .from('works')
-        .select('id, title, crew:crew_id (id, title)')
-        .eq('id', workId)
-        .returns<Work[]>()
-        .single();
-}
-
-export async function getCrews(pageIndex: number, pageSize: number) {
+export async function getCrewsApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 
     return await supabaseServerClient
@@ -25,7 +14,11 @@ export async function getCrews(pageIndex: number, pageSize: number) {
         .returns<Crew[]>();
 }
 
-export async function getWorkForCrewHomePage({ workId }: { workId: string }) {
+export async function getWorkForCrewHomePageApi({
+    workId,
+}: {
+    workId: string;
+}) {
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .from('works')
@@ -37,9 +30,7 @@ export async function getWorkForCrewHomePage({ workId }: { workId: string }) {
         .single();
 }
 
-import 'server-only';
-
-export async function getWorks(pageIndex: number, pageSize: number) {
+export async function getWorksApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 
     return await supabaseServerClient
@@ -49,7 +40,11 @@ export async function getWorks(pageIndex: number, pageSize: number) {
         .returns<Work[]>();
 }
 
-export async function getWorkForWorkHomePage({ workId }: { workId: string }) {
+export async function getWorkForWorkHomePageApi({
+    workId,
+}: {
+    workId: string;
+}) {
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .from('works')
