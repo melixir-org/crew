@@ -145,6 +145,7 @@ const CrewCreateDraftLayout = () => {
                                         CREW_HOME_ROUTE.pathname
                                     }?${params.toString()}`
                                 );
+                                resetCrewCreateDraft();
                             }
                         }}
                     >
