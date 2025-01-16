@@ -9,12 +9,13 @@ import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
 import { getAncestorsApi } from '@/lib/client-only-api';
 
-const Panel = () => {
+const AncestorsPanel = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
     const show = searchParams.get('show') ?? '';
+    const h = searchParams.get('h') ?? '';
 
     const {
         server: { works },
@@ -29,7 +30,7 @@ const Panel = () => {
             setLoading(true);
             try {
                 const { data } = await getAncestorsApi({
-                    workId: show,
+                    workId: h,
                     length: 5,
                 });
 
@@ -42,7 +43,7 @@ const Panel = () => {
                 setLoading(false);
             }
         })();
-    }, []);
+    }, [h]);
 
     const ancestorWorks = ancestorIds.map(id => works[id]);
 
@@ -57,7 +58,7 @@ const Panel = () => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
-            router.push(`${pathname}?${params.toString()}`);
+            router.replace(`${pathname}?${params.toString()}`);
         }
     };
 
@@ -69,7 +70,7 @@ const Panel = () => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
         } else {
-            router.push(`${pathname}?${params.toString()}`);
+            router.replace(`${pathname}?${params.toString()}`);
         }
     };
 
@@ -83,7 +84,7 @@ const Panel = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="w-96 bg-black text-white h-screen flex flex-col">
+        <div className="w-96 bg-black text-white flex flex-col">
             <div className="p-4 text-lg font-semibold text-center">Works</div>
             <div
                 className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
@@ -114,4 +115,4 @@ const Panel = () => {
     );
 };
 
-export default Panel;
+export default AncestorsPanel;

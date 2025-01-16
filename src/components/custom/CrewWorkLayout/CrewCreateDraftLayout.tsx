@@ -46,13 +46,11 @@ const CrewCreateDraftLayout = () => {
     const createMode = searchParams.get('create_mode');
 
     const redirectToPageWithIndex = (index: number) => {
-        if (index !== currentPageIndex) {
-            router.push(
-                `${
-                    CREW_ROUTE_GROUP_ROUTES[index].pathname
-                }?${searchParams.toString()}`
-            );
-        }
+        router.push(
+            `${
+                CREW_ROUTE_GROUP_ROUTES[index].pathname
+            }?${searchParams.toString()}`
+        );
     };
 
     const validateAllRoute = () =>

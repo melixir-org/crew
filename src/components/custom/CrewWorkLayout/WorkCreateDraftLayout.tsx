@@ -21,9 +21,8 @@ const WorkCreateDraftLayout = () => {
         );
     };
 
-    const { setWorkCreateDraft, resetWorkCreateDraft } = useCrewWorkLayoutStore(
-        store => store
-    );
+    const { setWorkCreateDraftRoute, resetWorkCreateDraft } =
+        useCrewWorkLayoutStore(store => store);
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathname
@@ -53,11 +52,12 @@ const WorkCreateDraftLayout = () => {
                     <Button
                         onClick={() => {
                             WORK_ROUTE_GROUP_ROUTES.forEach(route => {
-                                setWorkCreateDraft(workCreateDraft => {
-                                    workCreateDraft.routes[
-                                        route.pathname
-                                    ].validationOn = true;
-                                });
+                                setWorkCreateDraftRoute(
+                                    route.pathname,
+                                    route => {
+                                        route.validationOn = true;
+                                    }
+                                );
                             });
                         }}
                     >
@@ -66,9 +66,8 @@ const WorkCreateDraftLayout = () => {
                 ) : (
                     <Button
                         onClick={() => {
-                            setWorkCreateDraft(workCreateDraft => {
-                                workCreateDraft.routes[pathname].validationOn =
-                                    true;
+                            setWorkCreateDraftRoute(pathname, route => {
+                                route.validationOn = true;
                             });
                             redirectToPageWithIndex(currentPageIndex + 1);
                         }}

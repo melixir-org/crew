@@ -3,6 +3,7 @@ import 'client-only';
 import { supabaseBrowserClient } from '../supabase/browser';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
+import { Child } from '@/types/Child';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -33,4 +34,19 @@ export async function updateDescriptionApi(
         .from('works')
         .update({ description })
         .eq('id', workId);
+}
+
+export async function getChildrenApi({
+    parentWorkId,
+}: {
+    parentWorkId: string;
+}) {
+    return await supabaseBrowserClient
+        .from('hierarchy')
+        .select(`child:child_id (id, title)`, {
+            count: 'exact',
+        })
+        .range(0, 9)
+        .eq('parent_id', parentWorkId)
+        .returns<Child[]>();
 }
