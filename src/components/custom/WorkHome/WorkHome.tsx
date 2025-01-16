@@ -4,9 +4,13 @@ import { useSearchParams } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
-import { updateDescriptionApi } from '@/lib/client-only-api';
+import {
+    updateDescriptionApi,
+    updateStatusApi,
+} from '@/lib/client-only-api/index';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
+import { useState } from 'react';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
@@ -29,6 +33,8 @@ const WorkHome = () => {
             ? workUpdateDrafts[workId].work.description
             : work.description) ?? '';
 
+    const [status, setStatus] = useState<string>(work.status ?? '');
+
     const updateDescription = async () => {
         try {
             await updateDescriptionApi(workId, description);
@@ -39,12 +45,35 @@ const WorkHome = () => {
         } catch {}
     };
 
+    const updateStatus = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newStatus = e.target.value;
+        try {
+            setStatus(newStatus);
+            const res = await updateStatusApi(workId, newStatus);
+            console.log(res);
+        } catch {}
+    };
+
     const assignment: Assignment[] = work.assignment ?? [];
 
     return (
         <div className="flex w-full bg-primary-dark-bg">
             <div className="flex flex-col bg-primary-dark-bg w-full pl-4">
                 <div className="buttons">
+                    <select
+                        id="status"
+                        name="status"
+                        value={status}
+                        onChange={updateStatus}
+                        className="rounded-md bg-primary-light-bg text-black py-4 px-2 text-md outline-none"
+                    >
+                        <option value="TO-DO">TO-DO</option>
+                        <option value="PLANNING">PLANNING</option>
+                        <option value="READY">READY</option>
+                        <option value="WIP">WIP</option>
+                        <option value="DONE">DONE</option>
+                        <option value="REVIEW">REVIEW</option>
+                    </select>
                     <br />
                     <br />
                 </div>

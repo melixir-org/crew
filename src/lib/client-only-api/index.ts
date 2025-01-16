@@ -50,3 +50,17 @@ export async function getChildrenApi({
         .eq('parent_id', parentWorkId)
         .returns<Child[]>();
 }
+
+export async function updateStatusApi(workId: string, newData: string) {
+    return await supabaseBrowserClient
+        .from('works')
+        .update({ status: newData })
+        .eq('id', workId);
+}
+
+export async function updateTitleApi(workId: string, newData: string) {
+    return await supabaseBrowserClient
+        .from('works')
+        .update({ title: newData })
+        .eq('id', workId);
+}

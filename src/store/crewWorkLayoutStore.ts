@@ -5,6 +5,11 @@ import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
 import { DeepPartial } from '@/types/DeepPartial';
+import { CrewUpdateDraft } from '@/types/CrewUpdateDraft';
+import {
+    createWorkUpdateDraft,
+    WorkUpdateDraft,
+} from '@/types/WorkUpdateDraft';
 import {
     createWorkCreateDraftRoute,
     WorkCreateDraftRoute,
@@ -33,6 +38,8 @@ export type CrewWorkLayoutState = {
     client: {
         crewCreateDraft: CrewCreateDraft;
         workCreateDraft: WorkCreateDraft;
+        crewUpdateDrafts: { [key: string]: CrewUpdateDraft };
+        workUpdateDrafts: { [key: string]: WorkUpdateDraft };
     };
 };
 
@@ -54,6 +61,17 @@ export type CrewWorkLayoutActions = {
     ) => void;
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
+    setCrewUpdateDraft: (
+        crewId: string,
+        fn: (state: CrewUpdateDraft) => void
+    ) => void;
+    getIsWorkUpdateDraftOn: (workId: string) => boolean;
+    setWorkUpdateDraftOn: (workId: string, data: Work) => void;
+    setWorkUpdateDraftOff: (workId: string) => void;
+    setWorkUpdateDraft: (
+        workId: string,
+        fn: (state: WorkUpdateDraft) => void
+    ) => void;
 };
 
 export const initCrewWorkLayoutState = (
@@ -75,6 +93,8 @@ export const initCrewWorkLayoutState = (
         client: {
             crewCreateDraft: crewRoutes,
             workCreateDraft: workRoutes,
+            crewUpdateDrafts: {},
+            workUpdateDrafts: {},
         },
     };
 
@@ -148,6 +168,30 @@ export const createCrewWorkLayoutStore = (
                 set(store => {
                     store.client.workCreateDraft =
                         initialState.client.workCreateDraft;
+                });
+            },
+            setCrewUpdateDraft: (crewId, fn) => {
+                set(store => {
+                    fn(store.client.crewUpdateDrafts[crewId]);
+                });
+            },
+            getIsWorkUpdateDraftOn: workId => {
+                return Boolean(get().client.workUpdateDrafts[workId]);
+            },
+            setWorkUpdateDraftOn: (workId, data) => {
+                set(store => {
+                    store.client.workUpdateDrafts[workId] =
+                        createWorkUpdateDraft(data);
+                });
+            },
+            setWorkUpdateDraftOff: workId => {
+                set(store => {
+                    delete store.client.workUpdateDrafts[workId];
+                });
+            },
+            setWorkUpdateDraft: (workId, fn) => {
+                set(store => {
+                    fn(store.client.workUpdateDrafts[workId]);
                 });
             },
         }))
