@@ -10,7 +10,6 @@ import {
 } from '@/lib/client-only-api/index';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
-import { useState } from 'react';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
