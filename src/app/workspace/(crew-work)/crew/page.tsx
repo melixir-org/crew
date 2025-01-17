@@ -43,7 +43,6 @@ const Crew = async ({
                 }
             );
         }
-        console.log(initialState);
     }
 
     return (
