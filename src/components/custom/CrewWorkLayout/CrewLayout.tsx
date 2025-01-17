@@ -19,8 +19,6 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const workId: string = searchParams.get('show') ?? '';
-
     const handleRouteChange = () => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
@@ -35,28 +33,18 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
         setWorkUpdateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
-    const work: Work = useCrewWorkLayoutStore(store => {
-        return store.server.works[workId];
-    });
-    console.log(
-        useCrewWorkLayoutStore(store => {
-            return store.server;
-        })
-    );
-    console.log(workId);
-    console.log(work);
-    const crew: Crew = crews[work.crew?.id ?? ''];
-    const rootWorkId: string = useCrewWorkLayoutStore(store => {
-        return store.server.works[workId].crew?.root_work?.id ?? '';
-    });
-    const rootWork: Work = useCrewWorkLayoutStore(store => {
-        return store.server.works[crew.root_work?.id ?? ''];
-    });
+    const workId: string = searchParams.get('show') ?? '';
+
+    const work: Work | undefined = works[workId];
+
+    const crew: Crew | undefined = crews[work?.crew?.id ?? ''];
+
+    const rootWork: Work | undefined = works[crew?.root_work?.id ?? ''];
 
     const crewTitle: string =
         (getIsWorkUpdateDraftOn(workId)
             ? workUpdateDrafts[workId].work.title
-            : rootWork?.title) ?? '';
+            : work?.crew?.title) ?? '';
 
     const updateTitle = async () => {
         try {
