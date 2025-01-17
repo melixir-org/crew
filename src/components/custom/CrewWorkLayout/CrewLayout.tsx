@@ -9,7 +9,7 @@ import RouteTabs from './RouteTabs';
 import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
-import { updateTitleApi } from '@/lib/client-only-api/work';
+import { updateCrewTitleApi } from '@/lib/client-only-api';
 
 interface CrewLayoutProps {
     children: React.ReactNode;
@@ -25,12 +25,12 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     const {
         server: { works, crews },
-        client: { workUpdateDrafts },
-        setWork,
-        getIsWorkUpdateDraftOn,
-        setWorkUpdateDraftOn,
-        setWorkUpdateDraftOff,
-        setWorkUpdateDraft,
+        client: { crewUpdateDrafts },
+        setCrew,
+        getIsCrewUpdateDraftOn,
+        setCrewUpdateDraftOn,
+        setCrewUpdateDraftOff,
+        setCrewUpdateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
     const workId: string = searchParams.get('show') ?? '';
@@ -39,34 +39,34 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     const crew: Crew | undefined = crews[work?.crew?.id ?? ''];
 
-    const rootWork: Work | undefined = works[crew?.root_work?.id ?? ''];
+    const crewId: string | undefined = crew?.id;
 
     const crewTitle: string =
-        (getIsWorkUpdateDraftOn(workId)
-            ? workUpdateDrafts[workId].work.title
-            : work?.crew?.title) ?? '';
+        (getIsCrewUpdateDraftOn(crewId)
+            ? crewUpdateDrafts[crewId].crew.title
+            : crew?.title) ?? '';
 
     const updateTitle = async () => {
         try {
-            await updateTitleApi(workId, crewTitle);
-            setWork(workId, work => {
-                work.title = crewTitle;
+            await updateCrewTitleApi(crewId, crewTitle);
+            setCrew(crewId, crew => {
+                crew.title = crewTitle;
             });
-            setWorkUpdateDraftOff(workId);
+            setCrewUpdateDraftOff(crewId);
         } catch {}
     };
 
     return (
         <>
             <div className="p-6">
-                {getIsWorkUpdateDraftOn(workId) ? (
+                {getIsCrewUpdateDraftOn(crewId) ? (
                     <div className="flex flex-col gap-2">
                         <textarea
                             rows={1}
                             value={crewTitle}
                             onChange={e =>
-                                setWorkUpdateDraft(workId, workUpdateDraft => {
-                                    workUpdateDraft.work.title = e.target.value;
+                                setCrewUpdateDraft(crewId, crewUpdateDraft => {
+                                    crewUpdateDraft.crew.title = e.target.value;
                                 })
                             }
                             className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
@@ -80,7 +80,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                             </button>
                             <button
                                 className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                onClick={() => setWorkUpdateDraftOff(workId)}
+                                onClick={() => setCrewUpdateDraftOff(workId)}
                             >
                                 Cancel
                             </button>
@@ -96,9 +96,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                         </h1>
                         <button
                             className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                            onClick={() =>
-                                setWorkUpdateDraftOn(workId, rootWork)
-                            }
+                            onClick={() => setCrewUpdateDraftOn(crewId, crew)}
                         >
                             Edit
                         </button>

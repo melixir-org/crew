@@ -5,7 +5,10 @@ import { CREW_ROUTE_GROUP_ROUTES, WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
 import { DeepPartial } from '@/types/DeepPartial';
-import { CrewUpdateDraft } from '@/types/CrewUpdateDraft';
+import {
+    createCrewUpdateDraft,
+    CrewUpdateDraft,
+} from '@/types/CrewUpdateDraft';
 import {
     createWorkUpdateDraft,
     WorkUpdateDraft,
@@ -72,6 +75,9 @@ export type CrewWorkLayoutActions = {
         workId: string,
         fn: (state: WorkUpdateDraft) => void
     ) => void;
+    getIsCrewUpdateDraftOn: (crewId: string) => boolean;
+    setCrewUpdateDraftOn: (crewId: string, data: Work) => void;
+    setCrewUpdateDraftOff: (crewId: string) => void;
 };
 
 export const initCrewWorkLayoutState = (
@@ -192,6 +198,20 @@ export const createCrewWorkLayoutStore = (
             setWorkUpdateDraft: (workId, fn) => {
                 set(store => {
                     fn(store.client.workUpdateDrafts[workId]);
+                });
+            },
+            getIsCrewUpdateDraftOn: crewId => {
+                return Boolean(get().client.crewUpdateDrafts[crewId]);
+            },
+            setCrewUpdateDraftOn: (crewId, data) => {
+                set(store => {
+                    store.client.crewUpdateDrafts[crewId] =
+                        createCrewUpdateDraft(data);
+                });
+            },
+            setCrewUpdateDraftOff: crewId => {
+                set(store => {
+                    delete store.client.crewUpdateDrafts[crewId];
                 });
             },
         }))

@@ -33,8 +33,6 @@ const WorkHome = () => {
             ? workUpdateDrafts[workId].work.description
             : work.description) ?? '';
 
-    const [status, setStatus] = useState<string>(work.status ?? '');
-
     const updateDescription = async () => {
         try {
             await updateDescriptionApi(workId, description);
@@ -46,11 +44,12 @@ const WorkHome = () => {
     };
 
     const updateStatus = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = e.target.value;
+        const newStatus: any = e.target.value;
         try {
-            setStatus(newStatus);
-            const res = await updateStatusApi(workId, newStatus);
-            console.log(res);
+            await updateStatusApi(workId, newStatus);
+            setWork(workId, work => {
+                work.status = newStatus;
+            });
         } catch {}
     };
 
@@ -63,7 +62,7 @@ const WorkHome = () => {
                     <select
                         id="status"
                         name="status"
-                        value={status}
+                        value={work.status}
                         onChange={updateStatus}
                         className="rounded-md bg-primary-light-bg text-black py-4 px-2 text-md outline-none"
                     >

@@ -58,9 +58,16 @@ export async function updateStatusApi(workId: string, newData: string) {
         .eq('id', workId);
 }
 
-export async function updateTitleApi(workId: string, newData: string) {
+export async function updateWorkTitleApi(workId: string, newData: string) {
     return await supabaseBrowserClient
         .from('works')
         .update({ title: newData })
         .eq('id', workId);
+}
+
+export async function updateCrewTitleApi(crewId: string, newData: string) {
+    return await supabaseBrowserClient
+        .from('crews')
+        .update({ title: newData })
+        .eq('id', crewId);
 }

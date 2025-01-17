@@ -14,9 +14,7 @@ const MergeSsrStateIntoCrewWorkLayoutStore = ({
 }: {
     ssrState?: DeepPartial<PageState>;
 }) => {
-    console.log('abc');
-    const { server, setServer } = useCrewWorkLayoutStore(store => store);
-    console.log('Merge', server);
+    const { setServer } = useCrewWorkLayoutStore(store => store);
     useEffect(() => {
         setServer(server => mergeOverride(server, ssrState?.server));
     }, [ssrState]);

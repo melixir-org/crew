@@ -8,7 +8,7 @@ import RouteTabs from './RouteTabs';
 import WorkCreateDraftLayout from './WorkCreateDraftLayout';
 import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { Work } from '@/types/Work';
-import { updateTitleApi } from '@/lib/client-only-api/work';
+import { updateWorkTitleApi } from '@/lib/client-only-api';
 
 interface WorkLayoutProps {
     children: React.ReactNode;
@@ -50,7 +50,7 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
 
     const updateTitle = async () => {
         try {
-            await updateTitleApi(workId, workTitle);
+            await updateWorkTitleApi(workId, workTitle);
             setWork(workId, work => {
                 work.title = workTitle;
             });
