@@ -1,2 +1,3 @@
-export const CREW: string = 'crew';
-export const WORK: string = 'work';
+export const CREW = 'crew';
+export const WORK = 'work';
+export const NEW = 'new';

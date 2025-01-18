@@ -3,10 +3,14 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WorkCard from '../WorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
-import { getRouteGroup } from '@/lib/utils';
+import {
+    extractPathnameAfterWorkId,
+    extractWorkId,
+    getRouteGroup,
+} from '@/lib/utils';
 import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
-import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
+import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getChildrenApi } from '@/lib/client-only-api';
 
 const ChildrenPanel = () => {
@@ -14,6 +18,7 @@ const ChildrenPanel = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
+    const workId: string = extractWorkId(pathname);
     const h = searchParams.get('h') ?? '';
 
     const {
@@ -45,34 +50,43 @@ const ChildrenPanel = () => {
 
     const childrenWorks = childrenIds.map(id => works[id]);
 
-    const handleWorkClick = (id: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('show', id);
-
+    const handleWorkClick = (wid: string) => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
-            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${wid}${
+                    WORK_HOME_ROUTE.pathname
+                }?${searchParams.toString()}`
+            );
         } else {
-            router.replace(`${pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${wid}${extractPathnameAfterWorkId(
+                    pathname
+                )}?${searchParams.toString()}`
+            );
         }
     };
 
-    const handleHierarchyClick = (id: string) => {
+    const handleHierarchyClick = (wid: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('h', id);
-        params.set('show', id);
+        params.set('h', wid);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
-            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${wid}${
+                    WORK_HOME_ROUTE.pathname
+                }?${params.toString()}`
+            );
         } else {
-            router.replace(`${pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${wid}${extractPathnameAfterWorkId(
+                    pathname
+                )}?${params.toString()}`
+            );
         }
     };
 
     const isWorkShown = (id: string) => {
-        return (
-            getRouteGroup(pathname) === WORK_ROUTE_GROUP &&
-            searchParams.get('show') === id
-        );
+        return getRouteGroup(pathname) === WORK_ROUTE_GROUP && workId === id;
     };
 
     if (loading) return <div>Loading...</div>;

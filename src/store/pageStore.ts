@@ -1,7 +1,7 @@
 import { createStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
 
-import { mergeOverride } from './utils';
+import { mergeOverride } from '../lib/utils';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
 import { DeepPartial } from '@/types/DeepPartial';

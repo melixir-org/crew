@@ -1,16 +1,17 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
 import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
+import { extractWorkId } from '@/lib/utils';
 
 const WorkHome = () => {
-    const searchParams = useSearchParams();
-    const workId: string = searchParams.get('show') ?? '';
+    const pathname = usePathname();
+    const workId: string = extractWorkId(pathname);
 
     const {
         server: { works },

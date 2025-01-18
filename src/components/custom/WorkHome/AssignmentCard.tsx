@@ -1,4 +1,4 @@
-import getRelativeTime from '@/store/utils';
+import { getRelativeTime } from '@/lib/utils';
 import { Assignment } from '@/types/Assignment';
 
 interface AssignmentCardProps {

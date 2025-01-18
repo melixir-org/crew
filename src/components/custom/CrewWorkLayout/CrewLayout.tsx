@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import CrewCreateDraftLayout from './CrewCreateDraftLayout';
 import RouteTabs from './RouteTabs';
 import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import { extractWorkId } from '@/lib/utils';
 
 interface CrewLayoutProps {
     children: React.ReactNode;
@@ -14,16 +15,17 @@ interface CrewLayoutProps {
 
 const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
     const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const show = searchParams.get('show') ?? '';
+    const workId: string = extractWorkId(pathname);
 
     const handleRouteChange = () => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
     const crewTitle: string = useCrewWorkLayoutStore(store => {
-        return store.server.works[show]?.crew?.title ?? '';
+        return store.server.works[workId]?.crew?.title ?? '';
     });
 
     return (

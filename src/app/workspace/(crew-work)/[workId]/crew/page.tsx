@@ -1,23 +1,17 @@
-import { isArray } from 'lodash-es';
 import { getWorkForCrewHomePageApi } from '@/lib/server-only-api';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
 import CrewHome from '@/components/custom/CrewHome/CrewHome';
+import { NEW } from '@/lib/constants';
 
-const Crew = async ({
-    searchParams,
-}: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
-    const { show = '', create_mode } = await searchParams;
+const Crew = async ({ params }: { params: Promise<{ workId: string }> }) => {
+    const { workId } = await params;
 
     let initialState: PageState | undefined = undefined;
 
-    if (!create_mode) {
-        const workId = isArray(show) ? show[0] : show;
-
+    if (workId !== NEW) {
         const { data }: { data: Work | null } = await getWorkForCrewHomePageApi(
             {
                 workId,

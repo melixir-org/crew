@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import RouteTabs from './RouteTabs';
 import WorkCreateDraftLayout from './WorkCreateDraftLayout';
 import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import { extractWorkId } from '@/lib/utils';
 
 interface WorkLayoutProps {
     children: React.ReactNode;
@@ -15,15 +16,16 @@ interface WorkLayoutProps {
 const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
 
-    const show = searchParams.get('show') ?? '';
+    const workId: string = extractWorkId(pathname);
 
     const handleRouteChange = () => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
     const workTitle: string = useCrewWorkLayoutStore(store => {
-        return store.server.works[show]?.title ?? '';
+        return store.server.works[workId]?.title ?? '';
     });
 
     return (

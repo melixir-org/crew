@@ -7,22 +7,22 @@ export const WORKSPACE_ROUTE: Route = {
 
 export const CREW_HOME_ROUTE: Route = {
     name: 'crew',
-    pathname: '/workspace/crew',
+    pathname: '/crew',
 };
 
 export const WORK_HOME_ROUTE: Route = {
     name: 'work',
-    pathname: '/workspace/work',
+    pathname: '/work',
 };
 
 export const SETTINGS_ROUTE: Route = {
     name: 'settings',
-    pathname: '/workspace/crew/settings',
+    pathname: '/crew/settings',
 };
 
 export const LEVEL_ROUTE: Route = {
     name: 'level',
-    pathname: '/workspace/work/level',
+    pathname: '/work/level',
 };
 
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
