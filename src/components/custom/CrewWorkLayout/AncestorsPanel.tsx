@@ -26,7 +26,7 @@ const AncestorsPanel = () => {
     const h = searchParams.get('h') ?? '';
 
     const {
-        server: { works },
+        server: { works, crews },
         addWorks,
     } = useCrewWorkLayoutStore(store => store);
 
@@ -115,7 +115,7 @@ const AncestorsPanel = () => {
                 }`}
                 onClick={() => handleCrewClick()}
             >
-                <p>{works[workId]?.crew?.title ?? ''}</p>
+                <p>{crews[works[workId]?.crew?.id ?? '']?.title ?? ''}</p>
             </div>
             <ul className="flex-1 overflow-y-auto">
                 {ancestorWorks.map((work: Work) => (

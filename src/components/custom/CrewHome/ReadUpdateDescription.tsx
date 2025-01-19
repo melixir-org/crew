@@ -23,7 +23,7 @@ const ReadUpdateDescription = () => {
     const crew: Crew = crews[works[workId].crew?.id ?? ''];
     const rootWork: Work = works[crew.root_work?.id ?? ''];
 
-    const description =
+    const description: string =
         (getIsWorkUpdateDraftOn(rootWork.id)
             ? workUpdateDrafts[rootWork.id].work.description
             : rootWork.description) ?? '';

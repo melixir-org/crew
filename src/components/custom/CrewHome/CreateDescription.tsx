@@ -12,7 +12,7 @@ const CreateDescription = () => {
 
     const pathnameAfterWorkId: string = extractPathnameAfterWorkId(pathname);
 
-    const description =
+    const description: string =
         crewCreateDraft[pathnameAfterWorkId].crew.root_work?.description ?? '';
 
     return (

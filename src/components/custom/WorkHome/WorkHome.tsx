@@ -4,9 +4,21 @@ import { usePathname } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
-import { updateDescriptionApi } from '@/lib/client-only-api';
+import {
+    updateDescriptionApi,
+    updateStatusApi,
+} from '@/lib/client-only-api/index';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
+import {
+    DONE,
+    PLANNING,
+    READY,
+    REVIEW,
+    TO_DO,
+    WIP,
+    WorkStatus,
+} from '@/types/WorkStatus';
 import { extractWorkId } from '@/lib/utils';
 
 const WorkHome = () => {
@@ -40,12 +52,34 @@ const WorkHome = () => {
         } catch {}
     };
 
+    const updateStatus = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value as WorkStatus;
+        try {
+            await updateStatusApi(workId, status);
+            setWork(workId, work => {
+                work.status = status;
+            });
+        } catch {}
+    };
+
     const assignment: Assignment[] = work.assignment ?? [];
 
     return (
         <div className="flex w-full bg-primary-dark-bg">
             <div className="flex flex-col bg-primary-dark-bg w-full pl-4">
                 <div className="buttons">
+                    <select
+                        value={work.status ?? ''}
+                        onChange={updateStatus}
+                        className="rounded-md bg-primary-light-bg text-black py-4 px-2 text-md outline-none"
+                    >
+                        <option value={TO_DO}>{TO_DO}</option>
+                        <option value={READY}>{READY}</option>
+                        <option value={PLANNING}>{PLANNING}</option>
+                        <option value={WIP}>{WIP}</option>
+                        <option value={REVIEW}>{REVIEW}</option>
+                        <option value={DONE}>{DONE}</option>
+                    </select>
                     <br />
                     <br />
                 </div>

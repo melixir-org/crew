@@ -4,6 +4,7 @@ import { supabaseBrowserClient } from '../supabase/browser';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { Child } from '@/types/Child';
+import { WorkStatus } from '@/types/WorkStatus';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -49,4 +50,25 @@ export async function getChildrenApi({
         .range(0, 9)
         .eq('parent_id', parentWorkId)
         .returns<Child[]>();
+}
+
+export async function updateStatusApi(workId: string, status: WorkStatus) {
+    return await supabaseBrowserClient
+        .from('works')
+        .update({ status })
+        .eq('id', workId);
+}
+
+export async function updateWorkTitleApi(workId: string, title: string) {
+    return await supabaseBrowserClient
+        .from('works')
+        .update({ title })
+        .eq('id', workId);
+}
+
+export async function updateCrewTitleApi(crewId: string, title: string) {
+    return await supabaseBrowserClient
+        .from('crews')
+        .update({ title })
+        .eq('id', crewId);
 }
