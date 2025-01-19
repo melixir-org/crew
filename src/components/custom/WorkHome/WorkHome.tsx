@@ -69,7 +69,7 @@ const WorkHome = () => {
             <div className="flex flex-col bg-primary-dark-bg w-full pl-4">
                 <div className="buttons">
                     <select
-                        value={work.status}
+                        value={work.status ?? ''}
                         onChange={updateStatus}
                         className="rounded-md bg-primary-light-bg text-black py-4 px-2 text-md outline-none"
                     >
