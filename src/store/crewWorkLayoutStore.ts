@@ -64,6 +64,9 @@ export type CrewWorkLayoutActions = {
     ) => void;
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
+    getIsCrewUpdateDraftOn: (crewId: string) => boolean;
+    setCrewUpdateDraftOn: (crewId: string, data: Work) => void;
+    setCrewUpdateDraftOff: (crewId: string) => void;
     setCrewUpdateDraft: (
         crewId: string,
         fn: (state: CrewUpdateDraft) => void
@@ -75,9 +78,6 @@ export type CrewWorkLayoutActions = {
         workId: string,
         fn: (state: WorkUpdateDraft) => void
     ) => void;
-    getIsCrewUpdateDraftOn: (crewId: string) => boolean;
-    setCrewUpdateDraftOn: (crewId: string, data: Work) => void;
-    setCrewUpdateDraftOff: (crewId: string) => void;
 };
 
 export const initCrewWorkLayoutState = (
@@ -176,6 +176,20 @@ export const createCrewWorkLayoutStore = (
                         initialState.client.workCreateDraft;
                 });
             },
+            getIsCrewUpdateDraftOn: crewId => {
+                return Boolean(get().client.crewUpdateDrafts[crewId]);
+            },
+            setCrewUpdateDraftOn: (crewId, data) => {
+                set(store => {
+                    store.client.crewUpdateDrafts[crewId] =
+                        createCrewUpdateDraft(data);
+                });
+            },
+            setCrewUpdateDraftOff: crewId => {
+                set(store => {
+                    delete store.client.crewUpdateDrafts[crewId];
+                });
+            },
             setCrewUpdateDraft: (crewId, fn) => {
                 set(store => {
                     fn(store.client.crewUpdateDrafts[crewId]);
@@ -198,20 +212,6 @@ export const createCrewWorkLayoutStore = (
             setWorkUpdateDraft: (workId, fn) => {
                 set(store => {
                     fn(store.client.workUpdateDrafts[workId]);
-                });
-            },
-            getIsCrewUpdateDraftOn: crewId => {
-                return Boolean(get().client.crewUpdateDrafts[crewId]);
-            },
-            setCrewUpdateDraftOn: (crewId, data) => {
-                set(store => {
-                    store.client.crewUpdateDrafts[crewId] =
-                        createCrewUpdateDraft(data);
-                });
-            },
-            setCrewUpdateDraftOff: crewId => {
-                set(store => {
-                    delete store.client.crewUpdateDrafts[crewId];
                 });
             },
         }))

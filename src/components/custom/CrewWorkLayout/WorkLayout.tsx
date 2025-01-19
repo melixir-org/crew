@@ -33,12 +33,6 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
         setWorkUpdateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
-    console.log(
-        useCrewWorkLayoutStore(store => {
-            return store.server;
-        })
-    );
-
     const work: Work = useCrewWorkLayoutStore(store => {
         return store.server.works[workId];
     });
