@@ -10,7 +10,7 @@ import type { Crew } from '@/types/Crew';
 import type { Work } from '@/types/Work';
 
 interface PageProps {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 const Page: React.FC<PageProps> = async ({ searchParams }) => {
@@ -30,7 +30,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     if (t === CREW) {
         const { data }: { data: Crew[] | null } = await getCrewsApi(pi, ps);
 
-        const crews: { [key: string]: Crew } = {};
+        const crews: Record<string, Crew> = {};
         data?.forEach(crew => {
             crews[crew.id] = crew;
             ids.push(crew.id);
@@ -42,7 +42,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     if (t === WORK) {
         const { data }: { data: Work[] | null } = await getWorksApi(pi, ps);
 
-        const works: { [key: string]: Work } = {};
+        const works: Record<string, Work> = {};
         data?.forEach(work => {
             works[work.id] = work;
             ids.push(work.id);

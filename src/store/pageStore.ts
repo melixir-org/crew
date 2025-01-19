@@ -12,15 +12,15 @@ import {
 } from '@/types/WorkUpdateDraft';
 
 type Server = {
-    crews: { [key: string]: Crew };
-    works: { [key: string]: Work };
+    crews: Record<string, Crew>;
+    works: Record<string, Work>;
 };
 
 export type PageState = {
     server: Server;
     client: {
-        crewUpdateDrafts: { [key: string]: CrewUpdateDraft };
-        workUpdateDrafts: { [key: string]: WorkUpdateDraft };
+        crewUpdateDrafts: Record<string, CrewUpdateDraft>;
+        workUpdateDrafts: Record<string, WorkUpdateDraft>;
     };
 };
 

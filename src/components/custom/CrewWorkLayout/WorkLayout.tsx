@@ -20,13 +20,12 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    const workId: string = extractWorkId(pathname);
-
     const handleRouteChange = () => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
     };
 
     const {
+        server: { works },
         client: { workUpdateDrafts },
         setWork,
         getIsWorkUpdateDraftOn,
@@ -35,9 +34,9 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
         setWorkUpdateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
-    const work: Work = useCrewWorkLayoutStore(store => {
-        return store.server.works[workId];
-    });
+    const workId: string = extractWorkId(pathname);
+
+    const work: Work | undefined = works[workId] ? works[workId] : undefined;
 
     const workTitle: string = getIsWorkUpdateDraftOn(workId)
         ? workUpdateDrafts[workId].work.title
@@ -93,7 +92,9 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
                         </h1>
                         <button
                             className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                            onClick={() => setWorkUpdateDraftOn(workId, work)}
+                            onClick={() =>
+                                setWorkUpdateDraftOn(workId, work as Work)
+                            }
                         >
                             Edit
                         </button>

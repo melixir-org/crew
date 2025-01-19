@@ -7,6 +7,7 @@ import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import CrewCreateDraftLayout from './CrewCreateDraftLayout';
 import RouteTabs from './RouteTabs';
 import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
+import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { updateCrewTitleApi } from '@/lib/client-only-api';
 import { extractWorkId } from '@/lib/utils';
@@ -36,9 +37,13 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     const workId: string = extractWorkId(pathname);
 
-    const crew: Crew | undefined = crews[works[workId]?.crew?.id ?? ''];
+    const work: Work | undefined = works[workId] ? works[workId] : undefined;
 
-    const crewId: string | undefined = crew?.id;
+    const crew: Crew | undefined = work
+        ? crews[work.crew?.id ?? '']
+        : undefined;
+
+    const crewId: string = crew?.id ?? '';
 
     const crewTitle: string = getIsCrewUpdateDraftOn(crewId)
         ? crewUpdateDrafts[crewId].crew.title
@@ -78,7 +83,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                             </button>
                             <button
                                 className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                onClick={() => setCrewUpdateDraftOff(workId)}
+                                onClick={() => setCrewUpdateDraftOff(crewId)}
                             >
                                 Cancel
                             </button>
@@ -94,7 +99,9 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                         </h1>
                         <button
                             className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                            onClick={() => setCrewUpdateDraftOn(crewId, crew)}
+                            onClick={() =>
+                                setCrewUpdateDraftOn(crewId, crew as Crew)
+                            }
                         >
                             Edit
                         </button>

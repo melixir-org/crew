@@ -23,26 +23,18 @@ import {
 } from '@/types/CrewCreateDraftRoute';
 import { mergeOverride } from '@/lib/utils';
 
-type CrewCreateDraft = {
-    [key: string]: CrewCreateDraftRoute;
-};
-
-type WorkCreateDraft = {
-    [key: string]: WorkCreateDraftRoute;
-};
-
 type Server = {
-    crews: { [key: string]: Crew };
-    works: { [key: string]: Work };
+    crews: Record<string, Crew>;
+    works: Record<string, Work>;
 };
 
 export type CrewWorkLayoutState = {
     server: Server;
     client: {
-        crewCreateDraft: CrewCreateDraft;
-        workCreateDraft: WorkCreateDraft;
-        crewUpdateDrafts: { [key: string]: CrewUpdateDraft };
-        workUpdateDrafts: { [key: string]: WorkUpdateDraft };
+        crewCreateDraft: Record<string, CrewCreateDraftRoute>;
+        workCreateDraft: Record<string, WorkCreateDraftRoute>;
+        crewUpdateDrafts: Record<string, CrewUpdateDraft>;
+        workUpdateDrafts: Record<string, WorkUpdateDraft>;
     };
 };
 
@@ -65,14 +57,14 @@ export type CrewWorkLayoutActions = {
     resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
     getIsCrewUpdateDraftOn: (crewId: string) => boolean;
-    setCrewUpdateDraftOn: (crewId: string, data: Work) => void;
+    setCrewUpdateDraftOn: (crewId: string, crew: Crew) => void;
     setCrewUpdateDraftOff: (crewId: string) => void;
     setCrewUpdateDraft: (
         crewId: string,
         fn: (state: CrewUpdateDraft) => void
     ) => void;
     getIsWorkUpdateDraftOn: (workId: string) => boolean;
-    setWorkUpdateDraftOn: (workId: string, data: Work) => void;
+    setWorkUpdateDraftOn: (workId: string, work: Work) => void;
     setWorkUpdateDraftOff: (workId: string) => void;
     setWorkUpdateDraft: (
         workId: string,
@@ -83,8 +75,8 @@ export type CrewWorkLayoutActions = {
 export const initCrewWorkLayoutState = (
     ...partialState: DeepPartial<CrewWorkLayoutState | undefined>[]
 ): CrewWorkLayoutState => {
-    const crewRoutes: CrewCreateDraft = {};
-    const workRoutes: WorkCreateDraft = {};
+    const crewRoutes: Record<string, CrewCreateDraftRoute> = {};
+    const workRoutes: Record<string, WorkCreateDraftRoute> = {};
 
     CREW_ROUTE_GROUP_ROUTES.forEach(route => {
         crewRoutes[route.pathname] = createCrewCreateDraftRoute();
@@ -179,10 +171,10 @@ export const createCrewWorkLayoutStore = (
             getIsCrewUpdateDraftOn: crewId => {
                 return Boolean(get().client.crewUpdateDrafts[crewId]);
             },
-            setCrewUpdateDraftOn: (crewId, data) => {
+            setCrewUpdateDraftOn: (crewId, crew) => {
                 set(store => {
                     store.client.crewUpdateDrafts[crewId] =
-                        createCrewUpdateDraft(data);
+                        createCrewUpdateDraft(crew);
                 });
             },
             setCrewUpdateDraftOff: crewId => {
@@ -198,10 +190,10 @@ export const createCrewWorkLayoutStore = (
             getIsWorkUpdateDraftOn: workId => {
                 return Boolean(get().client.workUpdateDrafts[workId]);
             },
-            setWorkUpdateDraftOn: (workId, data) => {
+            setWorkUpdateDraftOn: (workId, work) => {
                 set(store => {
                     store.client.workUpdateDrafts[workId] =
-                        createWorkUpdateDraft(data);
+                        createWorkUpdateDraft(work);
                 });
             },
             setWorkUpdateDraftOff: workId => {
