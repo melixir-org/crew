@@ -1,13 +1,15 @@
-import { useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { updateDescriptionApi } from '@/lib/client-only-api';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
+import { extractWorkId } from '@/lib/utils';
 
 const ReadUpdateDescription = () => {
-    const searchParams = useSearchParams();
-    const workId: string = searchParams.get('show') ?? '';
+    const pathname = usePathname();
+    const workId: string = extractWorkId(pathname);
+
     const {
         server: { crews, works },
         client: { workUpdateDrafts },
@@ -21,7 +23,7 @@ const ReadUpdateDescription = () => {
     const crew: Crew = crews[works[workId].crew?.id ?? ''];
     const rootWork: Work = works[crew.root_work?.id ?? ''];
 
-    const description =
+    const description: string =
         (getIsWorkUpdateDraftOn(rootWork.id)
             ? workUpdateDrafts[rootWork.id].work.description
             : rootWork.description) ?? '';

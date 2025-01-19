@@ -1,6 +1,7 @@
 import { usePathname } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import { extractPathnameAfterWorkId } from '@/lib/utils';
 
 const CreateDescription = () => {
     const pathname = usePathname();
@@ -9,8 +10,10 @@ const CreateDescription = () => {
         setCrewCreateDraftRoute,
     } = useCrewWorkLayoutStore(store => store);
 
+    const pathnameAfterWorkId: string = extractPathnameAfterWorkId(pathname);
+
     const description =
-        crewCreateDraft[pathname].crew.root_work?.description ?? '';
+        crewCreateDraft[pathnameAfterWorkId].crew.root_work?.description ?? '';
 
     return (
         <div className="flex flex-col gap-2">
@@ -18,7 +21,7 @@ const CreateDescription = () => {
                 rows={1}
                 value={description}
                 onChange={e =>
-                    setCrewCreateDraftRoute(pathname, route => {
+                    setCrewCreateDraftRoute(pathnameAfterWorkId, route => {
                         if (route.crew.root_work) {
                             route.crew.root_work.description = e.target.value;
                         }

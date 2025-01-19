@@ -11,13 +11,14 @@ import {
     SETTINGS_ROUTE,
     WORKSPACE_ROUTE,
 } from '@/app/routes';
-import { CREW } from '@/lib/constants';
 import { isCrewHomeValid } from '@/components/custom/CrewHome/validation';
 import { createCrew, Crew } from '@/types/Crew';
 import { createCrewApi } from '@/lib/client-only-api';
-import { mergeOverride } from '@/store/utils';
+import { extractPathnameAfterWorkId, mergeOverride } from '@/lib/utils';
 import { createWork } from '@/types/Work';
 import { TO_DO } from '@/types/WorkStatus';
+import { extractWorkId } from '@/lib/utils';
+import { NEW } from '@/lib/constants';
 
 const routeValidations: Record<string, (crew: Crew) => boolean> = {
     [CREW_HOME_ROUTE.pathname]: isCrewHomeValid,
@@ -35,19 +36,22 @@ const CrewCreateDraftLayout = () => {
         resetCrewCreateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
+    const workId: string = extractWorkId(pathname);
+    const pathnameAfterWorkId: string = extractPathnameAfterWorkId(pathname);
+
     const currentPageIndex = CREW_ROUTE_GROUP_ROUTES.findIndex(
-        route => route.pathname === pathname
+        route => route.pathname === pathnameAfterWorkId
     );
 
     const isLastPage = currentPageIndex === CREW_ROUTE_GROUP_ROUTES.length - 1;
 
     const isFirstPage = currentPageIndex === 0;
 
-    const createMode = searchParams.get('create_mode');
+    const crewCreateMode = workId === NEW;
 
     const redirectToPageWithIndex = (index: number) => {
         router.push(
-            `${
+            `${WORKSPACE_ROUTE.pathname}/${workId}${
                 CREW_ROUTE_GROUP_ROUTES[index].pathname
             }?${searchParams.toString()}`
         );
@@ -69,7 +73,7 @@ const CrewCreateDraftLayout = () => {
             return p;
         }, -1);
 
-    if (createMode === CREW) {
+    if (crewCreateMode) {
         return (
             <div>
                 {isFirstPage ? (
@@ -79,7 +83,6 @@ const CrewCreateDraftLayout = () => {
                             const params = new URLSearchParams(
                                 searchParams.toString()
                             );
-                            params.delete('create_mode');
                             router.push(
                                 `${
                                     WORKSPACE_ROUTE.pathname
@@ -129,22 +132,22 @@ const CrewCreateDraftLayout = () => {
 
                                 const { data } = await createCrewApi(payload);
 
+                                const id = data?.id ?? '';
                                 const rootWorkId: string =
                                     data?.root_work?.id ?? '';
 
                                 const params = new URLSearchParams(
                                     searchParams.toString()
                                 );
-                                params.delete('create_mode');
-                                params.set('entry', rootWorkId);
-                                params.set('show', rootWorkId);
+                                params.set('entry', id);
                                 params.set('h', rootWorkId);
                                 params.set('panel', 'h');
                                 router.push(
-                                    `${
+                                    `${WORKSPACE_ROUTE.pathname}/${rootWorkId}${
                                         CREW_HOME_ROUTE.pathname
                                     }?${params.toString()}`
                                 );
+                                resetCrewCreateDraft();
                             }
                         }}
                     >
@@ -153,9 +156,12 @@ const CrewCreateDraftLayout = () => {
                 ) : (
                     <Button
                         onClick={() => {
-                            setCrewCreateDraftRoute(pathname, route => {
-                                route.validationOn = true;
-                            });
+                            setCrewCreateDraftRoute(
+                                pathnameAfterWorkId,
+                                route => {
+                                    route.validationOn = true;
+                                }
+                            );
                             redirectToPageWithIndex(currentPageIndex + 1);
                         }}
                     >

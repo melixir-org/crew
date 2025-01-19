@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
@@ -19,10 +19,11 @@ import {
     WIP,
     WorkStatus,
 } from '@/types/WorkStatus';
+import { extractWorkId } from '@/lib/utils';
 
 const WorkHome = () => {
-    const searchParams = useSearchParams();
-    const workId: string = searchParams.get('show') ?? '';
+    const pathname = usePathname();
+    const workId: string = extractWorkId(pathname);
 
     const {
         server: { works },

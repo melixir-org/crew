@@ -20,7 +20,7 @@ export async function getAncestorsApi({
     length: number;
 }) {
     return await supabaseBrowserClient
-        .rpc('get_ancestors', {
+        .rpc('get_ancestors_with_crew', {
             work_id: workId,
             length: length,
         })
@@ -44,7 +44,7 @@ export async function getChildrenApi({
 }) {
     return await supabaseBrowserClient
         .from('hierarchy')
-        .select(`child:child_id (id, title)`, {
+        .select(`child:child_id (id, title, crew:crew_id (id, title))`, {
             count: 'exact',
         })
         .range(0, 9)

@@ -1,15 +1,15 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import CrewCreateDraftLayout from './CrewCreateDraftLayout';
 import RouteTabs from './RouteTabs';
 import { CREW_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { Crew } from '@/types/Crew';
-import { Work } from '@/types/Work';
 import { updateCrewTitleApi } from '@/lib/client-only-api';
+import { extractWorkId } from '@/lib/utils';
 
 interface CrewLayoutProps {
     children: React.ReactNode;
@@ -17,6 +17,7 @@ interface CrewLayoutProps {
 
 const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
     const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
 
     const handleRouteChange = () => {
@@ -33,18 +34,15 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
         setCrewUpdateDraft,
     } = useCrewWorkLayoutStore(store => store);
 
-    const workId: string = searchParams.get('show') ?? '';
+    const workId: string = extractWorkId(pathname);
 
-    const work: Work | undefined = works[workId];
-
-    const crew: Crew | undefined = crews[work?.crew?.id ?? ''];
+    const crew: Crew | undefined = crews[works[workId]?.crew?.id ?? ''];
 
     const crewId: string | undefined = crew?.id;
 
-    const crewTitle: string =
-        (getIsCrewUpdateDraftOn(crewId)
-            ? crewUpdateDrafts[crewId].crew.title
-            : crew?.title) ?? '';
+    const crewTitle: string = getIsCrewUpdateDraftOn(crewId)
+        ? crewUpdateDrafts[crewId].crew.title
+        : crew?.title ?? '';
 
     const updateTitle = async () => {
         try {

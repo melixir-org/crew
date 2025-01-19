@@ -2,11 +2,16 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePageStore } from '@/provider/PageStore';
-import { CREW_HOME_ROUTE, WORK_HOME_ROUTE } from '@/app/routes';
+import {
+    CREW_HOME_ROUTE,
+    WORK_HOME_ROUTE,
+    WORKSPACE_ROUTE,
+} from '@/app/routes';
 import { CREW, WORK } from '@/lib/constants';
+import WorkList from './WorkList';
+import CrewList from './CrewList';
 
 function Workspace({ ids }: { ids: string[] }) {
     const router = useRouter();
@@ -18,7 +23,6 @@ function Workspace({ ids }: { ids: string[] }) {
     const pageIndex = searchParams.get('page_index') || '0';
     const pageSize = searchParams.get('page_size') || '10';
     const type = searchParams.get('type') || WORK;
-    const entry = searchParams.get('entry');
 
     const handleTypeChange = (type: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -39,14 +43,21 @@ function Workspace({ ids }: { ids: string[] }) {
     const handleItemClick = (id: string, workId: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('entry', id);
-        params.set('show', workId);
         params.set('h', workId);
         if (type === WORK) {
             params.set('panel', 'h');
-            router.push(`${WORK_HOME_ROUTE.pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${workId}${
+                    WORK_HOME_ROUTE.pathname
+                }?${params.toString()}`
+            );
         } else {
             params.set('panel', 'm');
-            router.push(`${CREW_HOME_ROUTE.pathname}?${params.toString()}`);
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${workId}${
+                    CREW_HOME_ROUTE.pathname
+                }?${params.toString()}`
+            );
         }
     };
 
@@ -70,39 +81,12 @@ function Workspace({ ids }: { ids: string[] }) {
                     ))}
                 </TabsList>
             </Tabs>
-
-            <ul className="space-y-4">
-                {(type === WORK ? workItems : crewItems).map(item => (
-                    <li key={item.id}>
-                        <Card
-                            className={`cursor-pointer transition-colors ${
-                                entry === item.id
-                                    ? 'bg-secondary text-secondary-foreground'
-                                    : 'bg-primary text-primary-foreground'
-                            }`}
-                            onClick={() =>
-                                handleItemClick(
-                                    item.id,
-                                    type === CREW ? item.root_work?.id : item.id
-                                )
-                            }
-                        >
-                            <CardHeader>
-                                <CardTitle>{item.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p
-                                    className={
-                                        entry === item.id
-                                            ? 'text-secondary-foreground'
-                                            : 'text-primary-foreground'
-                                    }
-                                ></p>
-                            </CardContent>
-                        </Card>
-                    </li>
-                ))}
-            </ul>
+            {type === WORK && (
+                <WorkList items={workItems} handleItemClick={handleItemClick} />
+            )}
+            {type === CREW && (
+                <CrewList items={crewItems} handleItemClick={handleItemClick} />
+            )}
         </div>
     );
 }

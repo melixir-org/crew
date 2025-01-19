@@ -5,17 +5,20 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Button } from '@/components/ui/button';
-import { WORK_ROUTE_GROUP_ROUTES } from '@/app/routes';
+import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { WORK } from '@/lib/constants';
+import { extractWorkId } from '@/lib/utils';
 
 const WorkCreateDraftLayout = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
+    const workId: string = extractWorkId(pathname);
+
     const redirectToPageWithIndex = (index: number) => {
         router.push(
-            `${
+            `${WORKSPACE_ROUTE.pathname}/${workId}${
                 WORK_ROUTE_GROUP_ROUTES[index].pathname
             }?${searchParams.toString()}`
         );

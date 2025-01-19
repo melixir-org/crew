@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import RouteTabs from './RouteTabs';
@@ -9,6 +9,7 @@ import WorkCreateDraftLayout from './WorkCreateDraftLayout';
 import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { Work } from '@/types/Work';
 import { updateWorkTitleApi } from '@/lib/client-only-api';
+import { extractWorkId } from '@/lib/utils';
 
 interface WorkLayoutProps {
     children: React.ReactNode;
@@ -17,8 +18,9 @@ interface WorkLayoutProps {
 const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
 
-    const workId: string = searchParams.get('show') ?? '';
+    const workId: string = extractWorkId(pathname);
 
     const handleRouteChange = () => {
         router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
@@ -37,10 +39,9 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
         return store.server.works[workId];
     });
 
-    const workTitle: string =
-        (getIsWorkUpdateDraftOn(workId)
-            ? workUpdateDrafts[workId].work.title
-            : work?.title) ?? '';
+    const workTitle: string = getIsWorkUpdateDraftOn(workId)
+        ? workUpdateDrafts[workId].work.title
+        : work?.title ?? '';
 
     const updateTitle = async () => {
         try {
