@@ -9,9 +9,10 @@ import {
     WORK_HOME_ROUTE,
     WORKSPACE_ROUTE,
 } from '@/app/routes';
-import { CREW, WORK } from '@/lib/constants';
+import { CREW, NEW, WORK } from '@/lib/constants';
 import WorkList from './WorkList';
 import CrewList from './CrewList';
+import { Button } from '@/components/ui/button';
 
 function Workspace({ ids }: { ids: string[] }) {
     const router = useRouter();
@@ -61,8 +62,19 @@ function Workspace({ ids }: { ids: string[] }) {
         }
     };
 
+    const handleCreateCrew = () => {
+        router.push(
+            `${WORKSPACE_ROUTE.pathname}/${NEW}${
+                CREW_HOME_ROUTE.pathname
+            }?${searchParams.toString()}`
+        );
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
+            <Button className="bg-white text-black" onClick={handleCreateCrew}>
+                Create a Crew
+            </Button>
             <h1 className="text-3xl font-bold mb-6">{type} list</h1>
             <Tabs
                 value={type}
