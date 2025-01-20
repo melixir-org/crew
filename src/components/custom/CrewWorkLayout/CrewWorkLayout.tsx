@@ -4,8 +4,8 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 
 import AncestorsPanel from './AncestorsPanel';
-import CrewLayout from './CrewLayout';
-import WorkLayout from './WorkLayout';
+import CrewLayout from './CrewLayout/CrewLayout';
+import WorkLayout from './WorkLayout/WorkLayout';
 import { CREW_ROUTE_GROUP } from '@/types/RouteGroup';
 import { getRouteGroup } from '@/lib/utils';
 import ChildrenPanel from './ChildrenPanel';

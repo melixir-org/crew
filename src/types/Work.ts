@@ -1,5 +1,6 @@
-import { Assignment } from './Assignment';
-import { Crew } from './Crew';
+import { Assignment, createAssignment } from './Assignment';
+import { createCrew, Crew } from './Crew';
+import { DeepPartial } from './DeepPartial';
 import { WorkStatus } from './WorkStatus';
 
 export interface Work {
@@ -11,13 +12,22 @@ export interface Work {
     status?: WorkStatus;
 }
 
-export function createWork(
-    id: string = '',
-    title: string = '',
-    description?: string,
-    crew?: Crew,
-    assignment?: Assignment[],
-    status?: WorkStatus
-): Work {
-    return { id, title, description, crew, assignment, status };
+export function createWork({
+    id = '',
+    title = '',
+    description,
+    crew,
+    assignment,
+    status,
+}: DeepPartial<Work> = {}): Work {
+    return {
+        id,
+        title,
+        description,
+        crew: crew ? createCrew(crew) : undefined,
+        assignment: assignment
+            ? assignment.map(a => createAssignment(a))
+            : undefined,
+        status,
+    };
 }

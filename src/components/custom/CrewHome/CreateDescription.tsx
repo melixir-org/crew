@@ -5,15 +5,15 @@ import { extractPathnameAfterWorkId } from '@/lib/utils';
 
 const CreateDescription = () => {
     const pathname = usePathname();
-    const {
-        client: { crewCreateDraft },
-        setCrewCreateDraftRoute,
-    } = useCrewWorkLayoutStore(store => store);
 
     const pathnameAfterWorkId: string = extractPathnameAfterWorkId(pathname);
 
+    const { getCrewCreateDraftRoute, setCrewCreateDraftRoute } =
+        useCrewWorkLayoutStore(store => store);
+
     const description: string =
-        crewCreateDraft[pathnameAfterWorkId].crew.root_work?.description ?? '';
+        getCrewCreateDraftRoute(pathnameAfterWorkId).crew.root_work
+            ?.description ?? '';
 
     return (
         <div className="flex flex-col gap-2">

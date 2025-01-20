@@ -4,7 +4,7 @@ import React from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
-import RouteTabs from './RouteTabs';
+import RouteTabs from '../RouteTabs';
 import WorkCreateDraftLayout from './WorkCreateDraftLayout';
 import { WORK_ROUTE_GROUP_ROUTES, WORKSPACE_ROUTE } from '@/app/routes';
 import { Work } from '@/types/Work';

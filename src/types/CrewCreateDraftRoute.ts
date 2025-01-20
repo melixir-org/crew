@@ -9,6 +9,6 @@ export type CrewCreateDraftRoute = {
 export function createCrewCreateDraftRoute(): CrewCreateDraftRoute {
     return {
         validationOn: false,
-        crew: createCrew(undefined, undefined, createWork()),
+        crew: createCrew({ root_work: createWork() }),
     };
 }

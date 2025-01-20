@@ -19,8 +19,9 @@ import { createWork } from '@/types/Work';
 import { TO_DO } from '@/types/WorkStatus';
 import { extractWorkId } from '@/lib/utils';
 import { NEW } from '@/lib/constants';
+import { isCrewLayoutValid } from './validation';
 
-const routeValidations: Record<string, (crew: Crew) => boolean> = {
+const routesValidation: Record<string, (crew: Crew) => boolean> = {
     [CREW_HOME_ROUTE.pathname]: isCrewHomeValid,
     [SETTINGS_ROUTE.pathname]: () => true,
 };
@@ -31,6 +32,8 @@ const CrewCreateDraftLayout = () => {
     const searchParams = useSearchParams();
 
     const {
+        getCrewCreateLayout,
+        setCrewCreateLayout,
         getCrewCreateDraftRoute,
         setCrewCreateDraftRoute,
         resetCrewCreateDraft,
@@ -57,6 +60,14 @@ const CrewCreateDraftLayout = () => {
         );
     };
 
+    const validateLayout = () => {
+        setCrewCreateLayout(layout => {
+            layout.validationOn = true;
+        });
+
+        return isCrewLayoutValid(getCrewCreateLayout().crew);
+    };
+
     const validateAllRoute = () =>
         CREW_ROUTE_GROUP_ROUTES.reduce((p, route, index) => {
             if (p === -1) {
@@ -65,7 +76,7 @@ const CrewCreateDraftLayout = () => {
                 });
 
                 const r = getCrewCreateDraftRoute(route.pathname);
-                if (!routeValidations[route.pathname](r.crew)) {
+                if (!routesValidation[route.pathname](r.crew)) {
                     return index;
                 }
             }
@@ -104,22 +115,16 @@ const CrewCreateDraftLayout = () => {
                 {isLastPage ? (
                     <Button
                         onClick={async () => {
-                            const index = validateAllRoute();
-                            if (index >= 0) {
-                                redirectToPageWithIndex(index);
-                            } else {
-                                const payload = createCrew(
-                                    undefined,
-                                    'Crew title is here',
-                                    createWork(
-                                        undefined,
-                                        undefined,
-                                        undefined,
-                                        undefined,
-                                        undefined,
-                                        TO_DO
-                                    )
-                                );
+                            const vl = validateLayout();
+                            const invalidRouteIndex = validateAllRoute();
+
+                            if (invalidRouteIndex >= 0) {
+                                redirectToPageWithIndex(invalidRouteIndex);
+                            }
+
+                            if (vl && invalidRouteIndex === -1) {
+                                const payload = createCrew();
+
                                 mergeOverride(
                                     payload,
                                     ...CREW_ROUTE_GROUP_ROUTES.map(
@@ -127,7 +132,12 @@ const CrewCreateDraftLayout = () => {
                                             getCrewCreateDraftRoute(r.pathname)
                                                 .crew
                                     ),
-                                    payload
+                                    createCrew({
+                                        title: getCrewCreateLayout().crew.title,
+                                        root_work: createWork({
+                                            status: TO_DO,
+                                        }),
+                                    })
                                 );
 
                                 const { data } = await createCrewApi(payload);
