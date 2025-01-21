@@ -12,6 +12,7 @@ import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getChildrenApi } from '@/lib/client-only-api';
+import { Button } from '@/components/ui/button';
 
 const ChildrenPanel = () => {
     const router = useRouter();
@@ -34,10 +35,10 @@ const ChildrenPanel = () => {
             setLoading(true);
             try {
                 const { data } = await getChildrenApi({
-                    parentWorkId: h,
+                    workId: h,
                 });
 
-                const d = (data ?? []).map(child => child.child);
+                const d = data ?? [];
 
                 addWorks(d);
                 setChildrenIds(d.map(work => work.id));
@@ -89,6 +90,21 @@ const ChildrenPanel = () => {
         return getRouteGroup(pathname) === WORK_ROUTE_GROUP && workId === id;
     };
 
+    const handleCreateWork = () => {
+        const params = new URLSearchParams(searchParams);
+        const h = params.get('h') ?? '';
+        params.set('create_work', h);
+        if (workId === h) {
+            router.replace(`${pathname}?${params.toString()}`);
+        } else {
+            router.push(
+                `${WORKSPACE_ROUTE.pathname}/${h}${
+                    WORK_HOME_ROUTE.pathname
+                }?${params.toString()}`
+            );
+        }
+    };
+
     if (loading) return <div>Loading...</div>;
 
     return (
@@ -104,6 +120,9 @@ const ChildrenPanel = () => {
                     />
                 </li>
             ))}
+            <Button className="bg-white text-black" onClick={handleCreateWork}>
+                Create Work
+            </Button>
         </ul>
     );
 };

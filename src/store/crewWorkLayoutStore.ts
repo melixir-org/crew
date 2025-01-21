@@ -54,23 +54,20 @@ export type CrewWorkLayoutActions = {
 
     getCrewCreateLayout: () => CrewCreateDraftRoute;
     setCrewCreateLayout: (fn: (state: CrewCreateDraftRoute) => void) => void;
-
     getCrewCreateDraftRoute: (pathname: string) => CrewCreateDraftRoute;
     setCrewCreateDraftRoute: (
         pathname: string,
         fn: (state: CrewCreateDraftRoute) => void
     ) => void;
+    resetCrewCreateDraft: () => void;
 
     getWorkCreateLayout: () => WorkCreateDraftRoute;
     setWorkCreateLayout: (fn: (state: WorkCreateDraftRoute) => void) => void;
-
     getWorkCreateDraftRoute: (pathname: string) => WorkCreateDraftRoute;
     setWorkCreateDraftRoute: (
         pathname: string,
         fn: (state: WorkCreateDraftRoute) => void
     ) => void;
-
-    resetCrewCreateDraft: () => void;
     resetWorkCreateDraft: () => void;
 
     getIsCrewUpdateDraftOn: (crewId: string) => boolean;
@@ -180,6 +177,12 @@ export const createCrewWorkLayoutStore = (
                     fn(store.client.crewCreateDraft.routes[pathname]);
                 });
             },
+            resetCrewCreateDraft: () => {
+                set(store => {
+                    store.client.crewCreateDraft =
+                        initialState.client.crewCreateDraft;
+                });
+            },
             getWorkCreateLayout: () => {
                 return get().client.workCreateDraft.layout;
             },
@@ -194,12 +197,6 @@ export const createCrewWorkLayoutStore = (
             setWorkCreateDraftRoute: (pathname, fn) => {
                 set(store => {
                     fn(store.client.workCreateDraft.routes[pathname]);
-                });
-            },
-            resetCrewCreateDraft: () => {
-                set(store => {
-                    store.client.crewCreateDraft =
-                        initialState.client.crewCreateDraft;
                 });
             },
             resetWorkCreateDraft: () => {

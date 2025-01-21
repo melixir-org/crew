@@ -91,13 +91,10 @@ const CrewCreateDraftLayout = () => {
                     <Button
                         onClick={() => {
                             resetCrewCreateDraft();
-                            const params = new URLSearchParams(
-                                searchParams.toString()
-                            );
                             router.push(
                                 `${
                                     WORKSPACE_ROUTE.pathname
-                                }?${params.toString()}`
+                                }?${searchParams.toString()}`
                             );
                         }}
                     >

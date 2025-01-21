@@ -26,14 +26,12 @@ export type PageState = {
 
 export type PageActions = {
     setServer: (fn: (server: Server) => void) => void;
+
     addCrews: (crews: Crew[]) => void;
     addWorks: (works: Work[]) => void;
     setCrew: (crewId: string, fn: (state: Crew) => void) => void;
     setWork: (workId: string, fn: (state: Work) => void) => void;
-    setCrewUpdateDraft: (
-        crewId: string,
-        fn: (state: CrewUpdateDraft) => void
-    ) => void;
+
     getIsWorkUpdateDraftOn: (workId: string) => boolean;
     setWorkUpdateDraftOn: (workId: string, data: Work) => void;
     setWorkUpdateDraftOff: (workId: string) => void;
@@ -91,11 +89,6 @@ export const createPageStore = (initialState: PageState) => {
             setWork: (workId, fn) => {
                 set(store => {
                     fn(store.server.works[workId]);
-                });
-            },
-            setCrewUpdateDraft: (crewId, fn) => {
-                set(store => {
-                    fn(store.client.crewUpdateDrafts[crewId]);
                 });
             },
             getIsWorkUpdateDraftOn: workId => {

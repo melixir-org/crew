@@ -3,13 +3,18 @@ import 'client-only';
 import { supabaseBrowserClient } from '../supabase/browser';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
-import { Child } from '@/types/Child';
 import { WorkStatus } from '@/types/WorkStatus';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
         .rpc('create_crew', { input_data: crew })
         .returns<Crew>();
+}
+
+export async function createWorkApi(work: Work) {
+    return await supabaseBrowserClient
+        .rpc('create_work', { input_data: work })
+        .returns<Work>();
 }
 
 export async function getAncestorsApi({
@@ -37,19 +42,15 @@ export async function updateDescriptionApi(
         .eq('id', workId);
 }
 
-export async function getChildrenApi({
-    parentWorkId,
-}: {
-    parentWorkId: string;
-}) {
+export async function getChildrenApi({ workId }: { workId: string }) {
     return await supabaseBrowserClient
-        .from('hierarchy')
-        .select(`child:child_id (id, title, crew:crew_id (id, title))`, {
+        .from('works')
+        .select(`id, title, parent_id, crew:crew_id (id, title))`, {
             count: 'exact',
         })
         .range(0, 9)
-        .eq('parent_id', parentWorkId)
-        .returns<Child[]>();
+        .eq('parent_id', workId)
+        .returns<Work[]>();
 }
 
 export async function updateStatusApi(workId: string, status: WorkStatus) {

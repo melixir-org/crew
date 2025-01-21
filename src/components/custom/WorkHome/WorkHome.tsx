@@ -1,13 +1,10 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
-import {
-    updateDescriptionApi,
-    updateStatusApi,
-} from '@/lib/client-only-api/index';
+import { updateStatusApi } from '@/lib/client-only-api/index';
 import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
 import {
@@ -20,37 +17,20 @@ import {
     WorkStatus,
 } from '@/types/WorkStatus';
 import { extractWorkId } from '@/lib/utils';
+import CreateDescription from './CreateDescription';
+import ReadUpdateDescription from './ReadUpdateDescription';
 
 const WorkHome = () => {
+    const searchParams = useSearchParams();
     const pathname = usePathname();
     const workId: string = extractWorkId(pathname);
 
     const {
         server: { works },
-        client: { workUpdateDrafts },
         setWork,
-        getIsWorkUpdateDraftOn,
-        setWorkUpdateDraftOn,
-        setWorkUpdateDraftOff,
-        setWorkUpdateDraft,
     } = usePageStore(store => store);
 
     const work: Work = works[workId];
-
-    const description =
-        (getIsWorkUpdateDraftOn(workId)
-            ? workUpdateDrafts[workId].work.description
-            : work.description) ?? '';
-
-    const updateDescription = async () => {
-        try {
-            await updateDescriptionApi(workId, description);
-            setWork(workId, work => {
-                work.description = description;
-            });
-            setWorkUpdateDraftOff(workId);
-        } catch {}
-    };
 
     const updateStatus = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const status = e.target.value as WorkStatus;
@@ -63,6 +43,10 @@ const WorkHome = () => {
     };
 
     const assignment: Assignment[] = work.assignment ?? [];
+
+    const cw = searchParams.get('create_work') ?? '';
+
+    const createWorkModeOn = cw === workId;
 
     return (
         <div className="flex w-full bg-primary-dark-bg">
@@ -88,53 +72,10 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Description
                         </h2>
-                        {getIsWorkUpdateDraftOn(workId) ? (
-                            <div className="flex flex-col gap-2">
-                                <textarea
-                                    rows={1}
-                                    value={description}
-                                    onChange={e =>
-                                        setWorkUpdateDraft(
-                                            workId,
-                                            workUpdateDraft => {
-                                                workUpdateDraft.work.description =
-                                                    e.target.value;
-                                            }
-                                        )
-                                    }
-                                    className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
-                                />
-                                <div className="buttons">
-                                    <button
-                                        className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                        onClick={updateDescription}
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                        className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                        onClick={() =>
-                                            setWorkUpdateDraftOff(workId)
-                                        }
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
+                        {createWorkModeOn ? (
+                            <CreateDescription />
                         ) : (
-                            <div className="flex flex-col gap-2">
-                                <p className="text-primary-light-bg text-sm">
-                                    {description}
-                                </p>
-                                <button
-                                    className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                                    onClick={() =>
-                                        setWorkUpdateDraftOn(workId, work)
-                                    }
-                                >
-                                    Edit
-                                </button>
-                            </div>
+                            <ReadUpdateDescription />
                         )}
                     </div>
                     <div className="pl-3 w-96">
