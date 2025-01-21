@@ -108,7 +108,7 @@ const ChildrenPanel = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <ul className="flex-1 overflow-y-auto mt-96">
+        <ul className="flex-1 overflow-y-auto mt-20">
             {childrenWorks.map((work: Work) => (
                 <li key={work.id}>
                     <WorkCard
