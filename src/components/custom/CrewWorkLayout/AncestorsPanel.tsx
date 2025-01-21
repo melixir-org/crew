@@ -106,7 +106,6 @@ const AncestorsPanel = () => {
 
     return (
         <div className="w-96 bg-black text-white flex flex-col">
-            <div className="p-4 text-lg font-semibold text-center">Works</div>
             <div
                 className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
                     getRouteGroup(pathname) === CREW_ROUTE_GROUP
