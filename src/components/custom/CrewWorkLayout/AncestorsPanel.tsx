@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import WorkCard from '../WorkCard';
+import PinnedWorkCard from '../PinnedWorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -80,8 +80,10 @@ const AncestorsPanel = () => {
     };
 
     const handleHierarchyClick = (wid: string) => {
+        const parentId = works[wid].parent_id ?? '';
+
         const params = new URLSearchParams(searchParams.toString());
-        params.set('h', wid);
+        params.set('h', parentId);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(
@@ -89,12 +91,14 @@ const AncestorsPanel = () => {
                     WORK_HOME_ROUTE.pathname
                 }?${params.toString()}`
             );
-        } else {
+        } else if (workId === wid) {
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${wid}${extractPathnameAfterWorkId(
                     pathname
                 )}?${params.toString()}`
             );
+        } else {
+            router.replace(`${pathname}?${params.toString()}`);
         }
     };
 
@@ -119,7 +123,7 @@ const AncestorsPanel = () => {
             <ul className="flex-1 overflow-y-auto">
                 {ancestorWorks.map((work: Work) => (
                     <li key={work.id}>
-                        <WorkCard
+                        <PinnedWorkCard
                             key={work.id}
                             title={work.title}
                             highlighted={isWorkShown(work.id)}

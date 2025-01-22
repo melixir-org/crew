@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Flame, Coins, CornerDownRight } from 'lucide-react';
+import { Flame, Coins, Pin } from 'lucide-react';
 
-export default function WorkCard({
+export default function UnpinnedWorkCard({
     title,
     highlighted,
     handleWorkClick,
@@ -47,7 +47,7 @@ export default function WorkCard({
                     handleIconClick();
                 }}
             >
-                <CornerDownRight className="h-5 w-5 text-gray-400" />
+                <Pin className="h-5 w-5 text-gray-400" />
             </div>
         </Card>
     );

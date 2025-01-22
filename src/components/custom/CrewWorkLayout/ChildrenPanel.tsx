@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import WorkCard from '../WorkCard';
+import UnpinnedWorkCard from '../UnpinnedWorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -111,7 +111,7 @@ const ChildrenPanel = () => {
         <ul className="flex-1 overflow-y-auto mt-20">
             {childrenWorks.map((work: Work) => (
                 <li key={work.id}>
-                    <WorkCard
+                    <UnpinnedWorkCard
                         key={work.id}
                         title={work.title}
                         highlighted={isWorkShown(work.id)}
