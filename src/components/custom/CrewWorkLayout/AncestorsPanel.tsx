@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import PinnedWorkCard from '../PinnedWorkCard';
+import WorkCard from '../WorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -23,35 +23,51 @@ const AncestorsPanel = () => {
     const pathname = usePathname();
 
     const workId: string = extractWorkId(pathname);
-    const h = searchParams.get('h') ?? '';
+    const pin = searchParams.get('pin') ?? '';
 
     const {
         server: { works, crews },
         addWorks,
     } = useCrewWorkLayoutStore(store => store);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [ancestorIds, setAncestorIds] = useState<string[]>([]);
 
     useEffect(() => {
-        (async () => {
-            setLoading(true);
-            try {
-                const { data } = await getAncestorsApi({
-                    workId: h,
-                    length: 5,
-                });
+        function ancestors(wid: string): string[] {
+            const parentId = works[wid]?.parent_id;
 
-                const d = data ?? [];
-
-                addWorks(d);
-                setAncestorIds(d.map(work => work.id).reverse());
-            } catch (e) {
-            } finally {
-                setLoading(false);
+            if (parentId) {
+                return [wid, ...ancestors(parentId)];
             }
-        })();
-    }, [h]);
+
+            return [wid];
+        }
+
+        const ancs = ancestors(pin);
+
+        if (ancs.length <= 1) {
+            (async () => {
+                setLoading(true);
+                try {
+                    const { data } = await getAncestorsApi({
+                        workId: pin,
+                        length: 5,
+                    });
+
+                    const d = data ?? [];
+
+                    addWorks(d);
+                    setAncestorIds(d.map(work => work.id).reverse());
+                } catch (e) {
+                } finally {
+                    setLoading(false);
+                }
+            })();
+        } else {
+            setAncestorIds(ancs.reverse());
+        }
+    }, [pin]);
 
     const ancestorWorks = ancestorIds.map(id => works[id]);
 
@@ -79,11 +95,11 @@ const AncestorsPanel = () => {
         }
     };
 
-    const handleHierarchyClick = (wid: string) => {
+    const handleUnpin = (wid: string) => {
         const parentId = works[wid].parent_id ?? '';
 
         const params = new URLSearchParams(searchParams.toString());
-        params.set('h', parentId);
+        params.set('pin', parentId);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(
@@ -92,13 +108,13 @@ const AncestorsPanel = () => {
                 }?${params.toString()}`
             );
         } else if (workId === wid) {
+            router.replace(`${pathname}?${params.toString()}`);
+        } else {
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${wid}${extractPathnameAfterWorkId(
                     pathname
                 )}?${params.toString()}`
             );
-        } else {
-            router.replace(`${pathname}?${params.toString()}`);
         }
     };
 
@@ -123,14 +139,13 @@ const AncestorsPanel = () => {
             <ul className="flex-1 overflow-y-auto">
                 {ancestorWorks.map((work: Work) => (
                     <li key={work.id}>
-                        <PinnedWorkCard
+                        <WorkCard
                             key={work.id}
-                            title={work.title}
+                            work={work}
                             highlighted={isWorkShown(work.id)}
-                            handleWorkClick={() => handleWorkClick(work.id)}
-                            handleIconClick={() =>
-                                handleHierarchyClick(work.id)
-                            }
+                            handleClick={() => handleWorkClick(work.id)}
+                            pinned={true}
+                            handleUnpin={() => handleUnpin(work.id)}
                         />
                     </li>
                 ))}
