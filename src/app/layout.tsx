@@ -1,5 +1,7 @@
+import { Analytics } from '@vercel/analytics/react';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
+
 import QueryProvider from '@/provider/QueryProvider';
 
 import './globals.css';
@@ -71,6 +73,7 @@ export default function RootLayout({
                         {children}
                     </div>
                 </QueryProvider>
+                <Analytics />
             </body>
         </html>
     );

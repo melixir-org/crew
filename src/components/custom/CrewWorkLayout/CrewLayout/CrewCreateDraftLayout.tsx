@@ -147,8 +147,8 @@ const CrewCreateDraftLayout = () => {
                                     searchParams.toString()
                                 );
                                 params.set('entry', id);
-                                params.set('h', rootWorkId);
-                                params.set('panel', 'h');
+                                params.set('pin', rootWorkId);
+                                params.set('panel', 'hierarchy');
                                 router.push(
                                     `${WORKSPACE_ROUTE.pathname}/${rootWorkId}${
                                         CREW_HOME_ROUTE.pathname

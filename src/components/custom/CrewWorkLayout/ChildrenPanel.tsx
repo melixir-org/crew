@@ -20,7 +20,7 @@ const ChildrenPanel = () => {
     const pathname = usePathname();
 
     const workId: string = extractWorkId(pathname);
-    const h = searchParams.get('h') ?? '';
+    const pin = searchParams.get('pin') ?? '';
 
     const {
         server: { works },
@@ -35,7 +35,7 @@ const ChildrenPanel = () => {
             setLoading(true);
             try {
                 const { data } = await getChildrenApi({
-                    workId: h,
+                    workId: pin,
                 });
 
                 const d = data ?? [];
@@ -47,7 +47,7 @@ const ChildrenPanel = () => {
                 setLoading(false);
             }
         })();
-    }, [h]);
+    }, [pin]);
 
     const childrenWorks = childrenIds.map(id => works[id]);
 
@@ -67,9 +67,9 @@ const ChildrenPanel = () => {
         }
     };
 
-    const handleHierarchyClick = (wid: string) => {
+    const handlePin = (wid: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('h', wid);
+        params.set('pin', wid);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(
@@ -77,6 +77,8 @@ const ChildrenPanel = () => {
                     WORK_HOME_ROUTE.pathname
                 }?${params.toString()}`
             );
+        } else if (workId === wid) {
+            router.replace(`${pathname}?${params.toString()}`);
         } else {
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${wid}${extractPathnameAfterWorkId(
@@ -92,13 +94,13 @@ const ChildrenPanel = () => {
 
     const handleCreateWork = () => {
         const params = new URLSearchParams(searchParams);
-        const h = params.get('h') ?? '';
-        params.set('create_work', h);
-        if (workId === h) {
+        const pin = params.get('pin') ?? '';
+        params.set('create_work', pin);
+        if (workId === pin) {
             router.replace(`${pathname}?${params.toString()}`);
         } else {
             router.push(
-                `${WORKSPACE_ROUTE.pathname}/${h}${
+                `${WORKSPACE_ROUTE.pathname}/${pin}${
                     WORK_HOME_ROUTE.pathname
                 }?${params.toString()}`
             );
@@ -113,10 +115,11 @@ const ChildrenPanel = () => {
                 <li key={work.id}>
                     <WorkCard
                         key={work.id}
-                        title={work.title}
+                        work={work}
                         highlighted={isWorkShown(work.id)}
-                        handleWorkClick={() => handleWorkClick(work.id)}
-                        handleIconClick={() => handleHierarchyClick(work.id)}
+                        handleClick={() => handleWorkClick(work.id)}
+                        pinned={false}
+                        handlePin={() => handlePin(work.id)}
                     />
                 </li>
             ))}

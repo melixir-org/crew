@@ -44,16 +44,16 @@ function Workspace({ ids }: { ids: string[] }) {
     const handleItemClick = (id: string, workId: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('entry', id);
-        params.set('h', workId);
+        params.set('pin', workId);
         if (type === WORK) {
-            params.set('panel', 'h');
+            params.set('panel', 'hierarchy');
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${workId}${
                     WORK_HOME_ROUTE.pathname
                 }?${params.toString()}`
             );
         } else {
-            params.set('panel', 'm');
+            params.set('panel', 'manage');
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${workId}${
                     CREW_HOME_ROUTE.pathname
