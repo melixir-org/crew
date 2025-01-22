@@ -8,6 +8,7 @@ export default function WorkCard({
     work,
     highlighted,
     pinned,
+    hideIcon,
     handleClick,
     handlePin,
     handleUnpin,
@@ -15,6 +16,7 @@ export default function WorkCard({
     work: Work;
     highlighted: boolean;
     pinned: boolean;
+    hideIcon?: boolean;
     handleClick: () => void;
     handlePin?: () => void;
     handleUnpin?: () => void;
@@ -46,26 +48,30 @@ export default function WorkCard({
                     <Coins className="w-4 h-4 text-blue-400" />
                 </div>
             </div>
-            {pinned ? (
-                <div
-                    className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg"
-                    onClick={e => {
-                        e.stopPropagation();
-                        handleUnpin?.();
-                    }}
-                >
-                    <PinOff className="h-5 w-5 text-gray-400" />
-                </div>
-            ) : (
-                <div
-                    className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg"
-                    onClick={e => {
-                        e.stopPropagation();
-                        handlePin?.();
-                    }}
-                >
-                    <Pin className="h-5 w-5 text-gray-400" />
-                </div>
+            {hideIcon || (
+                <>
+                    {pinned ? (
+                        <div
+                            className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg"
+                            onClick={e => {
+                                e.stopPropagation();
+                                handleUnpin?.();
+                            }}
+                        >
+                            <PinOff className="h-5 w-5 text-gray-400" />
+                        </div>
+                    ) : (
+                        <div
+                            className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg"
+                            onClick={e => {
+                                e.stopPropagation();
+                                handlePin?.();
+                            }}
+                        >
+                            <Pin className="h-5 w-5 text-gray-400" />
+                        </div>
+                    )}
+                </>
             )}
         </Card>
     );

@@ -145,6 +145,7 @@ const AncestorsPanel = () => {
                             highlighted={isWorkShown(work.id)}
                             handleClick={() => handleWorkClick(work.id)}
                             pinned={true}
+                            hideIcon={!work.parent_id}
                             handleUnpin={() => handleUnpin(work.id)}
                         />
                     </li>
