@@ -3,7 +3,7 @@ export default function Home() {
         <div className="min-h-screen bg-gradient-to-b from-[#101010] via-[#121212] to-black text-white font-sans">
             {/* Navbar */}
             <nav className="flex justify-between items-center px-8 py-5 bg-[#101010] sticky top-0 z-50 shadow-md">
-                <div className="text-5xl font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                <div className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                     Melixir
                 </div>
             </nav>
@@ -11,15 +11,13 @@ export default function Home() {
             {/* Hero Section */}
             <header className="flex flex-col items-center justify-center text-center py-28 px-6">
                 <h1 className="text-5xl md:text-7xl font-extrabold max-w-3xl bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent leading-tight">
-                    Collaborate, Build, and Grow Together
+                    Collaborate, Build, and Share Success
                 </h1>
                 <p className="text-lg text-gray-400 mt-6 max-w-2xl">
-                    A platform where founders create crews for their ideas, and
-                    contributors join to turn those ideas into reality.
-                    Together, we make innovation happen.
+                A platform where tech founders post projects, break them into tasks, and collaborate with contributors to bring ideas to life.
                 </p>
                 <a
-                    href="/waitlist"
+                    href="#"
                     className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                 >
                     Join the Waitlist
@@ -33,11 +31,7 @@ export default function Home() {
                         The Challenge
                     </h2>
                     <p className="text-lg text-gray-400">
-                        Building something meaningful requires teamwork, but
-                        finding the right people is hard. As a founder, you need
-                        contributors who share your vision. As a contributor,
-                        you need projects that excite you. Collaboration is key,
-                        but trust and alignment are essential.
+                    Building something meaningful needs the right people who share your vision and passion for collaboration.
                     </p>
                 </div>
             </section>
@@ -49,29 +43,22 @@ export default function Home() {
                         Our Solution
                     </h2>
                     <p className="text-lg text-gray-400">
-                        Melixir connects tech founders and contributors on a
-                        platform built for collaboration. Whether you’re
-                        building your MVP or contributing your expertise,
-                        Melixir ensures shared success through transparency and
-                        equity.
+                    Whether you’re building your MVP or providing your expertise, Melixir creates a collaborative space by ensuring transparency, easier management, and rewarding contributions equitably for shared success.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
-                                title: 'For Founders',
-                                description:
-                                    'Create crews for your ideas and find passionate contributors to help you build them.',
-                            },
-                            {
-                                title: 'For Contributors',
-                                description:
-                                    'Join exciting projects, collaborate with innovative founders, and grow your expertise.',
-                            },
-                            {
-                                title: 'Shared Success',
-                                description:
-                                    'Work together seamlessly to innovate and share the rewards of your hard work.',
-                            },
+                              title: 'For Founders',
+                              description: 'Break your project into simple tasks to help others get started and keep things organized.',
+                          },
+                          {
+                              title: 'For Contributors',
+                              description: 'Work on exciting projects, team up with great founders, and build your skills.',
+                          },
+                          {
+                              title: 'Shared Success',
+                              description: 'Get rewarded for your efforts with equity, profits, or recognition.',
+                          },
                         ].map((feature, index) => (
                             <div
                                 key={index}
@@ -98,19 +85,16 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
-                                step: '1. Join the Waitlist',
-                                description:
-                                    'Sign up now to be notified when Melixir launches and secure early access.',
+                              step: '1. Join the Waitlist',
+                              description: 'Be the first to know when Melixir goes live and start exploring opportunities early!',
                             },
                             {
-                                step: '2. Discover Opportunities',
-                                description:
-                                    'Explore crews created by founders and find projects that excite you.',
+                                step: '2. Find What Inspires You',
+                                description: 'Discover exciting projects by founders or kickstart your own journey.',
                             },
                             {
-                                step: '3. Build Together',
-                                description:
-                                    'Collaborate with like-minded individuals to turn ideas into impactful products.',
+                              step: '3. Build with the Right People',
+                              description: 'Do your part, and the right teammates will naturally join along the way.',
                             },
                         ].map((step, index) => (
                             <div
@@ -137,11 +121,10 @@ export default function Home() {
                     </h2>
                     <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
                         Don’t miss out on the chance to collaborate with
-                        passionate individuals. Join our waitlist now and be
-                        among the first to access Melixir.
+                        passionate individuals.
                     </p>
                     <a
-                        href="/waitlist"
+                        href="#"
                         className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                     >
                         Join the Waitlist

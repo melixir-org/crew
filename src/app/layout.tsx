@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: 'Melixir - Collaborate, Build, and Grow Together',
+    title: 'Melixir - Collaborate, Build, and Share Success',
     description:
         'Melixir is a platform where founders create teams for their ideas, and contributors join to turn those ideas into reality. Together, we make innovation happen.',
     keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         'Digital Collaboration Platform',
     ],
     openGraph: {
-        title: 'Melixir - Collaborate, Build, and Grow Together',
+        title: 'Melixir - Collaborate, Build, and Share Success',
         description:
             'Melixir connects tech founders and contributors on a platform built for collaboration. Find passionate collaborators and contribute to innovative ideas.',
         url: 'https://melixir.org',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
                 url: '/preview-image.png',
                 width: 1200,
                 height: 630,
-                alt: 'Melixir - Collaborate, Build, and Grow Together',
+                alt: 'Melixir - Collaborate, Build, and Share Success',
             },
         ],
         locale: 'en_IN',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Melixir - Collaborate, Build, and Grow Together',
+        title: 'Melixir - Collaborate, Build, and Share Success',
         description:
             'Join Melixir to collaborate with founders and contributors in innovative projects. Build, grow, and succeed together.',
         images: ['/preview-image.png'],
