@@ -112,21 +112,17 @@ const AncestorsPanel = () => {
 
     return (
         <div className="h-full flex flex-col gap-1">
-            {loading ? (
-                <div className="m-auto">Loading...</div>
-            ) : (
-                ancestorWorks.map((work: Work) => (
-                    <WorkCard
-                        key={work.id}
-                        work={work}
-                        highlighted={isWorkShown(work.id)}
-                        handleClick={() => handleWorkClick(work.id)}
-                        pinned={true}
-                        hideIcon={!work.parent_id}
-                        handleUnpin={() => handleUnpin(work.id)}
-                    />
-                ))
-            )}
+            {ancestorWorks.map((work: Work) => (
+                <WorkCard
+                    key={work.id}
+                    work={work}
+                    highlighted={isWorkShown(work.id)}
+                    handleClick={() => handleWorkClick(work.id)}
+                    pinned={true}
+                    hideIcon={!work.parent_id}
+                    handleUnpin={() => handleUnpin(work.id)}
+                />
+            ))}
         </div>
     );
 };

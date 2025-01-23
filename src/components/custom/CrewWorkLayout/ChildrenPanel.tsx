@@ -3,6 +3,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WorkCard from './WorkCard';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -111,23 +112,26 @@ const ChildrenPanel = () => {
     return (
         <div className="h-full flex flex-col gap-1">
             <Input placeholder="Search works..." className="border-gray-700" />
-            <div className="flex-1 ml-5 flex flex-col gap-1">
-                {loading ? (
-                    <div className="m-auto">Loading...</div>
-                ) : (
-                    childrenWorks.map((work: Work) => (
-                        <WorkCard
-                            key={work.id}
-                            work={work}
-                            highlighted={isWorkShown(work.id)}
-                            handleClick={() => handleWorkClick(work.id)}
-                            pinned={false}
-                            handlePin={() => handlePin(work.id)}
-                        />
-                    ))
-                )}
+            <div className="flex-1 ml-6 flex flex-col gap-1 overflow-y-auto scrollbar-none">
+                {loading
+                    ? [...Array(10)].map((_, i) => (
+                          <Skeleton
+                              key={i}
+                              className="bg-gray-700 w-full flex-[0_0_62px]"
+                          />
+                      ))
+                    : childrenWorks.map((work: Work) => (
+                          <WorkCard
+                              key={work.id}
+                              work={work}
+                              highlighted={isWorkShown(work.id)}
+                              handleClick={() => handleWorkClick(work.id)}
+                              pinned={false}
+                              handlePin={() => handlePin(work.id)}
+                          />
+                      ))}
             </div>
-            <div className="ml-5">
+            <div className="ml-6">
                 <Button
                     className="w-full bg-white text-black"
                     onClick={handleCreateWork}

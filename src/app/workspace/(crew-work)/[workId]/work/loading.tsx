@@ -1,3 +1,5 @@
+import { Skeleton } from '@/components/ui/skeleton';
+
 export default function Loading() {
-    return <div>loading</div>;
+    return <Skeleton className="bg-gray-700 flex-1" />;
 }

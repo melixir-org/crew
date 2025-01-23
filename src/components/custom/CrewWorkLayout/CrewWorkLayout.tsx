@@ -31,25 +31,29 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
         <div className="flex-1 p-1 flex">
             <div className="min-w-96 flex gap-1">
                 <div className="flex-[1_1_0] p-1 rounded-lg bg-secondary-dark-bg flex flex-col gap-5">
-                    <CrewCard />
-                    {createCrewModeOn || (
-                        <div className="flex-[2_2_0] overflow-y-auto scrollbar-none">
-                            <AncestorsPanel />
-                        </div>
-                    )}
-                    {createCrewModeOn || (
-                        <div className="flex-[5_5_0] overflow-y-auto scrollbar-none">
-                            <ChildrenPanel />
-                        </div>
-                    )}
+                    <div className="flex-[1_1_0] flex flex-col gap-1">
+                        <CrewCard />
+                        {createCrewModeOn || (
+                            <div className="flex-[1_1_0] overflow-y-auto scrollbar-none">
+                                <AncestorsPanel />
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex-[2_2_0] overflow-y-auto scrollbar-none">
+                        {createCrewModeOn || <ChildrenPanel />}
+                    </div>
                 </div>
                 <div className="flex flex-col justify-center gap-3">
-                    <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <ListTree className="h-6 w-6 text-gray-400" />
-                    </div>
-                    <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <List className="h-6 w-6 text-gray-400" />
-                    </div>
+                    {createCrewModeOn || (
+                        <>
+                            <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
+                                <ListTree className="h-6 w-6 text-gray-400" />
+                            </div>
+                            <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
+                                <List className="h-6 w-6 text-gray-400" />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             <div className="flex-1">
