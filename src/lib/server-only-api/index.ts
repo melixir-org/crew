@@ -56,3 +56,19 @@ export async function getWorkForWorkHomePageApi({
         .returns<Work[]>()
         .single();
 }
+
+export async function getWorkWhileCreateWorkForWorkHomePageApi({
+    workId,
+}: {
+    workId: string;
+}) {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .from('works')
+        .select(
+            `id, title, crew:crew_id (id, title), assignment (id, user_id, assigned_at)`
+        )
+        .eq('id', workId)
+        .returns<Work[]>()
+        .single();
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import WorkCard from '../WorkCard';
+import WorkCard from './WorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -10,11 +10,7 @@ import {
 } from '@/lib/utils';
 import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
-import {
-    CREW_HOME_ROUTE,
-    WORK_HOME_ROUTE,
-    WORKSPACE_ROUTE,
-} from '@/app/routes';
+import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getAncestorsApi } from '@/lib/client-only-api';
 
 const AncestorsPanel = () => {
@@ -26,7 +22,7 @@ const AncestorsPanel = () => {
     const pin = searchParams.get('pin') ?? '';
 
     const {
-        server: { works, crews },
+        server: { works },
         addWorks,
     } = useCrewWorkLayoutStore(store => store);
 
@@ -71,14 +67,6 @@ const AncestorsPanel = () => {
 
     const ancestorWorks = ancestorIds.map(id => works[id]);
 
-    const handleCrewClick = () => {
-        router.push(
-            `${WORKSPACE_ROUTE.pathname}/${workId}${
-                CREW_HOME_ROUTE.pathname
-            }?${searchParams.toString()}`
-        );
-    };
-
     const handleWorkClick = (wid: string) => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(
@@ -122,35 +110,23 @@ const AncestorsPanel = () => {
         return getRouteGroup(pathname) === WORK_ROUTE_GROUP && workId === id;
     };
 
-    if (loading) return <div>Loading...</div>;
-
     return (
-        <div className="w-96 bg-black text-white flex flex-col">
-            <div
-                className={`my-2 mx-5 border-2 border-gray-500 p-1 rounded-lg cursor-pointer ${
-                    getRouteGroup(pathname) === CREW_ROUTE_GROUP
-                        ? 'bg-secondary text-secondary-foreground'
-                        : ''
-                }`}
-                onClick={() => handleCrewClick()}
-            >
-                <p>{crews[works[workId]?.crew?.id ?? '']?.title ?? ''}</p>
-            </div>
-            <ul className="flex-1 overflow-y-auto">
-                {ancestorWorks.map((work: Work) => (
-                    <li key={work.id}>
-                        <WorkCard
-                            key={work.id}
-                            work={work}
-                            highlighted={isWorkShown(work.id)}
-                            handleClick={() => handleWorkClick(work.id)}
-                            pinned={true}
-                            hideIcon={!work.parent_id}
-                            handleUnpin={() => handleUnpin(work.id)}
-                        />
-                    </li>
-                ))}
-            </ul>
+        <div className="h-full flex flex-col gap-2 overflow-y-auto">
+            {loading ? (
+                <div className="m-auto">Loading...</div>
+            ) : (
+                ancestorWorks.map((work: Work) => (
+                    <WorkCard
+                        key={work.id}
+                        work={work}
+                        highlighted={isWorkShown(work.id)}
+                        handleClick={() => handleWorkClick(work.id)}
+                        pinned={true}
+                        hideIcon={!work.parent_id}
+                        handleUnpin={() => handleUnpin(work.id)}
+                    />
+                ))
+            )}
         </div>
     );
 };

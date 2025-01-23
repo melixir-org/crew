@@ -1,7 +1,10 @@
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import WorkHome from '@/components/custom/WorkHome/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getWorkForWorkHomePageApi } from '@/lib/server-only-api';
+import {
+    getWorkForWorkHomePageApi,
+    getWorkWhileCreateWorkForWorkHomePageApi,
+} from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import type { Work } from '@/types/Work';
 
@@ -17,12 +20,26 @@ const Work = async ({
 
     let initialState: PageState | undefined = undefined;
 
-    if (create_work !== workId || true) {
+    if (create_work !== workId) {
         const { data }: { data: Work | null } = await getWorkForWorkHomePageApi(
             {
                 workId,
             }
         );
+
+        if (data && data.crew) {
+            initialState = initPageState({
+                server: {
+                    works: { [data.id]: data },
+                    crews: { [data.crew.id]: data.crew },
+                },
+            });
+        }
+    } else {
+        const { data }: { data: Work | null } =
+            await getWorkWhileCreateWorkForWorkHomePageApi({
+                workId,
+            });
 
         if (data && data.crew) {
             initialState = initPageState({

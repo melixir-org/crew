@@ -39,10 +39,7 @@ export default function WorkCard({
                 </h2>
                 <div className="flex flex-wrap items-center justify-start gap-1">
                     <Badge className="bg-green-500 hover:bg-green-600 rounded-md">
-                        Planning
-                    </Badge>
-                    <Badge className="bg-yellow-500 hover:bg-yellow-600 rounded-md">
-                        Type
+                        TO-DO
                     </Badge>
                     <Flame className="w-4 h-4 text-blue-500" />
                     <Coins className="w-4 h-4 text-blue-400" />

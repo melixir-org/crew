@@ -67,7 +67,9 @@ export default function RootLayout({
             <head>
                 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
             </head>
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
                 <QueryProvider>
                     <div className="min-h-screen flex flex-col bg-black text-white">
                         {children}

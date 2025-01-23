@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import WorkCard from '../WorkCard';
+import WorkCard from './WorkCard';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -107,26 +107,31 @@ const ChildrenPanel = () => {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
-
     return (
-        <ul className="flex-1 overflow-y-auto mt-20">
-            {childrenWorks.map((work: Work) => (
-                <li key={work.id}>
-                    <WorkCard
-                        key={work.id}
-                        work={work}
-                        highlighted={isWorkShown(work.id)}
-                        handleClick={() => handleWorkClick(work.id)}
-                        pinned={false}
-                        handlePin={() => handlePin(work.id)}
-                    />
-                </li>
-            ))}
-            <Button className="bg-white text-black" onClick={handleCreateWork}>
+        <div className="h-full flex flex-col gap-2 ml-5">
+            <div className="flex-1 flex flex-col gap-2 overflow-y-auto">
+                {loading ? (
+                    <div className="m-auto">Loading...</div>
+                ) : (
+                    childrenWorks.map((work: Work) => (
+                        <WorkCard
+                            key={work.id}
+                            work={work}
+                            highlighted={isWorkShown(work.id)}
+                            handleClick={() => handleWorkClick(work.id)}
+                            pinned={false}
+                            handlePin={() => handlePin(work.id)}
+                        />
+                    ))
+                )}
+            </div>
+            <Button
+                className="w-full bg-white text-black"
+                onClick={handleCreateWork}
+            >
                 Create Work
             </Button>
-        </ul>
+        </div>
     );
 };
 
