@@ -34,10 +34,10 @@ const CrewCard = () => {
 
     return (
         <div
-            className={`border border-gray-400 py-1 px-2 rounded-lg cursor-pointer flex flex-row items-center gap-2 ${
+            className={`py-1 px-2 rounded-md cursor-pointer flex flex-row items-center gap-2 ${
                 getRouteGroup(pathname) === CREW_ROUTE_GROUP
-                    ? 'bg-secondary text-secondary-foreground'
-                    : ''
+                    ? 'border bg-secondary text-secondary-foreground'
+                    : 'border border-gray-300'
             }`}
             onClick={() => handleCrewClick()}
         >
