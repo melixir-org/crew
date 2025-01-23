@@ -28,27 +28,27 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
     const createCrewModeOn = workId === NEW;
 
     return (
-        <div className="flex-1 flex">
-            <div className="min-w-96 p-1 border-r border-zinc-800 flex gap-1">
-                <div className="flex-[1_1_0] bg-black flex flex-col gap-2">
+        <div className="flex-1 p-1 flex">
+            <div className="min-w-96 flex gap-1">
+                <div className="flex-[1_1_0] p-1 rounded-lg bg-secondary-dark-bg flex flex-col gap-5">
                     <CrewCard />
                     {createCrewModeOn || (
-                        <div className="flex-[1_1_0]">
+                        <div className="flex-[2_2_0] overflow-y-auto scrollbar-none">
                             <AncestorsPanel />
                         </div>
                     )}
                     {createCrewModeOn || (
-                        <div className="flex-[2_2_0]">
+                        <div className="flex-[5_5_0] overflow-y-auto scrollbar-none">
                             <ChildrenPanel />
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col justify-center gap-2">
+                <div className="flex flex-col justify-center gap-3">
                     <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <ListTree className="h-5 w-5 text-gray-400" />
+                        <ListTree className="h-6 w-6 text-gray-400" />
                     </div>
                     <div className="p-1 self-center cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <List className="h-5 w-5 text-gray-400" />
+                        <List className="h-6 w-6 text-gray-400" />
                     </div>
                 </div>
             </div>

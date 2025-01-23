@@ -23,7 +23,7 @@ export default function WorkCard({
 }) {
     return (
         <Card
-            className={`relative p-2 flex justify-between gap-2 cursor-pointer ${
+            className={`border-none relative p-2 flex justify-between gap-2 cursor-pointer ${
                 highlighted ? 'bg-white' : 'bg-black'
             }`}
             onClick={handleClick}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WorkCard from './WorkCard';
+import { Input } from '@/components/ui/input';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -108,8 +109,9 @@ const ChildrenPanel = () => {
     };
 
     return (
-        <div className="h-full flex flex-col gap-2 ml-5">
-            <div className="flex-1 flex flex-col gap-2 overflow-y-auto">
+        <div className="h-full flex flex-col gap-1">
+            <Input placeholder="Search works..." className="border-gray-700" />
+            <div className="flex-1 ml-5 flex flex-col gap-1">
                 {loading ? (
                     <div className="m-auto">Loading...</div>
                 ) : (
@@ -125,12 +127,14 @@ const ChildrenPanel = () => {
                     ))
                 )}
             </div>
-            <Button
-                className="w-full bg-white text-black"
-                onClick={handleCreateWork}
-            >
-                Create Work
-            </Button>
+            <div className="ml-5">
+                <Button
+                    className="w-full bg-white text-black"
+                    onClick={handleCreateWork}
+                >
+                    Create Work
+                </Button>
+            </div>
         </div>
     );
 };

@@ -111,7 +111,7 @@ const AncestorsPanel = () => {
     };
 
     return (
-        <div className="h-full flex flex-col gap-2 overflow-y-auto">
+        <div className="h-full flex flex-col gap-1">
             {loading ? (
                 <div className="m-auto">Loading...</div>
             ) : (
