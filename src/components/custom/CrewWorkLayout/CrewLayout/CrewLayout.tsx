@@ -23,10 +23,10 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     return (
         <>
-            <div className="p-6">
+            <div className="my-5 mx-3">
                 {crewCreateMode ? <CreateTitle /> : <ReadUpdateTitle />}
             </div>
-            <div className="px-6">
+            <div className="mx-3">
                 <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
                 <div className="mt-6">{children}</div>
                 <CrewCreateDraftLayout />
