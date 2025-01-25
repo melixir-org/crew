@@ -35,6 +35,7 @@ export type PageActions = {
     getIsWorkUpdateDraftOn: (workId: string) => boolean;
     setWorkUpdateDraftOn: (workId: string, data: Work) => void;
     setWorkUpdateDraftOff: (workId: string) => void;
+    getWorkUpdateDraft: (workId: string) => WorkUpdateDraft;
     setWorkUpdateDraft: (
         workId: string,
         fn: (state: WorkUpdateDraft) => void
@@ -104,6 +105,9 @@ export const createPageStore = (initialState: PageState) => {
                 set(store => {
                     delete store.client.workUpdateDrafts[workId];
                 });
+            },
+            getWorkUpdateDraft: workId => {
+                return get().client.workUpdateDrafts[workId];
             },
             setWorkUpdateDraft: (workId, fn) => {
                 set(store => {

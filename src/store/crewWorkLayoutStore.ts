@@ -47,6 +47,8 @@ export type CrewWorkLayoutState = {
 export type CrewWorkLayoutActions = {
     setServer: (fn: (server: Server) => void) => void;
 
+    getCrewSafe: (id: string | undefined) => Crew | undefined;
+    getWorkSafe: (id: string | undefined) => Work | undefined;
     addCrews: (crews: Crew[]) => void;
     addWorks: (works: Work[]) => void;
     setCrew: (crewId: string, fn: (state: Crew) => void) => void;
@@ -73,6 +75,7 @@ export type CrewWorkLayoutActions = {
     getIsCrewUpdateDraftOn: (crewId: string) => boolean;
     setCrewUpdateDraftOn: (crewId: string, crew: Crew) => void;
     setCrewUpdateDraftOff: (crewId: string) => void;
+    getCrewUpdateDraft: (crewId: string) => CrewUpdateDraft;
     setCrewUpdateDraft: (
         crewId: string,
         fn: (state: CrewUpdateDraft) => void
@@ -81,6 +84,7 @@ export type CrewWorkLayoutActions = {
     getIsWorkUpdateDraftOn: (workId: string) => boolean;
     setWorkUpdateDraftOn: (workId: string, work: Work) => void;
     setWorkUpdateDraftOff: (workId: string) => void;
+    getWorkUpdateDraft: (workId: string) => WorkUpdateDraft;
     setWorkUpdateDraft: (
         workId: string,
         fn: (state: WorkUpdateDraft) => void
@@ -134,6 +138,12 @@ export const createCrewWorkLayoutStore = (
                 set(store => {
                     fn(store.server);
                 });
+            },
+            getCrewSafe: crewId => {
+                return crewId ? get().server.crews[crewId] : undefined;
+            },
+            getWorkSafe: workId => {
+                return workId ? get().server.works[workId] : undefined;
             },
             addCrews: (crews: Crew[]) => {
                 set(store => {
@@ -219,6 +229,9 @@ export const createCrewWorkLayoutStore = (
                     delete store.client.crewUpdateDrafts[crewId];
                 });
             },
+            getCrewUpdateDraft: crewId => {
+                return get().client.crewUpdateDrafts[crewId];
+            },
             setCrewUpdateDraft: (crewId, fn) => {
                 set(store => {
                     fn(store.client.crewUpdateDrafts[crewId]);
@@ -237,6 +250,9 @@ export const createCrewWorkLayoutStore = (
                 set(store => {
                     delete store.client.workUpdateDrafts[workId];
                 });
+            },
+            getWorkUpdateDraft: workId => {
+                return get().client.workUpdateDrafts[workId];
             },
             setWorkUpdateDraft: (workId, fn) => {
                 set(store => {

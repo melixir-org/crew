@@ -11,11 +11,11 @@ const ReadUpdateDescription = () => {
 
     const {
         server: { works },
-        client: { workUpdateDrafts },
         setWork,
         getIsWorkUpdateDraftOn,
         setWorkUpdateDraftOn,
         setWorkUpdateDraftOff,
+        getWorkUpdateDraft,
         setWorkUpdateDraft,
     } = usePageStore(store => store);
 
@@ -23,7 +23,7 @@ const ReadUpdateDescription = () => {
 
     const description =
         (getIsWorkUpdateDraftOn(workId)
-            ? workUpdateDrafts[workId].work.description
+            ? getWorkUpdateDraft(workId).work.description
             : work.description) ?? '';
 
     const updateDescription = async () => {

@@ -15,14 +15,11 @@ const CrewCard = () => {
 
     const workId: string = extractWorkId(pathname);
 
-    const {
-        server: { works, crews },
-    } = useCrewWorkLayoutStore(store => store);
+    const { getCrewSafe, getWorkSafe } = useCrewWorkLayoutStore(store => store);
 
-    const work: Work | undefined = works[workId] ? works[workId] : undefined;
-    const crew: Crew | undefined = work
-        ? crews[work.crew?.id ?? '']
-        : undefined;
+    const work: Work | undefined = getWorkSafe(workId);
+
+    const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
 
     const handleCrewClick = () => {
         router.push(

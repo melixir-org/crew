@@ -25,14 +25,14 @@ const RouteTabs = ({ routes }: { routes: Route[] }) => {
         <Tabs
             value={extractPathnameAfterWorkId(pathname)}
             onValueChange={value => handleTabChange(value)}
-            className="w-full"
+            className="w-3/5"
         >
-            <TabsList className="bg-zinc-900 border border-zinc-800">
+            <TabsList className="grid grid-cols-2 bg-secondary-dark-bg">
                 {routes.map(route => (
                     <TabsTrigger
                         key={route.name}
                         value={route.pathname}
-                        className="data-[state=active]:bg-zinc-800"
+                        className="data-[state=active]:bg-black data-[state=active]:text-white"
                     >
                         {route.name}
                     </TabsTrigger>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import { Input } from '@/components/ui/input';
 
 const CreateTitle = () => {
     const { getCrewCreateLayout, setCrewCreateLayout } = useCrewWorkLayoutStore(
@@ -10,16 +11,15 @@ const CreateTitle = () => {
     const crewTitle: string = getCrewCreateLayout().crew.title;
 
     return (
-        <div className="flex flex-col gap-2">
-            <textarea
-                rows={1}
+        <div className="w-full flex justify-between">
+            <Input
                 value={crewTitle}
                 onChange={e =>
                     setCrewCreateLayout(crewCreateLayout => {
                         crewCreateLayout.crew.title = e.target.value;
                     })
                 }
-                className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
+                className="border-gray-700"
             />
         </div>
     );

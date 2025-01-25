@@ -34,7 +34,8 @@ const WorkCreateDraftLayout = () => {
     const searchParams = useSearchParams();
 
     const {
-        server: { crews, works },
+        getCrewSafe,
+        getWorkSafe,
         getWorkCreateLayout,
         setWorkCreateLayout,
         getWorkCreateDraftRoute,
@@ -45,10 +46,8 @@ const WorkCreateDraftLayout = () => {
     const workId: string = extractWorkId(pathname);
     const pathnameAfterWorkId: string = extractPathnameAfterWorkId(pathname);
 
-    const work: Work | undefined = works[workId] ? works[workId] : undefined;
-    const crew: Crew | undefined = work
-        ? crews[work.crew?.id ?? '']
-        : undefined;
+    const work: Work | undefined = getWorkSafe(workId);
+    const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
 
     const currentPageIndex = WORK_ROUTE_GROUP_ROUTES.findIndex(
         route => route.pathname === pathnameAfterWorkId

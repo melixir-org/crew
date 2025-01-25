@@ -23,6 +23,7 @@ const AncestorsPanel = () => {
 
     const {
         server: { works },
+        getWorkSafe,
         addWorks,
     } = useCrewWorkLayoutStore(store => store);
 
@@ -31,7 +32,7 @@ const AncestorsPanel = () => {
 
     useEffect(() => {
         function ancestors(wid: string): string[] {
-            const parentId = works[wid]?.parent_id;
+            const parentId = getWorkSafe(wid)?.parent_id;
 
             if (parentId) {
                 return [wid, ...ancestors(parentId)];

@@ -45,7 +45,7 @@ export async function updateDescriptionApi(
 export async function getChildrenApi({ workId }: { workId: string }) {
     return await supabaseBrowserClient
         .from('works')
-        .select(`id, title, parent_id, crew:crew_id (id, title))`, {
+        .select(`id, title, status, parent_id, crew:crew_id (id, title))`, {
             count: 'exact',
         })
         .range(0, 9)
