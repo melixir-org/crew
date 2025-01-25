@@ -31,15 +31,15 @@ const CrewCard = () => {
 
     return (
         <div
-            className={`py-1 px-2 rounded-md cursor-pointer flex flex-row items-center gap-2 ${
+            className={`h-9 px-2 rounded-md cursor-pointer flex items-center gap-2 ${
                 getRouteGroup(pathname) === CREW_ROUTE_GROUP
                     ? 'border bg-secondary text-secondary-foreground'
                     : 'border border-gray-300'
             }`}
             onClick={() => handleCrewClick()}
         >
-            <FolderRoot className="h-4 w-4 text-gray-400" />
-            <p className="min-h-6">{crew?.title ?? ''}</p>
+            <FolderRoot className="h-6 flex-none basis-6 text-gray-400" />
+            <p className="h-6 overflow-hidden">{crew?.title ?? ''}</p>
         </div>
     );
 };

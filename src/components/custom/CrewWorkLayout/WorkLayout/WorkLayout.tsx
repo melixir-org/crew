@@ -29,7 +29,7 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     };
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="p-1 flex flex-col gap-4">
             <div className="flex flex-col gap-4 w-[calc(100%-24rem)]">
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
