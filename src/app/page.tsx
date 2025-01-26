@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#101010] via-[#121212] to-black text-white font-sans">
@@ -16,12 +18,12 @@ export default function Home() {
                 <p className="text-lg text-gray-400 mt-6 max-w-2xl">
                 A platform where tech founders post projects, break them into tasks, and collaborate with contributors to bring ideas to life.
                 </p>
-                <a
-                    href="#"
+                <Link
+                    href="https://tally.so/r/3xRj9d"
                     className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                 >
                     Join the Waitlist
-                </a>
+                </Link>
             </header>
 
             {/* Problem Section */}
@@ -123,12 +125,12 @@ export default function Home() {
                         Don’t miss out on the chance to collaborate with
                         passionate individuals.
                     </p>
-                    <a
-                        href="#"
+                    <Link
+                        href="https://tally.so/r/3xRj9d"
                         className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                     >
                         Join the Waitlist
-                    </a>
+                    </Link>
                 </div>
             </section>
 
