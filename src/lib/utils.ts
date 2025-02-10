@@ -13,26 +13,29 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-function baseMerge(destination: any, source: any) {
+function baseMerge(destination: unknown, source: unknown) {
     if (isPlainObject(source)) {
-        const result: Record<string, any> = isPlainObject(destination)
-            ? destination
+        const src = source as Record<string, unknown>;
+
+        const dest = isPlainObject(destination)
+            ? (destination as Record<string, unknown>)
             : {};
 
-        Object.keys(source).forEach(key => {
-            result[key] = baseMerge(result[key], source[key]);
+        Object.keys(src).forEach(key => {
+            dest[key] = baseMerge(dest[key], src[key]);
         });
 
-        return result;
+        return dest;
     }
 
     return source === undefined ? destination : source;
 }
 
-export function mergeOverride(
-    destination: Record<string, any>,
-    ...sources: any[]
-): void {
+export function mergeOverride(destination: unknown, ...sources: unknown[]) {
+    if (!isPlainObject(destination)) {
+        throw new Error('destination must be a plain object');
+    }
+
     sources.forEach(source => {
         baseMerge(destination, source);
     });

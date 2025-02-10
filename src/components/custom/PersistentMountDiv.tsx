@@ -3,7 +3,7 @@ import React, { useEffect, useState, ReactNode } from 'react';
 interface PersistentMountDivProps {
     children: ReactNode;
     show: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 const PersistentMountDiv: React.FC<PersistentMountDivProps> = ({
