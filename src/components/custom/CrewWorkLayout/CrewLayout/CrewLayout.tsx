@@ -30,7 +30,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
 
     return (
         <div className="p-1 flex flex-col gap-4">
-            <div className="flex flex-col gap-4 w-[calc(100%-20rem)]">
+            <div className="flex flex-col gap-4 w-[70%]">
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
                         {crewCreateModeOn ? (
