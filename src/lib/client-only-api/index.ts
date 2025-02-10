@@ -4,6 +4,7 @@ import { supabaseBrowserClient } from '../supabase/browser';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { WorkStatus } from '@/types/WorkStatus';
+import { Assignment } from '@/types/Assignment';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -72,4 +73,20 @@ export async function updateCrewTitleApi(crewId: string, title: string) {
         .from('crews')
         .update({ title })
         .eq('id', crewId);
+}
+
+export async function assignWorkApi(workId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('assign_work', {
+            input_data: { work_id: workId, user_id: userId },
+        })
+        .returns<Assignment>();
+}
+
+export async function unassignWorkApi(workId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('unassign_work', {
+            input_data: { work_id: workId, user_id: userId },
+        })
+        .returns<Assignment>();
 }
