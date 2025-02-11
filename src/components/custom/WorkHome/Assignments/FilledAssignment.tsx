@@ -40,7 +40,7 @@ const FilledAssignment = ({
             <div className="flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">{type}</h5>
                 <h6 className="px-2 py-[1px] border-[1px] rounded-[54px] border-dark-border text-xs font-medium">
-                    {assignedAt.toLocaleString()}
+                    {assignedAt.toUTCString()}
                 </h6>
             </div>
             <div className="name">{assignment.user_id}</div>
