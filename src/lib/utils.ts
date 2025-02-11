@@ -81,22 +81,6 @@ export const getRelativeTime = (date: Date | string): string => {
     return `${diffInYears} year${diffInYears === 1 ? '' : 's'} ago`;
 };
 
-export function getFormattedTime(): string {
-    const now = new Date();
-
-    const year = now.getUTCFullYear();
-    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(now.getUTCDate()).padStart(2, '0');
-
-    const hours = String(now.getUTCHours()).padStart(2, '0');
-    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-
-    const timezoneOffset = '+00';
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}${timezoneOffset}`;
-}
-
 export function getRouteGroup(pathname: string): RouteGroup {
     if (
         CREW_ROUTE_GROUP_ROUTES.find(route => pathname.endsWith(route.pathname))
