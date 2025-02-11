@@ -2,10 +2,8 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 
-import AssignmentCard from './AssignmentCard';
 import { usePageStore } from '@/provider/PageStore';
 import { updateStatusApi } from '@/lib/client-only-api/index';
-import { Assignment } from '@/types/Assignment';
 import { Work } from '@/types/Work';
 import {
     DONE,
@@ -19,6 +17,7 @@ import {
 import { extractWorkId } from '@/lib/utils';
 import CreateDescription from './CreateDescription';
 import ReadUpdateDescription from './ReadUpdateDescription';
+import Assignments from './Assignments/Assignments';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
@@ -41,8 +40,6 @@ const WorkHome = () => {
             });
         } catch {}
     };
-
-    const assignment: Assignment[] = work.assignment ?? [];
 
     const cw = searchParams.get('create_work') ?? '';
 
@@ -82,9 +79,7 @@ const WorkHome = () => {
                         <h2 className="text-primary-light-bg font-medium text-xl">
                             Assigned Contributors
                         </h2>
-                        {assignment.map(a => (
-                            <AssignmentCard key={a.id} data={a} />
-                        ))}
+                        <Assignments />
                     </div>
                 </div>
             </div>
