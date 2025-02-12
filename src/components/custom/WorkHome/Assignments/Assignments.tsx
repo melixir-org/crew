@@ -28,11 +28,11 @@ const Assignments = () => {
             {assignee ? (
                 <FilledAssignment
                     workId={workId}
-                    type="assignee"
+                    type="Assignee"
                     assignment={assignee}
                 />
             ) : (
-                <EmptyAssignment workId={workId} type="assignee" />
+                <EmptyAssignment workId={workId} type="Assignee" />
             )}
         </>
     );

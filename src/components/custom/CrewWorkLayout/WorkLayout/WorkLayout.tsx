@@ -50,7 +50,7 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
                 </div>
                 <RouteTabs routes={WORK_ROUTE_GROUP_ROUTES} />
             </div>
-            <div>{children}</div>
+            {children}
             <WorkCreateDraftLayout />
         </div>
     );

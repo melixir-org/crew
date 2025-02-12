@@ -18,6 +18,14 @@ import { extractWorkId } from '@/lib/utils';
 import CreateDescription from './CreateDescription';
 import ReadUpdateDescription from './ReadUpdateDescription';
 import Assignments from './Assignments/Assignments';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
@@ -31,8 +39,7 @@ const WorkHome = () => {
 
     const work: Work = works[workId];
 
-    const updateStatus = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const status = e.target.value as WorkStatus;
+    const updateStatus = async (status: WorkStatus) => {
         try {
             await updateStatusApi(workId, status);
             setWork(workId, work => {
@@ -46,41 +53,52 @@ const WorkHome = () => {
     const createWorkModeOn = cw === workId;
 
     return (
-        <div className="flex w-full bg-primary-dark-bg">
-            <div className="flex flex-col bg-primary-dark-bg w-full pl-4">
-                <div className="buttons">
-                    <select
-                        value={work.status ?? ''}
-                        onChange={updateStatus}
-                        className="rounded-md bg-primary-light-bg text-black py-4 px-2 text-md outline-none"
-                    >
-                        <option value={TO_DO}>{TO_DO}</option>
-                        <option value={READY}>{READY}</option>
-                        <option value={PLANNING}>{PLANNING}</option>
-                        <option value={WIP}>{WIP}</option>
-                        <option value={REVIEW}>{REVIEW}</option>
-                        <option value={DONE}>{DONE}</option>
-                    </select>
-                    <br />
-                    <br />
+        <div className="flex flex-col gap-2">
+            <div className="w-[70%] flex justify-end gap-2">
+                <Select value={work.status ?? ''} onValueChange={updateStatus}>
+                    <SelectTrigger className="w-32">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value={TO_DO}>{TO_DO}</SelectItem>
+                            <SelectItem value={READY}>{READY}</SelectItem>
+                            <SelectItem value={PLANNING}>{PLANNING}</SelectItem>
+                            <SelectItem value={WIP}>{WIP}</SelectItem>
+                            <SelectItem value={REVIEW}>{REVIEW}</SelectItem>
+                            <SelectItem value={DONE}>{DONE}</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                <Select value={work.status ?? ''} onValueChange={updateStatus}>
+                    <SelectTrigger className="w-32">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value={TO_DO}>{TO_DO}</SelectItem>
+                            <SelectItem value={READY}>{READY}</SelectItem>
+                            <SelectItem value={PLANNING}>{PLANNING}</SelectItem>
+                            <SelectItem value={WIP}>{WIP}</SelectItem>
+                            <SelectItem value={REVIEW}>{REVIEW}</SelectItem>
+                            <SelectItem value={DONE}>{DONE}</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex gap-2">
+                <div className="flex-[0_0_70%] bg-secondary-dark-bg border-dark-border border-[1px] rounded-lg p-4 w-8/12 gap-4">
+                    <h2 className="text-primary-light-bg font-medium text-xl">
+                        Description
+                    </h2>
+                    {createWorkModeOn ? (
+                        <CreateDescription />
+                    ) : (
+                        <ReadUpdateDescription />
+                    )}
                 </div>
-                <div className="flex w-full">
-                    <div className="bg-secondary-dark-bg border-dark-border border-[1px] rounded-lg p-4 w-8/12 gap-4">
-                        <h2 className="text-primary-light-bg font-medium text-xl">
-                            Description
-                        </h2>
-                        {createWorkModeOn ? (
-                            <CreateDescription />
-                        ) : (
-                            <ReadUpdateDescription />
-                        )}
-                    </div>
-                    <div className="pl-3 w-96">
-                        <h2 className="text-primary-light-bg font-medium text-xl">
-                            Assigned Contributors
-                        </h2>
-                        <Assignments />
-                    </div>
+                <div className="flex-1">
+                    <Assignments />
                 </div>
             </div>
         </div>

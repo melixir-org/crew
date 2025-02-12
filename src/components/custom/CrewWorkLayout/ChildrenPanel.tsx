@@ -111,7 +111,10 @@ const ChildrenPanel = () => {
 
     return (
         <div className="h-full flex flex-col gap-1">
-            <Input placeholder="Search works..." className="border-gray-700" />
+            <Input
+                placeholder="Search child works..."
+                className="border-gray-700"
+            />
             <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
                 {loading
                     ? [...Array(10)].map((_, i) => (
@@ -135,7 +138,7 @@ const ChildrenPanel = () => {
                 className="w-full bg-white text-black"
                 onClick={handleCreateWork}
             >
-                Create Work
+                Create Child Work
             </Button>
         </div>
     );

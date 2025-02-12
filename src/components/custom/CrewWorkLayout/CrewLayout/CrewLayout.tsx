@@ -50,7 +50,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                 </div>
                 <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
             </div>
-            <div>{children}</div>
+            {children}
             <CrewCreateDraftLayout />
         </div>
     );
