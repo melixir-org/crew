@@ -11,7 +11,7 @@ const CreateTitle = () => {
     const crewTitle: string = getCrewCreateLayout().crew.title;
 
     return (
-        <div className="w-full flex justify-between">
+        <div className="flex items-center justify-between">
             <Input
                 value={crewTitle}
                 onChange={e =>

@@ -26,7 +26,7 @@ const EmptyAssignment = ({
     }
 
     return (
-        <div className="w-full p-3 bg-secondary-dark-bg border-[1px] border-dark-border rounded-lg flex flex-col gap-1">
+        <div className="p-3 bg-secondary-dark-bg rounded-lg flex flex-col gap-1">
             <div className="flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">{type}</h5>
             </div>

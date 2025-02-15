@@ -86,11 +86,8 @@ const WorkHome = () => {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="flex gap-2">
-                <div className="flex-[0_0_70%] bg-secondary-dark-bg border-dark-border border-[1px] rounded-lg p-4 w-8/12 gap-4">
-                    <h2 className="text-primary-light-bg font-medium text-xl">
-                        Description
-                    </h2>
+            <div className="flex items-start gap-2">
+                <div className="flex-[0_0_70%]">
                     {createWorkModeOn ? (
                         <CreateDescription />
                     ) : (

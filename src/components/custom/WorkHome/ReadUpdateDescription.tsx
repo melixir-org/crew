@@ -4,6 +4,8 @@ import { extractWorkId } from '@/lib/utils';
 import { usePageStore } from '@/provider/PageStore';
 import { Work } from '@/types/Work';
 import { updateDescriptionApi } from '@/lib/client-only-api';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
 const ReadUpdateDescription = () => {
     const pathname = usePathname();
@@ -36,42 +38,61 @@ const ReadUpdateDescription = () => {
         } catch {}
     };
 
-    return getIsWorkUpdateDraftOn(workId) ? (
-        <div className="flex flex-col gap-2">
-            <textarea
-                rows={1}
-                value={description}
-                onChange={e =>
-                    setWorkUpdateDraft(workId, workUpdateDraft => {
-                        workUpdateDraft.work.description = e.target.value;
-                    })
-                }
-                className="w-full overflow-hidden resize-none text-wrap outline-none bg-primary-dark-bg text-primary-light-bg border-[1px] border-dark-border rounded-md pl-1"
-            />
-            <div className="buttons">
-                <button
-                    className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                    onClick={updateDescription}
-                >
-                    Save
-                </button>
-                <button
-                    className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                    onClick={() => setWorkUpdateDraftOff(workId)}
-                >
-                    Cancel
-                </button>
+    return (
+        <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
+            <div className="h-8 flex items-center justify-between">
+                <h2 className="text-primary-light-bg font-medium text-xl">
+                    Description
+                </h2>
+                <div className="flex items-center">
+                    {getIsWorkUpdateDraftOn(workId) ? (
+                        <>
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={updateDescription}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={() => setWorkUpdateDraftOff(workId)}
+                            >
+                                Cancel
+                            </Button>
+                        </>
+                    ) : (
+                        <Button
+                            className="text-white"
+                            variant="link"
+                            size="sm"
+                            onClick={() => setWorkUpdateDraftOn(workId, work)}
+                        >
+                            Edit
+                        </Button>
+                    )}
+                </div>
             </div>
-        </div>
-    ) : (
-        <div className="flex flex-col gap-2">
-            <p className="text-primary-light-bg text-sm">{description}</p>
-            <button
-                className="border-[1px] rounded-[54px] border-dark-border text-primary-light-bg text-xs px-2 py-[2px] w-fit"
-                onClick={() => setWorkUpdateDraftOn(workId, work)}
-            >
-                Edit
-            </button>
+            {getIsWorkUpdateDraftOn(workId) ? (
+                <Textarea
+                    autoComplete={'off'}
+                    spellCheck={true}
+                    value={description}
+                    onChange={e =>
+                        setWorkUpdateDraft(workId, workUpdateDraft => {
+                            workUpdateDraft.work.description = e.target.value;
+                        })
+                    }
+                    className="h-60 border-gray-700"
+                />
+            ) : (
+                <p className="min-h-60 text-primary-light-bg text-sm whitespace-pre-line">
+                    {description}
+                </p>
+            )}
         </div>
     );
 };

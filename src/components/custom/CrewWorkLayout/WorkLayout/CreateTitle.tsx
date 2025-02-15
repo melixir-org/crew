@@ -11,7 +11,7 @@ const CreateTitle = () => {
     const workTitle = getWorkCreateLayout().work.title;
 
     return (
-        <div className="w-full flex justify-between">
+        <div className="flex items-center justify-between">
             <Input
                 value={workTitle}
                 onChange={e =>

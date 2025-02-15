@@ -53,7 +53,7 @@ const ReadUpdateTitle = () => {
     };
 
     return (
-        <div className="w-full flex justify-between">
+        <div className="flex items-center justify-between">
             {getIsCrewUpdateDraftOn(crewId) ? (
                 <>
                     <Input

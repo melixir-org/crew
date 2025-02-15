@@ -24,7 +24,7 @@ const Assignments = () => {
     const assignee = activeAssignments[0];
 
     return (
-        <>
+        <div className="flex flex-col gap-2">
             {assignee ? (
                 <FilledAssignment
                     workId={workId}
@@ -34,7 +34,16 @@ const Assignments = () => {
             ) : (
                 <EmptyAssignment workId={workId} type="Assignee" />
             )}
-        </>
+            {assignee ? (
+                <FilledAssignment
+                    workId={workId}
+                    type="Reviewer"
+                    assignment={assignee}
+                />
+            ) : (
+                <EmptyAssignment workId={workId} type="Reviewer" />
+            )}
+        </div>
     );
 };
 
