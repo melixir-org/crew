@@ -37,6 +37,7 @@ const ChildrenPanel = () => {
 
     const [loading, setLoading] = useState(true);
     const [childrenIds, setChildrenIds] = useState<string[]>([]);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -44,6 +45,7 @@ const ChildrenPanel = () => {
             try {
                 const { data } = await getChildrenApi({
                     workId: pin,
+                    search,
                 });
 
                 const d = data ?? [];
@@ -55,7 +57,7 @@ const ChildrenPanel = () => {
                 setLoading(false);
             }
         })();
-    }, [pin]);
+    }, [pin, search]);
 
     const childrenWorks = childrenIds.map(id => works[id]);
 
@@ -119,13 +121,17 @@ const ChildrenPanel = () => {
 
     const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
 
-    const isUserMemberOfCrew = crew?.members?.find(m => m.user_id === userId);
+    const isUserMemberOfCrew = crew?.members?.find(
+        m => m.user_id === userId && m.left_at === null
+    );
 
     return (
         <div className="h-full flex flex-col gap-1">
             <Input
                 placeholder="Search child works..."
                 className="border-gray-700"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
             />
             <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
                 {loading

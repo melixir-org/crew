@@ -34,7 +34,9 @@ const ReadUpdateTitle = () => {
 
     const crew: Crew | undefined = getCrewSafe(crewId);
 
-    const isUserMemberOfCrew = crew?.members?.find(m => m.user_id === userId);
+    const isUserMemberOfCrew = crew?.members?.find(
+        m => m.user_id === userId && m.left_at === null
+    );
 
     const workTitle: string = getIsWorkUpdateDraftOn(workId)
         ? getWorkUpdateDraft(workId).work.title

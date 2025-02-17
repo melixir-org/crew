@@ -43,7 +43,13 @@ export async function updateDescriptionApi(
         .eq('id', workId);
 }
 
-export async function getChildrenApi({ workId }: { workId: string }) {
+export async function getChildrenApi({
+    workId,
+    search,
+}: {
+    workId: string;
+    search: string;
+}) {
     return await supabaseBrowserClient
         .from('works')
         .select(`id, title, status, parent_id, crew:crew_id (id, title))`, {
@@ -51,6 +57,7 @@ export async function getChildrenApi({ workId }: { workId: string }) {
         })
         .range(0, 9)
         .eq('parent_id', workId)
+        .or(`title.ilike.%${search}%,description.ilike.%${search}%`)
         .returns<Work[]>();
 }
 

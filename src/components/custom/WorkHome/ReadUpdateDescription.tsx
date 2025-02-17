@@ -46,7 +46,9 @@ const ReadUpdateDescription = () => {
 
     const crew: Crew = crews[crewId];
 
-    const isUserMemberOfCrew = crew.members?.find(m => m.user_id === userId);
+    const isUserMemberOfCrew = crew.members?.find(
+        m => m.user_id === userId && m.left_at === null
+    );
 
     return (
         <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">

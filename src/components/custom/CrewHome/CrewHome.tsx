@@ -14,12 +14,8 @@ const CrewHome = () => {
     const crewCreateMode = workId === NEW;
 
     return (
-        <div className="flex flex-col bg-primary-dark-bg w-full">
-            <br />
-            <div className="flex flex-col gap-3 bg-secondary-dark-bg rounded-lg p-4">
-                <h2 className="text-primary-light-bg text-lg font-medium">
-                    About The Crew
-                </h2>
+        <div className="flex items-start gap-2">
+            <div className="flex-[0_0_70%]">
                 {crewCreateMode ? (
                     <CreateDescription />
                 ) : (
