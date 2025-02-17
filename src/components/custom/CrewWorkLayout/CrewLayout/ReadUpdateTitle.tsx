@@ -1,8 +1,7 @@
 import React from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
-import { WORKSPACE_ROUTE } from '@/app/routes';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { updateCrewTitleApi } from '@/lib/client-only-api';
@@ -11,13 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const ReadUpdateTitle = () => {
-    const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    const handleRouteChange = () => {
-        router.push(`${WORKSPACE_ROUTE.pathname}?${searchParams.toString()}`);
-    };
 
     const {
         getCrewSafe,

@@ -6,13 +6,17 @@ import { Work } from '@/types/Work';
 import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Crew } from '@/types/Crew';
+import { supabaseBrowserClient } from '@/lib/supabase/browser';
+
+const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ReadUpdateDescription = () => {
     const pathname = usePathname();
     const workId: string = extractWorkId(pathname);
 
     const {
-        server: { works },
+        server: { works, crews },
         setWork,
         getIsWorkUpdateDraftOn,
         setWorkUpdateDraftOn,
@@ -38,43 +42,55 @@ const ReadUpdateDescription = () => {
         } catch {}
     };
 
+    const crewId = work.crew?.id ?? '';
+
+    const crew: Crew = crews[crewId];
+
+    const isUserMemberOfCrew = crew.members?.find(m => m.user_id === userId);
+
     return (
         <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
             <div className="h-8 flex items-center justify-between">
                 <h2 className="text-primary-light-bg font-medium text-xl">
                     Description
                 </h2>
-                <div className="flex items-center">
-                    {getIsWorkUpdateDraftOn(workId) ? (
-                        <>
+                {isUserMemberOfCrew && (
+                    <div className="flex items-center">
+                        {getIsWorkUpdateDraftOn(workId) ? (
+                            <>
+                                <Button
+                                    className="text-white"
+                                    variant="link"
+                                    size="sm"
+                                    onClick={updateDescription}
+                                >
+                                    Save
+                                </Button>
+                                <Button
+                                    className="text-white"
+                                    variant="link"
+                                    size="sm"
+                                    onClick={() =>
+                                        setWorkUpdateDraftOff(workId)
+                                    }
+                                >
+                                    Cancel
+                                </Button>
+                            </>
+                        ) : (
                             <Button
                                 className="text-white"
                                 variant="link"
                                 size="sm"
-                                onClick={updateDescription}
+                                onClick={() =>
+                                    setWorkUpdateDraftOn(workId, work)
+                                }
                             >
-                                Save
+                                Edit
                             </Button>
-                            <Button
-                                className="text-white"
-                                variant="link"
-                                size="sm"
-                                onClick={() => setWorkUpdateDraftOff(workId)}
-                            >
-                                Cancel
-                            </Button>
-                        </>
-                    ) : (
-                        <Button
-                            className="text-white"
-                            variant="link"
-                            size="sm"
-                            onClick={() => setWorkUpdateDraftOn(workId, work)}
-                        >
-                            Edit
-                        </Button>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
             {getIsWorkUpdateDraftOn(workId) ? (
                 <Textarea

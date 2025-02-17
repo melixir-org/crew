@@ -7,12 +7,17 @@ import { updateWorkTitleApi } from '@/lib/client-only-api';
 import { extractWorkId } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Crew } from '@/types/Crew';
+import { supabaseBrowserClient } from '@/lib/supabase/browser';
+
+const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ReadUpdateTitle = () => {
     const pathname = usePathname();
 
     const {
         getWorkSafe,
+        getCrewSafe,
         setWork,
         getIsWorkUpdateDraftOn,
         setWorkUpdateDraftOn,
@@ -24,6 +29,12 @@ const ReadUpdateTitle = () => {
     const workId: string = extractWorkId(pathname);
 
     const work: Work | undefined = getWorkSafe(workId);
+
+    const crewId: string = work?.crew?.id ?? '';
+
+    const crew: Crew | undefined = getCrewSafe(crewId);
+
+    const isUserMemberOfCrew = crew?.members?.find(m => m.user_id === userId);
 
     const workTitle: string = getIsWorkUpdateDraftOn(workId)
         ? getWorkUpdateDraft(workId).work.title
@@ -76,18 +87,20 @@ const ReadUpdateTitle = () => {
                     <h1 className="text-2xl font-bold tracking-tight text-primary-light-bg bg-primary-dark-bg">
                         {workTitle}
                     </h1>
-                    <div className="flex items-center">
-                        <Button
-                            className="text-white"
-                            variant="link"
-                            size="sm"
-                            onClick={() =>
-                                setWorkUpdateDraftOn(workId, work as Work)
-                            }
-                        >
-                            Edit
-                        </Button>
-                    </div>
+                    {isUserMemberOfCrew && (
+                        <div className="flex items-center">
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={() =>
+                                    setWorkUpdateDraftOn(workId, work as Work)
+                                }
+                            >
+                                Edit
+                            </Button>
+                        </div>
+                    )}
                 </>
             )}
         </div>

@@ -14,7 +14,11 @@ import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getChildrenApi } from '@/lib/client-only-api';
+import { supabaseBrowserClient } from '@/lib/supabase/browser';
 import { Button } from '@/components/ui/button';
+import { Crew } from '@/types/Crew';
+
+const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ChildrenPanel = () => {
     const router = useRouter();
@@ -26,6 +30,8 @@ const ChildrenPanel = () => {
 
     const {
         server: { works },
+        getCrewSafe,
+        getWorkSafe,
         addWorks,
     } = useCrewWorkLayoutStore(store => store);
 
@@ -109,6 +115,12 @@ const ChildrenPanel = () => {
         }
     };
 
+    const work: Work | undefined = getWorkSafe(workId);
+
+    const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
+
+    const isUserMemberOfCrew = crew?.members?.find(m => m.user_id === userId);
+
     return (
         <div className="h-full flex flex-col gap-1">
             <Input
@@ -134,12 +146,14 @@ const ChildrenPanel = () => {
                           />
                       ))}
             </div>
-            <Button
-                className="w-full bg-white text-black"
-                onClick={handleCreateWork}
-            >
-                Create Child Work
-            </Button>
+            {isUserMemberOfCrew && (
+                <Button
+                    className="w-full bg-white text-black"
+                    onClick={() => handleCreateWork()}
+                >
+                    Create Child Work
+                </Button>
+            )}
         </div>
     );
 };
