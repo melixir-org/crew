@@ -10,10 +10,12 @@ import {
     createWorkUpdateDraft,
     WorkUpdateDraft,
 } from '@/types/WorkUpdateDraft';
+import { User } from '@supabase/supabase-js';
 
 type Server = {
     crews: Record<string, Crew>;
     works: Record<string, Work>;
+    user: null | User;
 };
 
 export type PageState = {
@@ -46,7 +48,7 @@ export const initPageState = (
     ...partialPageState: DeepPartial<PageState | undefined>[]
 ): PageState => {
     const pageState: PageState = {
-        server: { crews: {}, works: {} },
+        server: { crews: {}, works: {}, user: null },
         client: { crewUpdateDrafts: {}, workUpdateDrafts: {} },
     };
 

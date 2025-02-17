@@ -7,13 +7,10 @@ import { Work } from '@/types/Work';
 import { extractWorkId } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
-
-const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ReadUpdateDescription = () => {
     const {
-        server: { crews, works },
+        server: { crews, works, user },
         setWork,
         getIsWorkUpdateDraftOn,
         setWorkUpdateDraftOn,
@@ -52,7 +49,7 @@ const ReadUpdateDescription = () => {
     };
 
     const isUserMemberOfCrew = crew.members?.find(
-        m => m.user_id === userId && m.left_at === null
+        m => m.user_id === user?.id && m.left_at === null
     );
 
     return (
@@ -69,7 +66,7 @@ const ReadUpdateDescription = () => {
                                     className="text-white"
                                     variant="link"
                                     size="sm"
-                                    onClick={updateDescription}
+                                    onClick={() => updateDescription()}
                                 >
                                     Save
                                 </Button>

@@ -8,14 +8,12 @@ import { extractWorkId } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Crew } from '@/types/Crew';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
-
-const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ReadUpdateTitle = () => {
     const pathname = usePathname();
 
     const {
+        server: { user },
         getWorkSafe,
         getCrewSafe,
         setWork,
@@ -35,7 +33,7 @@ const ReadUpdateTitle = () => {
     const crew: Crew | undefined = getCrewSafe(crewId);
 
     const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === userId && m.left_at === null
+        m => m.user_id === user?.id && m.left_at === null
     );
 
     const workTitle: string = getIsWorkUpdateDraftOn(workId)

@@ -14,11 +14,8 @@ import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getChildrenApi } from '@/lib/client-only-api';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
 import { Button } from '@/components/ui/button';
 import { Crew } from '@/types/Crew';
-
-const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ChildrenPanel = () => {
     const router = useRouter();
@@ -29,7 +26,7 @@ const ChildrenPanel = () => {
     const pin = searchParams.get('pin') ?? '';
 
     const {
-        server: { works },
+        server: { works, user },
         getCrewSafe,
         getWorkSafe,
         addWorks,
@@ -122,7 +119,7 @@ const ChildrenPanel = () => {
     const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
 
     const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === userId && m.left_at === null
+        m => m.user_id === user?.id && m.left_at === null
     );
 
     return (

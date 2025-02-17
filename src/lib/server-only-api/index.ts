@@ -4,6 +4,12 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 
+export async function getValidatedUserApi() {
+    const supabaseServerClient = await createSupabaseServerClient();
+
+    return await supabaseServerClient.auth.getUser();
+}
+
 export async function getCrewsApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 

@@ -7,16 +7,13 @@ import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Crew } from '@/types/Crew';
-import { supabaseBrowserClient } from '@/lib/supabase/browser';
-
-const userId = (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? '';
 
 const ReadUpdateDescription = () => {
     const pathname = usePathname();
     const workId: string = extractWorkId(pathname);
 
     const {
-        server: { works, crews },
+        server: { works, crews, user },
         setWork,
         getIsWorkUpdateDraftOn,
         setWorkUpdateDraftOn,
@@ -47,7 +44,7 @@ const ReadUpdateDescription = () => {
     const crew: Crew = crews[crewId];
 
     const isUserMemberOfCrew = crew.members?.find(
-        m => m.user_id === userId && m.left_at === null
+        m => m.user_id === user?.id && m.left_at === null
     );
 
     return (

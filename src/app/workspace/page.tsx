@@ -2,12 +2,13 @@ import { isArray } from 'lodash-es';
 
 import Workspace from '@/components/custom/Workspace/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getCrewsApi } from '@/lib/server-only-api';
+import { getCrewsApi, getValidatedUserApi } from '@/lib/server-only-api';
 import { getWorksApi } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import { CREW, WORK } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
 import type { Work } from '@/types/Work';
+import SessionWrapper from '@/provider/SessionWrapper';
 
 interface PageProps {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -24,7 +25,14 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const ps = isArray(page_size) ? Number(page_size[0]) : Number(page_size);
     const t = isArray(type) ? type[0] : type;
 
-    let initialState: PageState | undefined = undefined;
+    const {
+        data: { user },
+    } = await getValidatedUserApi();
+
+    let initialState: PageState = initPageState({
+        server: { user },
+    });
+
     const ids: string[] = [];
 
     if (t === CREW) {
@@ -36,7 +44,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             ids.push(crew.id);
         });
 
-        initialState = initPageState({ server: { crews } });
+        initialState = initPageState(initialState, { server: { crews } });
     }
 
     if (t === WORK) {
@@ -48,11 +56,12 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             ids.push(work.id);
         });
 
-        initialState = initPageState({ server: { works } });
+        initialState = initPageState(initialState, { server: { works } });
     }
 
     return (
         <PageStoreProvider initialState={initialState}>
+            <SessionWrapper />
             <Workspace ids={ids} />
         </PageStoreProvider>
     );

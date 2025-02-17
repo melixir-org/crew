@@ -22,10 +22,12 @@ import {
     CrewCreateDraftRoute,
 } from '@/types/CrewCreateDraftRoute';
 import { mergeOverride } from '@/lib/utils';
+import { User } from '@supabase/supabase-js';
 
 type Server = {
     crews: Record<string, Crew>;
     works: Record<string, Work>;
+    user: null | User;
 };
 
 export type CrewWorkLayoutState = {
@@ -106,7 +108,7 @@ export const initCrewWorkLayoutState = (
     });
 
     const state: CrewWorkLayoutState = {
-        server: { crews: {}, works: {} },
+        server: { crews: {}, works: {}, user: null },
         client: {
             crewCreateDraft: {
                 layout: createCrewCreateDraftRoute(),
