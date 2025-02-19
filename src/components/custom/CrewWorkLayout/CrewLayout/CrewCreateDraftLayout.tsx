@@ -86,9 +86,10 @@ const CrewCreateDraftLayout = () => {
 
     if (crewCreateMode) {
         return (
-            <div>
+            <div className="flex justify-end gap-2">
                 {isFirstPage ? (
                     <Button
+                        className="w-32 bg-white text-black"
                         onClick={() => {
                             resetCrewCreateDraft();
                             router.push(
@@ -102,6 +103,7 @@ const CrewCreateDraftLayout = () => {
                     </Button>
                 ) : (
                     <Button
+                        className="w-32 bg-white text-black"
                         onClick={() => {
                             redirectToPageWithIndex(currentPageIndex - 1);
                         }}
@@ -111,6 +113,7 @@ const CrewCreateDraftLayout = () => {
                 )}
                 {isLastPage ? (
                     <Button
+                        className="w-32 bg-white text-black"
                         onClick={async () => {
                             const vl = validateLayout();
                             const invalidRouteIndex = validateAllRoute();
@@ -162,6 +165,7 @@ const CrewCreateDraftLayout = () => {
                     </Button>
                 ) : (
                     <Button
+                        className="w-32 bg-white text-black"
                         onClick={() => {
                             setCrewCreateDraftRoute(
                                 pathnameAfterWorkId,

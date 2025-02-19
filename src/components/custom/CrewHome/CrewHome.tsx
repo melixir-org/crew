@@ -14,7 +14,7 @@ const CrewHome = () => {
     const crewCreateMode = workId === NEW;
 
     return (
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-2 mt-2">
             <div className="flex-[0_0_70%]">
                 {crewCreateMode ? (
                     <CreateDescription />

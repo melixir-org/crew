@@ -29,7 +29,7 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
     };
 
     return (
-        <div className="p-1 flex flex-col gap-4">
+        <div className="p-1 flex flex-col gap-2">
             <div className="flex flex-col gap-4 w-[70%]">
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
@@ -51,7 +51,9 @@ const WorkLayout: React.FC<WorkLayoutProps> = ({ children }) => {
                 <RouteTabs routes={WORK_ROUTE_GROUP_ROUTES} />
             </div>
             {children}
-            <WorkCreateDraftLayout />
+            <div className="w-[70%]">
+                <WorkCreateDraftLayout />
+            </div>
         </div>
     );
 };

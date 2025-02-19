@@ -62,6 +62,7 @@ const AncestorsPanel = () => {
                 }
             })();
         } else {
+            // TODO: work.id is undefined when navigating back and forth
             setAncestorIds(ancs.reverse());
         }
     }, [pin]);

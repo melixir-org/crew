@@ -53,7 +53,7 @@ const WorkHome = () => {
     const createWorkModeOn = cw === workId;
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-2">
             <div className="w-[70%] flex justify-end gap-2">
                 <Select value={work.status ?? ''} onValueChange={updateStatus}>
                     <SelectTrigger className="w-32">
