@@ -2,6 +2,7 @@ import { usePageStore } from '@/provider/PageStore';
 import { assignWorkApi } from '@/lib/client-only-api';
 import { Assignment, createAssignment } from '@/types/Assignment';
 import { supabaseBrowserClient } from '@/lib/supabase/browser';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 const EmptyAssignment = ({
     workId,
@@ -10,7 +11,10 @@ const EmptyAssignment = ({
     workId: string;
     type: string;
 }) => {
-    const { setWork } = usePageStore(store => store);
+    const { setWork: setWorkPageStore } = usePageStore(store => store);
+    const { setWork: setWorkCrewWorkLayoutStore } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     async function assignWork() {
         const { data }: { data: Assignment | null } = await assignWorkApi(
@@ -18,10 +22,16 @@ const EmptyAssignment = ({
             (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? ''
         );
 
-        setWork(workId, work => {
-            const a = work.assignment ?? [];
+        setWorkPageStore(workId, work => {
+            const a = work.assignments ?? [];
             a.push(createAssignment({ ...data }));
-            work.assignment = a;
+            work.assignments = a;
+        });
+
+        setWorkCrewWorkLayoutStore(workId, work => {
+            const a = work.assignments ?? [];
+            a.push(createAssignment({ ...data }));
+            work.assignments = a;
         });
     }
 

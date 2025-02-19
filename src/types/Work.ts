@@ -9,7 +9,7 @@ export interface Work {
     description?: string;
     parent_id?: string;
     crew?: Crew;
-    assignment?: Assignment[];
+    assignments?: Assignment[];
     status?: WorkStatus;
 }
 
@@ -19,7 +19,7 @@ export function createWork({
     description,
     parent_id,
     crew,
-    assignment,
+    assignments,
     status,
 }: DeepPartial<Work> = {}): Work {
     return {
@@ -28,9 +28,7 @@ export function createWork({
         description,
         parent_id,
         crew: crew ? createCrew(crew) : undefined,
-        assignment: assignment
-            ? assignment.map(a => createAssignment(a))
-            : undefined,
+        assignments: assignments?.map(a => createAssignment(a)),
         status,
     };
 }

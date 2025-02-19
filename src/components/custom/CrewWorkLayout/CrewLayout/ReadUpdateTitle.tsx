@@ -5,7 +5,7 @@ import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { updateCrewTitleApi } from '@/lib/client-only-api';
-import { extractWorkId } from '@/lib/utils';
+import { extractWorkId, hasCrewUpdatePermission } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -13,6 +13,7 @@ const ReadUpdateTitle = () => {
     const pathname = usePathname();
 
     const {
+        server: { user },
         getCrewSafe,
         setCrew,
         getWorkSafe,
@@ -82,18 +83,20 @@ const ReadUpdateTitle = () => {
                     <h1 className="text-2xl font-bold tracking-tight text-primary-light-bg bg-primary-dark-bg">
                         {crewTitle}
                     </h1>
-                    <div className="flex items-center">
-                        <Button
-                            className="text-white"
-                            variant="link"
-                            size="sm"
-                            onClick={() =>
-                                setCrewUpdateDraftOn(crewId, crew as Crew)
-                            }
-                        >
-                            Edit
-                        </Button>
-                    </div>
+                    {hasCrewUpdatePermission(user, crew) && (
+                        <div className="flex items-center">
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={() =>
+                                    setCrewUpdateDraftOn(crewId, crew as Crew)
+                                }
+                            >
+                                Edit
+                            </Button>
+                        </div>
+                    )}
                 </>
             )}
         </div>

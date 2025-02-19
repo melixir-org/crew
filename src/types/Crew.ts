@@ -19,6 +19,6 @@ export function createCrew({
         id,
         title,
         root_work: root_work ? createWork(root_work) : undefined,
-        members: members ? members.map(m => createMember(m)) : undefined,
+        members: members?.map(m => createMember(m)),
     };
 }

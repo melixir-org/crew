@@ -60,7 +60,7 @@ export async function getWorkForWorkHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, description, status, crew:crew_id (id, title, members (id, user_id, joined_at, left_at)), assignment:assignments (id, user_id, assigned_at, unassigned_at)`
+            `id, title, description, status, parent_id ,crew:crew_id (id, title, members (id, user_id, joined_at, left_at)), assignments (id, user_id, assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .is('assignments.unassigned_at', null)
@@ -82,7 +82,7 @@ export async function getWorkWhileCreateWorkForWorkHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, crew:crew_id (id, title), assignment:assignments (id, user_id, assigned_at, unassigned_at)`
+            `id, title, crew:crew_id (id, title), assignments (id, user_id, assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .returns<Work[]>()

@@ -8,6 +8,9 @@ import {
     RouteGroup,
     WORK_ROUTE_GROUP,
 } from '@/types/RouteGroup';
+import { User } from '@supabase/supabase-js';
+import { Crew } from '@/types/Crew';
+import { Work } from '@/types/Work';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -115,4 +118,31 @@ export function extractPathnameAfterWorkId(pathname: string): string {
     }
 
     return '';
+}
+
+export function hasWorkUpdatePermission(
+    user: User | null,
+    crew: Crew | undefined,
+    work: Work | undefined
+): boolean {
+    const isUserMemberOfCrew = crew?.members?.find(
+        m => m.user_id === user?.id && m.left_at === null
+    );
+
+    const isUserAssignedToParentWork = work?.assignments?.find(
+        a => a.user_id === user?.id && a.unassigned_at === null
+    );
+
+    return !!(isUserMemberOfCrew || isUserAssignedToParentWork);
+}
+
+export function hasCrewUpdatePermission(
+    user: User | null,
+    crew: Crew | undefined
+): boolean {
+    const isUserMemberOfCrew = crew?.members?.find(
+        m => m.user_id === user?.id && m.left_at === null
+    );
+
+    return !!isUserMemberOfCrew;
 }

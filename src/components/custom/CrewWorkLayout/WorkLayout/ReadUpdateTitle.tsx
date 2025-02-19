@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Work } from '@/types/Work';
 import { updateWorkTitleApi } from '@/lib/client-only-api';
-import { extractWorkId } from '@/lib/utils';
+import { extractWorkId, hasWorkUpdatePermission } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Crew } from '@/types/Crew';
@@ -28,13 +28,11 @@ const ReadUpdateTitle = () => {
 
     const work: Work | undefined = getWorkSafe(workId);
 
+    const parentWork: Work | undefined = getWorkSafe(work?.parent_id);
+
     const crewId: string = work?.crew?.id ?? '';
 
     const crew: Crew | undefined = getCrewSafe(crewId);
-
-    const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
-    );
 
     const workTitle: string = getIsWorkUpdateDraftOn(workId)
         ? getWorkUpdateDraft(workId).work.title
@@ -87,7 +85,7 @@ const ReadUpdateTitle = () => {
                     <h1 className="text-2xl font-bold tracking-tight text-primary-light-bg bg-primary-dark-bg">
                         {workTitle}
                     </h1>
-                    {isUserMemberOfCrew && (
+                    {hasWorkUpdatePermission(user, crew, parentWork) && (
                         <div className="flex items-center">
                             <Button
                                 className="text-white"

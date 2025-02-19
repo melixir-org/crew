@@ -1,6 +1,10 @@
 import { unassignWorkApi } from '@/lib/client-only-api';
+import { hasWorkUpdatePermission } from '@/lib/utils';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePageStore } from '@/provider/PageStore';
 import { Assignment, createAssignment } from '@/types/Assignment';
+import { Crew } from '@/types/Crew';
+import { Work } from '@/types/Work';
 
 const FilledAssignment = ({
     workId,
@@ -11,7 +15,13 @@ const FilledAssignment = ({
     type: string;
     assignment: Assignment;
 }) => {
-    const { setWork } = usePageStore(store => store);
+    const {
+        server: { crews, works, user },
+        setWork: setWorkPageStore,
+    } = usePageStore(store => store);
+
+    const { getWorkSafe, setWork: setWorkCrewWorkLayoutStore } =
+        useCrewWorkLayoutStore(store => store);
 
     async function unassignWork() {
         const { data }: { data: Assignment | null } = await unassignWorkApi(
@@ -19,8 +29,8 @@ const FilledAssignment = ({
             assignment.user_id
         );
 
-        setWork(workId, work => {
-            const a = work.assignment ?? [];
+        setWorkPageStore(workId, work => {
+            const a = work.assignments ?? [];
 
             const index = a.findIndex(t => t.id === assignment.id);
             if (index === -1) {
@@ -29,11 +39,32 @@ const FilledAssignment = ({
                 a[index] = createAssignment({ ...data });
             }
 
-            work.assignment = a;
+            work.assignments = a;
+        });
+
+        setWorkCrewWorkLayoutStore(workId, work => {
+            const a = work.assignments ?? [];
+
+            const index = a.findIndex(t => t.id === assignment.id);
+            if (index === -1) {
+                a.push(createAssignment({ ...data }));
+            } else {
+                a[index] = createAssignment({ ...data });
+            }
+
+            work.assignments = a;
         });
     }
 
     const assignedAt = new Date(assignment.assigned_at);
+
+    const work: Work = works[workId];
+
+    const parentWork: Work | undefined = getWorkSafe(work?.parent_id);
+
+    const crewId = work.crew?.id ?? '';
+
+    const crew: Crew = crews[crewId];
 
     return (
         <div className="p-3 bg-secondary-dark-bg rounded-lg flex flex-col gap-1">
@@ -44,12 +75,14 @@ const FilledAssignment = ({
                 </h6>
             </div>
             <div className="name">{assignment.user_id}</div>
-            <button
-                className="border-[1px] border-dark-border text-xs font-medium py-[1px] px-2 rounded-md"
-                onClick={unassignWork}
-            >
-                Unassign
-            </button>
+            {hasWorkUpdatePermission(user, crew, parentWork) && (
+                <button
+                    className="border-[1px] border-dark-border text-xs font-medium py-[1px] px-2 rounded-md"
+                    onClick={() => unassignWork()}
+                >
+                    Unassign
+                </button>
+            )}
         </div>
     );
 };

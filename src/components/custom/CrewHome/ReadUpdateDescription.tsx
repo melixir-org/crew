@@ -4,7 +4,7 @@ import { updateDescriptionApi } from '@/lib/client-only-api';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
-import { extractWorkId } from '@/lib/utils';
+import { extractWorkId, hasCrewUpdatePermission } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
@@ -48,17 +48,13 @@ const ReadUpdateDescription = () => {
         } catch {}
     };
 
-    const isUserMemberOfCrew = crew.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
-    );
-
     return (
         <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
             <div className="h-8 flex items-center justify-between">
                 <h2 className="text-primary-light-bg text-xl font-medium">
                     Description
                 </h2>
-                {isUserMemberOfCrew && (
+                {hasCrewUpdatePermission(user, crew) && (
                     <div className="flex items-center">
                         {getIsWorkUpdateDraftOn(rootWorkId) ? (
                             <>

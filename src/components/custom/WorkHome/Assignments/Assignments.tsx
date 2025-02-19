@@ -17,7 +17,7 @@ const Assignments = () => {
 
     const work: Work = works[workId];
 
-    const assignments: Assignment[] = work.assignment ?? [];
+    const assignments: Assignment[] = work.assignments ?? [];
 
     const activeAssignments = assignments.filter(a => a.unassigned_at === null);
 

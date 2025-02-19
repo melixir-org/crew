@@ -52,11 +52,15 @@ export async function getChildrenApi({
 }) {
     return await supabaseBrowserClient
         .from('works')
-        .select(`id, title, status, parent_id, crew:crew_id (id, title))`, {
-            count: 'exact',
-        })
+        .select(
+            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user_id, assigned_at, unassigned_at)`,
+            {
+                count: 'exact',
+            }
+        )
         .range(0, 9)
         .eq('parent_id', workId)
+        .is('assignments.unassigned_at', null)
         .or(`title.ilike.%${search}%,description.ilike.%${search}%`)
         .returns<Work[]>();
 }

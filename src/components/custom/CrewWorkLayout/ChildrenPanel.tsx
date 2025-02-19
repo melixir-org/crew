@@ -9,6 +9,7 @@ import {
     extractPathnameAfterWorkId,
     extractWorkId,
     getRouteGroup,
+    hasWorkUpdatePermission,
 } from '@/lib/utils';
 import { Work } from '@/types/Work';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
@@ -118,9 +119,7 @@ const ChildrenPanel = () => {
 
     const crew: Crew | undefined = getCrewSafe(work?.crew?.id);
 
-    const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
-    );
+    const pinnedWork: Work | undefined = getWorkSafe(pin);
 
     return (
         <div className="h-full flex flex-col gap-1">
@@ -149,7 +148,7 @@ const ChildrenPanel = () => {
                           />
                       ))}
             </div>
-            {isUserMemberOfCrew && (
+            {hasWorkUpdatePermission(user, crew, pinnedWork) && (
                 <Button
                     className="w-full bg-white text-black"
                     onClick={() => handleCreateWork()}

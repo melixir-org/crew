@@ -1,12 +1,13 @@
 import { usePathname } from 'next/navigation';
 
-import { extractWorkId } from '@/lib/utils';
+import { extractWorkId, hasWorkUpdatePermission } from '@/lib/utils';
 import { usePageStore } from '@/provider/PageStore';
 import { Work } from '@/types/Work';
 import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Crew } from '@/types/Crew';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 const ReadUpdateDescription = () => {
     const pathname = usePathname();
@@ -21,6 +22,8 @@ const ReadUpdateDescription = () => {
         getWorkUpdateDraft,
         setWorkUpdateDraft,
     } = usePageStore(store => store);
+
+    const { getWorkSafe } = useCrewWorkLayoutStore(store => store);
 
     const work: Work = works[workId];
 
@@ -43,9 +46,7 @@ const ReadUpdateDescription = () => {
 
     const crew: Crew = crews[crewId];
 
-    const isUserMemberOfCrew = crew.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
-    );
+    const parentWork: Work | undefined = getWorkSafe(work.parent_id);
 
     return (
         <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
@@ -53,7 +54,7 @@ const ReadUpdateDescription = () => {
                 <h2 className="text-primary-light-bg font-medium text-xl">
                     Description
                 </h2>
-                {isUserMemberOfCrew && (
+                {hasWorkUpdatePermission(user, crew, parentWork) && (
                     <div className="flex items-center">
                         {getIsWorkUpdateDraftOn(workId) ? (
                             <>
