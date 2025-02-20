@@ -31,7 +31,7 @@ export default function Signup() {
                     required
                     className="text-black"
                 />
-                {/* <button formAction={signUpAction}>Sign up</button> */}
+                <button formAction={signUpAction}>Sign up</button>
             </div>
         </form>
     );

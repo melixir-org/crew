@@ -5,17 +5,14 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export const signUpAction = async (formData: FormData) => {
+export const signUpAction = async (formData: FormData): Promise<void> => {
     const email = formData.get('email')?.toString();
     const password = formData.get('password')?.toString();
     const supabase = await createSupabaseServerClient();
     const origin = (await headers()).get('origin');
 
     if (!email || !password) {
-        return {
-            success: false,
-            message: 'Email and password are required',
-        };
+        return;
     }
 
     const { error } = await supabase.auth.signUp({
