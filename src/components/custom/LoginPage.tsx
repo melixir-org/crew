@@ -48,7 +48,7 @@ const LoginPage = () => {
                                 Email
                                 <input
                                     className="border-[1px] border-auth-border bg-auth-card-bg  py-1 px-1 rounded-md"
-                                    placeholder="example@gmail.com"
+                                    placeholder="example@gmail.com" name="email"
                                 />
                             </label>
                             <label className="flex flex-col">
@@ -56,7 +56,7 @@ const LoginPage = () => {
                                 <input
                                     type="password"
                                     className="border-[1px] border-auth-border bg-auth-card-bg k py-1 px-1 rounded-md"
-                                    placeholder="Password"
+                                    placeholder="Password" name="Password"
                                 />
                             </label>
                             <button className="bg-primary-light-bg text-black py-1 rounded-md">
