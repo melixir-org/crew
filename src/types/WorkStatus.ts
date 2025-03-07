@@ -4,6 +4,7 @@ export const PLANNING = 'PLANNING';
 export const WIP = 'WIP';
 export const REVIEW = 'REVIEW';
 export const DONE = 'DONE';
+export const CLOSED = 'CLOSED';
 
 export type WorkStatus =
     | typeof TO_DO
@@ -11,4 +12,5 @@ export type WorkStatus =
     | typeof PLANNING
     | typeof WIP
     | typeof REVIEW
-    | typeof DONE;
+    | typeof DONE
+    | typeof CLOSED;

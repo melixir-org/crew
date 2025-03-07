@@ -6,6 +6,7 @@ import { usePageStore } from '@/provider/PageStore';
 import { updateStatusApi } from '@/lib/client-only-api/index';
 import { Work } from '@/types/Work';
 import {
+    CLOSED,
     DONE,
     PLANNING,
     READY,
@@ -67,6 +68,7 @@ const WorkHome = () => {
                             <SelectItem value={WIP}>{WIP}</SelectItem>
                             <SelectItem value={REVIEW}>{REVIEW}</SelectItem>
                             <SelectItem value={DONE}>{DONE}</SelectItem>
+                            <SelectItem value={CLOSED}>{CLOSED}</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
@@ -82,6 +84,7 @@ const WorkHome = () => {
                             <SelectItem value={WIP}>{WIP}</SelectItem>
                             <SelectItem value={REVIEW}>{REVIEW}</SelectItem>
                             <SelectItem value={DONE}>{DONE}</SelectItem>
+                            <SelectItem value={CLOSED}>{CLOSED}</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>

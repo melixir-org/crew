@@ -129,11 +129,11 @@ export function hasWorkUpdatePermission(
         m => m.user_id === user?.id && m.left_at === null
     );
 
-    const isUserAssignedToParentWork = work?.assignments?.find(
+    const isUserAssignedToWork = work?.assignments?.find(
         a => a.user_id === user?.id && a.unassigned_at === null
     );
 
-    return !!(isUserMemberOfCrew || isUserAssignedToParentWork);
+    return !!(isUserMemberOfCrew || isUserAssignedToWork);
 }
 
 export function hasCrewUpdatePermission(
