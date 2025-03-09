@@ -33,10 +33,6 @@ export async function getWorkForCrewHomePageApi({
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
-        .eq(
-            'crew_id.members.user_id',
-            (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
-        )
         .returns<Work[]>()
         .single();
 }
