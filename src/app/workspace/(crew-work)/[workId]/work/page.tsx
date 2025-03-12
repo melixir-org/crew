@@ -4,6 +4,7 @@ import { PageStoreProvider } from '@/provider/PageStore';
 import {
     getValidatedUserApi,
     getWorkForWorkHomePageApi,
+    getWorkMetaDataApi,
     getWorkWhileCreateWorkForWorkHomePageApi,
 } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
@@ -42,6 +43,21 @@ const Work = async ({
                     crews: { [data.crew.id]: data.crew },
                 },
             });
+
+            if (data.parent_id) {
+                const { data: parentWorkData }: { data: Work | null } =
+                    await getWorkMetaDataApi({
+                        workId: data.parent_id,
+                    });
+
+                if (parentWorkData) {
+                    initialState = initPageState(initialState, {
+                        server: {
+                            works: { [parentWorkData.id]: parentWorkData },
+                        },
+                    });
+                }
+            }
         }
     } else {
         const { data }: { data: Work | null } =

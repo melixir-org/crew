@@ -7,7 +7,6 @@ import { updateDescriptionApi } from '@/lib/client-only-api';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Crew } from '@/types/Crew';
-import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 const ReadUpdateDescription = () => {
     const pathname = usePathname();
@@ -22,8 +21,6 @@ const ReadUpdateDescription = () => {
         getWorkUpdateDraft,
         setWorkUpdateDraft,
     } = usePageStore(store => store);
-
-    const { getWorkSafe } = useCrewWorkLayoutStore(store => store);
 
     const work: Work = works[workId];
 
@@ -46,7 +43,9 @@ const ReadUpdateDescription = () => {
 
     const crew: Crew = crews[crewId];
 
-    const parentWork: Work | undefined = getWorkSafe(work.parent_id);
+    const parentWork: Work | undefined = work.parent_id
+        ? works[work.parent_id]
+        : undefined;
 
     return (
         <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
