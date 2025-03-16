@@ -6,13 +6,16 @@ import { usePathname } from 'next/navigation';
 import { extractWorkId } from '@/lib/utils';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
+import { User } from '@/types/User';
 
 const MembersCard = ({
     memberId,
     userId,
+    user,
 }: {
     memberId: string;
     userId: string;
+    user: User;
 }) => {
     const {
         server: { crews, works },
@@ -69,7 +72,7 @@ const MembersCard = ({
 
     return (
         <div className="flex flex-col gap-2 bg-secondary-dark-bg border-[1px] border-dark-border rounded-md px-3 py-2">
-            {userId}
+            {user.email_id}
             <button className="w-fit" onClick={() => removeMember()}>
                 Remove
             </button>

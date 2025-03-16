@@ -73,7 +73,8 @@ const MembersList = () => {
                         >
                             <MembersCard
                                 memberId={member?.id}
-                                userId={member?.user_id}
+                                userId={member?.user.id}
+                                user={member.user}
                             />
                         </li>
                     ))}
