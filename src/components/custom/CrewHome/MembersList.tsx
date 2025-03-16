@@ -60,7 +60,6 @@ const MembersList = () => {
 
     return (
         <div className="flex flex-col gap-4 text-white ">
-            {}
             <button className="w-fit px-2 py-2 bg-primary-light-bg text-black rounded-md">
                 Join Crew
             </button>

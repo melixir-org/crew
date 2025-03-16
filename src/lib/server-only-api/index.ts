@@ -34,7 +34,7 @@ export async function getWorkForCrewHomePageApi({
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
         // .eq(
-        //     'crew_id.members.user.id',
+        //     'crew_id.members.user_id',
         //     (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
         // )
         .returns<Work[]>()
@@ -60,13 +60,13 @@ export async function getWorkForWorkHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, description, status, parent_id ,crew:crew_id (id, title, members (id, user:user_id (id, email_id), joined_at, left_at)), assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`
+            `id, title, description, status, parent_id, crew:crew_id (id, title, members (id, user:user_id (id, email_id), joined_at, left_at)), assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .is('assignments.unassigned_at', null)
         .is('crew_id.members.left_at', null)
         .eq(
-            'crew_id.members.user.id',
+            'crew_id.members.user_id',
             (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
         )
         .returns<Work[]>()
