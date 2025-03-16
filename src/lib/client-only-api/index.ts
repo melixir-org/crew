@@ -5,6 +5,7 @@ import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { WorkStatus } from '@/types/WorkStatus';
 import { Assignment } from '@/types/Assignment';
+import { Member } from '@/types/Member';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -100,4 +101,20 @@ export async function unassignWorkApi(workId: string, userId: string) {
             input_data: { work_id: workId, user_id: userId },
         })
         .returns<Assignment>();
+}
+
+export async function removeCrewMemberApi(crewId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('remove_crew_member', {
+            input_data: { crew_id: crewId, user_id: userId },
+        })
+        .returns<Member>();
+}
+
+export async function addCrewMemberApi(crewId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('add_crew_member', {
+            input_data: { crewId: crewId, userId: userId },
+        })
+        .returns<Member>();
 }
