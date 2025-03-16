@@ -5,7 +5,7 @@ import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { createMember, Member } from '@/types/Member';
 import MembersCard from './MembersCard';
-import { joinCrewApi } from '@/lib/client-only-api';
+import { addCrewMemberApi } from '@/lib/client-only-api';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 const MembersList = () => {

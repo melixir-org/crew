@@ -103,18 +103,18 @@ export async function unassignWorkApi(workId: string, userId: string) {
         .returns<Assignment>();
 }
 
-export async function removeMemberApi(memberId: string, userId: string) {
+export async function removeCrewMemberApi(crewId: string, userId: string) {
     return await supabaseBrowserClient
-        .rpc('remove_member', {
-            input_data: { member_id: memberId, user_id: userId },
+        .rpc('remove_crew_member', {
+            input_data: { crew_id: crewId, user_id: userId },
         })
         .returns<Member>();
 }
 
-export async function joinCrewApi(crewId: string) {
+export async function addCrewMemberApi(crewId: string, userId: string) {
     return await supabaseBrowserClient
-        .rpc('join_crew', {
-            input_data: { crewId: crewId },
+        .rpc('add_crew_member', {
+            input_data: { crewId: crewId, userId: userId },
         })
         .returns<Member>();
 }

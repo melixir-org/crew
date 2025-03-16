@@ -1,7 +1,7 @@
 import { usePageStore } from '@/provider/PageStore';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { createMember, Member } from '@/types/Member';
-import { removeMemberApi } from '@/lib/client-only-api';
+import { removeCrewMemberApi } from '@/lib/client-only-api';
 import { usePathname } from 'next/navigation';
 import { extractWorkId } from '@/lib/utils';
 import { Work } from '@/types/Work';
@@ -35,8 +35,8 @@ const MembersCard = ({
     const rootWorkId: string = crew.root_work?.id ?? '';
 
     async function removeMember() {
-        const { data }: { data: Member | null } = await removeMemberApi(
-            memberId,
+        const { data }: { data: Member | null } = await removeCrewMemberApi(
+            crewId,
             userId
         );
 
