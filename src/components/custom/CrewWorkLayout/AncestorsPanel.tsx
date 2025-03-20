@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WorkCard from './WorkCard';
@@ -13,7 +13,11 @@ import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { getAncestorsApi } from '@/lib/client-only-api';
 
-const AncestorsPanel = () => {
+const AncestorsPanel = ({
+    containerRef,
+}: {
+    containerRef: RefObject<HTMLDivElement | null>;
+}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -66,6 +70,16 @@ const AncestorsPanel = () => {
             setAncestorIds(ancs.reverse());
         }
     }, [pin]);
+
+    useEffect(() => {
+        // scroll to bottom
+        if (containerRef.current) {
+            containerRef.current.scrollTo({
+                top: containerRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    }, [ancestorIds]);
 
     const ancestorWorks = ancestorIds.map(id => works[id]);
 
