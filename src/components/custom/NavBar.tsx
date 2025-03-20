@@ -1,31 +1,43 @@
 import Link from 'next/link';
 
-const Navbar = () => {
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuList,
+    navigationMenuTriggerStyle,
+} from '../ui/navigation-menu';
+import { HOME_ROUTE, LOGIN_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
+import { cn } from '@/lib/utils';
+
+const NavBar = () => {
     return (
-        <nav className="h-16 border-b border-zinc-800 bg-primary-dark-bg backdrop-blur supports-[backdrop-filter]:bg-black/60">
-            <div className="flex w-full bg-primary-dark-bg h-full">
-                <div className="w-9/12 flex justify-between mx-auto items-center">
-                    <div className="flex justify-between items-center  gap-5 ">
-                        <Link href={'/'}><h2 className=" font-bold text-xl">Melixir</h2></Link>
-                        <Link href={'/explore'}>Explore</Link>
-                        <Link href={'/workspace'}>Workspace</Link>
-                    </div>
-                    <div className="flex justify-between gap-5 items-center">
-                        <Link href={'/login'}>
-                            <button className="opacity-80 hover:opacity-100 transition-all">
-                                Login
-                            </button>
+        <div className="flex justify-between px-12 py-2 border-b border-zinc-800 bg-primary-dark-bg backdrop-blur supports-[backdrop-filter]:bg-black/60">
+            <NavigationMenu>
+                <NavigationMenuList className="gap-3">
+                    <NavigationMenuItem>
+                        <Link href={HOME_ROUTE.pathname}>
+                            <span className="font-bold text-lg">Melixir</span>
                         </Link>
-                        <Link href={'/sign-up'}>
-                            <button className=" bg-primary-light-bg text-slate-950 rounded-xl px-2 py-2 font-semibold">
-                                Sign Up
-                            </button>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link href={WORKSPACE_ROUTE.pathname}>Workspace</Link>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu>
+            <NavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <Link
+                            href={LOGIN_ROUTE.pathname}
+                            className={cn(navigationMenuTriggerStyle(), 'h-8')}
+                        >
+                            <div>Login or Sign Up</div>
                         </Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu>
+        </div>
     );
 };
 
-export default Navbar;
+export default NavBar;
