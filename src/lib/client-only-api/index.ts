@@ -62,6 +62,7 @@ export async function getChildrenApi({
         .eq('parent_id', workId)
         .is('assignments.unassigned_at', null)
         .or(`title.ilike.%${search}%,description.ilike.%${search}%`)
+        .order('status', { ascending: true })
         .returns<Work[]>();
 }
 
