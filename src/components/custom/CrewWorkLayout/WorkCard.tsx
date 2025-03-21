@@ -65,7 +65,7 @@ export default function WorkCard({
                 >
                     {work.title}
                 </h2>
-                <div className="flex flex-wrap justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex flex-wrap items-center justify-start gap-1">
                         <Badge
                             className={cn(
@@ -80,14 +80,16 @@ export default function WorkCard({
                         <Flame className="w-4 h-4 text-blue-500" />
                         <Coins className="w-4 h-4 text-blue-500" />
                     </div>
-                    {assignee && (
-                        <Avatar className="h-6 w-6">
-                            <AvatarImage src="" />
-                            <AvatarFallback className="bg-gray-100">
-                                <span className="text-xs">{'TD'}</span>
-                            </AvatarFallback>
-                        </Avatar>
-                    )}
+                    <Avatar className="h-6 w-6">
+                        {assignee && (
+                            <>
+                                <AvatarImage src="" />
+                                <AvatarFallback className="bg-gray-100">
+                                    <span className="text-xs">{'TD'}</span>
+                                </AvatarFallback>
+                            </>
+                        )}
+                    </Avatar>
                 </div>
             </div>
             <div className="h-7 w-7 flex self-center">
