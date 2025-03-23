@@ -6,7 +6,6 @@ import ReadUpdateDescription from './ReadUpdateDescription';
 import CreateDescription from './CreateDescription';
 import { extractWorkId } from '@/lib/utils';
 import { NEW } from '@/lib/constants';
-import MembersList from './MembersList';
 
 const CrewHome = () => {
     const pathname = usePathname();
@@ -23,7 +22,6 @@ const CrewHome = () => {
                     <ReadUpdateDescription />
                 )}
             </div>
-            <MembersList />
         </div>
     );
 };

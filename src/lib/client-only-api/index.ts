@@ -118,3 +118,13 @@ export async function addCrewMemberApi(crewId: string, userId: string) {
         })
         .returns<Member>();
 }
+
+export async function getMemberListApi(crewId: string) {
+    return await supabaseBrowserClient
+        .from('members')
+        .select('id, joined_at, user:user_id (id, email_id)')
+        .eq('crew_id', crewId)
+        .filter('left_at', 'is', null)
+        .limit(10)
+        .returns<Member[]>();
+}

@@ -1,5 +1,10 @@
 import { Route } from '@/types/Route';
 
+export const MEMBERS_ROUTES: Route = {
+    name: 'members',
+    pathname: '/crew/members',
+};
+
 export const WORKSPACE_ROUTE: Route = {
     name: 'workspace',
     pathname: '/workspace',
@@ -23,6 +28,11 @@ export const SETTINGS_ROUTE: Route = {
 export const LEVEL_ROUTE: Route = {
     name: 'level',
     pathname: '/work/level',
+};
+
+export const MEMBERS_ROUTE: Route = {
+    name: 'members',
+    pathname: '/members',
 };
 
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
