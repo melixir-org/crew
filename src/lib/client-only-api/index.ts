@@ -125,6 +125,6 @@ export async function getMemberListApi(crewId: string) {
         .select('id, joined_at, user:user_id (id, email_id)')
         .eq('crew_id', crewId)
         .filter('left_at', 'is', null)
-        .limit(10)
+        .limit(20)
         .returns<Member[]>();
 }
