@@ -73,6 +73,19 @@ export async function getWorkForWorkHomePageApi({
         .single();
 }
 
+export async function getWorkMetaDataApi({ workId }: { workId: string }) {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .from('works')
+        .select(
+            `id, title, status, parent_id, assignments (id, user_id, assigned_at, unassigned_at)`
+        )
+        .eq('id', workId)
+        .is('assignments.unassigned_at', null)
+        .returns<Work[]>()
+        .single();
+}
+
 export async function getWorkWhileCreateWorkForWorkHomePageApi({
     workId,
 }: {
@@ -81,9 +94,7 @@ export async function getWorkWhileCreateWorkForWorkHomePageApi({
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .from('works')
-        .select(
-            `id, title, crew:crew_id (id, title), assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`
-        )
+        .select(`id, title, crew:crew_id (id, title)`)
         .eq('id', workId)
         .returns<Work[]>()
         .single();

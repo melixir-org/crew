@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 
 import QueryProvider from '@/provider/QueryProvider';
+import NavBar from '@/components/custom/NavBar';
 
 import './globals.css';
 
@@ -72,6 +73,7 @@ export default function RootLayout({
             >
                 <QueryProvider>
                     <div className="min-h-screen flex flex-col bg-black text-white">
+                        <NavBar />
                         {children}
                     </div>
                 </QueryProvider>

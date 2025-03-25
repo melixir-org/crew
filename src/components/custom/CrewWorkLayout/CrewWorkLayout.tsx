@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { List, Network } from 'lucide-react';
 
@@ -27,6 +27,8 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
 
     const createCrewModeOn = workId === NEW;
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
     return (
         <div className="flex-1 p-1 flex">
             <div className="w-96 flex gap-1">
@@ -34,8 +36,11 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                     <div className="flex-[1_1_0] flex flex-col gap-1">
                         <CrewCard />
                         {createCrewModeOn || (
-                            <div className="flex-[1_1_0] overflow-y-auto scrollbar-none">
-                                <AncestorsPanel />
+                            <div
+                                className="flex-[1_1_0] overflow-y-auto scrollbar-none"
+                                ref={containerRef}
+                            >
+                                <AncestorsPanel containerRef={containerRef} />
                             </div>
                         )}
                     </div>

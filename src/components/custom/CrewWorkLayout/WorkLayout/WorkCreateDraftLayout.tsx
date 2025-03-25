@@ -34,6 +34,7 @@ const WorkCreateDraftLayout = () => {
     const searchParams = useSearchParams();
 
     const {
+        addWorks,
         getCrewSafe,
         getWorkSafe,
         getWorkCreateLayout,
@@ -150,20 +151,24 @@ const WorkCreateDraftLayout = () => {
 
                                 const { data } = await createWorkApi(payload);
 
-                                const workId: string = data?.id ?? '';
+                                if (data) {
+                                    const workId: string = data.id;
 
-                                const params = new URLSearchParams(
-                                    searchParams.toString()
-                                );
-                                params.delete('create_work');
+                                    const params = new URLSearchParams(
+                                        searchParams.toString()
+                                    );
+                                    params.delete('create_work');
 
-                                router.push(
-                                    `${WORKSPACE_ROUTE.pathname}/${workId}${
-                                        WORK_HOME_ROUTE.pathname
-                                    }?${params.toString()}`
-                                );
+                                    router.push(
+                                        `${WORKSPACE_ROUTE.pathname}/${workId}${
+                                            WORK_HOME_ROUTE.pathname
+                                        }?${params.toString()}`
+                                    );
 
-                                resetWorkCreateDraft();
+                                    addWorks([data]);
+
+                                    resetWorkCreateDraft();
+                                }
                             }
                         }}
                     >

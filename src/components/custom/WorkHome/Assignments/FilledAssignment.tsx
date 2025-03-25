@@ -20,8 +20,9 @@ const FilledAssignment = ({
         setWork: setWorkPageStore,
     } = usePageStore(store => store);
 
-    const { getWorkSafe, setWork: setWorkCrewWorkLayoutStore } =
-        useCrewWorkLayoutStore(store => store);
+    const { setWork: setWorkCrewWorkLayoutStore } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     async function unassignWork() {
         const { data }: { data: Assignment | null } = await unassignWorkApi(
@@ -60,7 +61,9 @@ const FilledAssignment = ({
 
     const work: Work = works[workId];
 
-    const parentWork: Work | undefined = getWorkSafe(work?.parent_id);
+    const parentWork: Work | undefined = work.parent_id
+        ? works[work.parent_id]
+        : undefined;
 
     const crewId = work.crew?.id ?? '';
 

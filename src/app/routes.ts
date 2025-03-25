@@ -1,8 +1,13 @@
 import { Route } from '@/types/Route';
 
-export const MEMBERS_ROUTE: Route = {
-    name: 'members',
-    pathname: '/crew/members',
+export const HOME_ROUTE: Route = {
+    name: 'home',
+    pathname: '/',
+};
+
+export const LOGIN_ROUTE: Route = {
+    name: 'login',
+    pathname: '/login',
 };
 
 export const WORKSPACE_ROUTE: Route = {
@@ -20,6 +25,11 @@ export const WORK_HOME_ROUTE: Route = {
     pathname: '/work',
 };
 
+export const MEMBERS_ROUTE: Route = {
+    name: 'members',
+    pathname: '/crew/members',
+};
+
 export const SETTINGS_ROUTE: Route = {
     name: 'settings',
     pathname: '/crew/settings',
@@ -32,13 +42,16 @@ export const LEVEL_ROUTE: Route = {
 
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
     CREW_HOME_ROUTE,
-    SETTINGS_ROUTE,
     MEMBERS_ROUTE,
+    SETTINGS_ROUTE,
 ];
 
 export const WORK_ROUTE_GROUP_ROUTES: Route[] = [WORK_HOME_ROUTE, LEVEL_ROUTE];
 
 export const ALL_ROUTES = [
+    HOME_ROUTE,
+    LOGIN_ROUTE,
+    WORKSPACE_ROUTE,
     ...CREW_ROUTE_GROUP_ROUTES,
     ...WORK_ROUTE_GROUP_ROUTES,
 ];
