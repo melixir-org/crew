@@ -1,3 +1,5 @@
+'use client';
+
 import { usePageStore } from '@/provider/PageStore';
 import { usePathname } from 'next/navigation';
 import { extractWorkId } from '@/lib/utils';

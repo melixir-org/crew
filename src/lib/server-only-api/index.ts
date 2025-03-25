@@ -78,7 +78,7 @@ export async function getWorkMetaDataApi({ workId }: { workId: string }) {
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, status, parent_id, assignments (id, user_id, assigned_at, unassigned_at)`
+            `id, title, status, parent_id, assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .is('assignments.unassigned_at', null)

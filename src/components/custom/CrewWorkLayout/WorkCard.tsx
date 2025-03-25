@@ -85,7 +85,11 @@ export default function WorkCard({
                             <>
                                 <AvatarImage src="" />
                                 <AvatarFallback className="bg-gray-100">
-                                    <span className="text-xs">{'TD'}</span>
+                                    <span className="text-xs">
+                                        {assignee.user.email_id
+                                            .slice(0, 2)
+                                            .toUpperCase()}
+                                    </span>
                                 </AvatarFallback>
                             </>
                         )}
