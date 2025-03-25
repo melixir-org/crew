@@ -134,7 +134,7 @@ const ChildrenPanel = () => {
                     ? [...Array(10)].map((_, i) => (
                           <Skeleton
                               key={i}
-                              className="bg-gray-700 w-full flex-[0_0_62px] rounded-lg"
+                              className="bg-gray-700 w-full flex-[0_0_64px] rounded-lg"
                           />
                       ))
                     : childrenWorks.map((work: Work) => (
