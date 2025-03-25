@@ -25,6 +25,11 @@ export const WORK_HOME_ROUTE: Route = {
     pathname: '/work',
 };
 
+export const MEMBERS_ROUTE: Route = {
+    name: 'members',
+    pathname: '/crew/members',
+};
+
 export const SETTINGS_ROUTE: Route = {
     name: 'settings',
     pathname: '/crew/settings',
@@ -37,6 +42,7 @@ export const LEVEL_ROUTE: Route = {
 
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
     CREW_HOME_ROUTE,
+    MEMBERS_ROUTE,
     SETTINGS_ROUTE,
 ];
 

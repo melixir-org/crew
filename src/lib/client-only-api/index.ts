@@ -5,6 +5,7 @@ import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { WorkStatus } from '@/types/WorkStatus';
 import { Assignment } from '@/types/Assignment';
+import { Member } from '@/types/Member';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -53,7 +54,7 @@ export async function getChildrenApi({
     return await supabaseBrowserClient
         .from('works')
         .select(
-            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user_id, assigned_at, unassigned_at)`,
+            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`,
             {
                 count: 'exact',
             }
@@ -101,4 +102,30 @@ export async function unassignWorkApi(workId: string, userId: string) {
             input_data: { work_id: workId, user_id: userId },
         })
         .returns<Assignment>();
+}
+
+export async function removeCrewMemberApi(crewId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('remove_crew_member', {
+            input_data: { crew_id: crewId, user_id: userId },
+        })
+        .returns<Member>();
+}
+
+export async function addCrewMemberApi(crewId: string, userId: string) {
+    return await supabaseBrowserClient
+        .rpc('add_crew_member', {
+            input_data: { crewId: crewId, userId: userId },
+        })
+        .returns<Member>();
+}
+
+export async function getMemberListApi(crewId: string) {
+    return await supabaseBrowserClient
+        .from('members')
+        .select('id, joined_at, user:user_id (id, email_id)')
+        .eq('crew_id', crewId)
+        .filter('left_at', 'is', null)
+        .limit(20)
+        .returns<Member[]>();
 }

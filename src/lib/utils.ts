@@ -126,11 +126,11 @@ export function hasWorkUpdatePermission(
     work: Work | undefined
 ): boolean {
     const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
+        m => m.user.id === user?.id && m.left_at === null
     );
 
     const isUserAssignedToWork = work?.assignments?.find(
-        a => a.user_id === user?.id && a.unassigned_at === null
+        a => a.user.id === user?.id && a.unassigned_at === null
     );
 
     return !!(isUserMemberOfCrew || isUserAssignedToWork);
@@ -141,7 +141,7 @@ export function hasCrewUpdatePermission(
     crew: Crew | undefined
 ): boolean {
     const isUserMemberOfCrew = crew?.members?.find(
-        m => m.user_id === user?.id && m.left_at === null
+        m => m.user.id === user?.id && m.left_at === null
     );
 
     return !!isUserMemberOfCrew;

@@ -27,7 +27,7 @@ const FilledAssignment = ({
     async function unassignWork() {
         const { data }: { data: Assignment | null } = await unassignWorkApi(
             workId,
-            assignment.user_id
+            assignment.user.id
         );
 
         setWorkPageStore(workId, work => {
@@ -77,7 +77,7 @@ const FilledAssignment = ({
                     {assignedAt.toUTCString()}
                 </h6>
             </div>
-            <div className="name">{assignment.user_id}</div>
+            <div className="name">{assignment.user.email_id}</div>
             {hasWorkUpdatePermission(user, crew, parentWork) && (
                 <button
                     className="border-[1px] border-dark-border text-xs font-medium py-[1px] px-2 rounded-md"
