@@ -19,7 +19,7 @@ export const signUpAction = async (formData: FormData): Promise<void> => {
         email,
         password,
         options: {
-            emailRedirectTo: `${origin}/auth/callback`,
+            emailRedirectTo: `${origin}/callback`,
         },
     });
 
@@ -29,6 +29,56 @@ export const signUpAction = async (formData: FormData): Promise<void> => {
 
     revalidatePath('/', 'layout');
     redirect('/login');
+};
+
+export const logInActionGithub = async () => {
+    const supabase = await createSupabaseServerClient();
+    const origin = (await headers()).get('origin');
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+            redirectTo: `${origin}/protected`,
+        },
+    });
+
+    if (error) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+
+    if (data.url) {
+        redirect(data.url); // use the redirect API for your server framework
+    } else {
+        redirect('/protected');
+    }
+};
+
+export const logInActionGoogle = async () => {
+    const supabase = await createSupabaseServerClient();
+    const origin = (await headers()).get('origin');
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: `${origin}/protected`,
+        },
+    });
+
+    if (error) {
+        return {
+            success: false,
+            message: error.message,
+        };
+    }
+
+    if (data.url) {
+        redirect(data.url); // use the redirect API for your server framework
+    } else {
+        redirect('/protected');
+    }
 };
 
 export const logInAction = async (formData: FormData) => {
@@ -65,7 +115,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     }
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
+        redirectTo: `${origin}/callback?next=/protected/reset-password`,
     });
 
     if (error) {

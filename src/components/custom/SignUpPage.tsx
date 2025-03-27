@@ -1,4 +1,8 @@
-import { signUpAction } from '@/app/actions';
+import {
+    logInActionGithub,
+    logInActionGoogle,
+    signUpAction,
+} from '@/app/actions';
 
 const SignUpPage = () => {
     return (
@@ -54,11 +58,17 @@ const SignUpPage = () => {
                                 <hr className="w-3/12" />
                             </div>
                             <div className="flex w-full justify-between">
-                                <button className="py-1 border-[1px] border-auth-border rounded-md w-5/12">
+                                <button
+                                    className="py-1 border-[1px] border-auth-border rounded-md w-5/12"
+                                    onClick={logInActionGoogle}
+                                >
                                     Google
                                 </button>
-                                <button className="py-1 border-[1px] border-auth-border rounded-md w-5/12">
-                                    Facebook
+                                <button
+                                    className="py-1 border-[1px] border-auth-border rounded-md w-5/12"
+                                    onClick={logInActionGithub}
+                                >
+                                    Github
                                 </button>
                             </div>
                         </form>

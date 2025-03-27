@@ -1,6 +1,10 @@
 'use client';
 
-import { logInAction } from '@/app/actions';
+import {
+    logInAction,
+    logInActionGithub,
+    logInActionGoogle,
+} from '@/app/actions';
 import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
@@ -48,7 +52,8 @@ const LoginPage = () => {
                                 Email
                                 <input
                                     className="border-[1px] border-auth-border bg-auth-card-bg  py-1 px-1 rounded-md"
-                                    placeholder="example@gmail.com" name="email"
+                                    placeholder="example@gmail.com"
+                                    name="email"
                                 />
                             </label>
                             <label className="flex flex-col">
@@ -56,7 +61,8 @@ const LoginPage = () => {
                                 <input
                                     type="password"
                                     className="border-[1px] border-auth-border bg-auth-card-bg k py-1 px-1 rounded-md"
-                                    placeholder="Password" name="password"
+                                    placeholder="Password"
+                                    name="password"
                                 />
                             </label>
                             <button className="bg-primary-light-bg text-black py-1 rounded-md">
@@ -68,10 +74,16 @@ const LoginPage = () => {
                             <hr className="w-3/12" />
                         </div>
                         <div className="flex flex-col w-full justify-between gap-2">
-                            <button className="py-1 border-[1px] border-auth-border rounded-md">
-                                Facebook
+                            <button
+                                className="py-1 border-[1px] border-auth-border rounded-md"
+                                onClick={logInActionGoogle}
+                            >
+                                Google
                             </button>
-                            <button className="py-1 border-[1px] border-auth-border rounded-md">
+                            <button
+                                className="py-1 border-[1px] border-auth-border rounded-md"
+                                onClick={logInActionGithub}
+                            >
                                 Github
                             </button>
                         </div>
