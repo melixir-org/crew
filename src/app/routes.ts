@@ -43,7 +43,6 @@ export const LEVEL_ROUTE: Route = {
 export const CREW_ROUTE_GROUP_ROUTES: Route[] = [
     CREW_HOME_ROUTE,
     MEMBERS_ROUTE,
-    SETTINGS_ROUTE,
 ];
 
 export const WORK_ROUTE_GROUP_ROUTES: Route[] = [WORK_HOME_ROUTE, LEVEL_ROUTE];

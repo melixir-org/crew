@@ -54,7 +54,7 @@ export async function getChildrenApi({
     return await supabaseBrowserClient
         .from('works')
         .select(
-            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user:user_id (id, email_id), assigned_at, unassigned_at)`,
+            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user:user_id (id, username, name), assigned_at, unassigned_at)`,
             {
                 count: 'exact',
             }
@@ -123,7 +123,7 @@ export async function addCrewMemberApi(crewId: string, userId: string) {
 export async function getMemberListApi(crewId: string) {
     return await supabaseBrowserClient
         .from('members')
-        .select('id, joined_at, user:user_id (id, email_id)')
+        .select('id, joined_at, user:user_id (id, username, name)')
         .eq('crew_id', crewId)
         .filter('left_at', 'is', null)
         .limit(20)

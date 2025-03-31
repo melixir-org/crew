@@ -86,9 +86,11 @@ export default function WorkCard({
                                 <AvatarImage src="" />
                                 <AvatarFallback className="bg-gray-100">
                                     <span className="text-xs">
-                                        {assignee.user.email_id
-                                            .slice(0, 2)
-                                            .toUpperCase()}
+                                        {assignee.user.name
+                                            .split(' ')
+                                            .map(t => t[0].toUpperCase())
+                                            .join('')
+                                            .slice(0, 2)}
                                     </span>
                                 </AvatarFallback>
                             </>

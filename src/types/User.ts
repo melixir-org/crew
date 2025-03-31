@@ -2,12 +2,14 @@ import { DeepPartial } from './DeepPartial';
 
 export interface User {
     id: string;
-    email_id: string;
+    username: string;
+    name: string;
 }
 
 export function createUser({
     id = '',
-    email_id = '',
+    username = '',
+    name = '',
 }: DeepPartial<User> = {}): User {
-    return { id, email_id };
+    return { id, username, name };
 }

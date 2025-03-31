@@ -74,7 +74,7 @@ const MembersCard = ({
 
     return (
         <div className="flex flex-col gap-2 bg-secondary-dark-bg border-[1px] border-dark-border rounded-md px-3 py-2">
-            {user.email_id}
+            {user.username}
             <button className="w-fit">Remove</button>
         </div>
     );
