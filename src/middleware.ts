@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { LOGIN_ROUTE, WORKSPACE_ROUTE } from './app/routes';
 
 export async function middleware(request: NextRequest) {
-    if (request.nextUrl.pathname.startsWith('/workspace')) {
+    if (request.nextUrl.pathname.startsWith(WORKSPACE_ROUTE.pathname)) {
         const supabaseServerClient = await createSupabaseServerClient();
 
         const {
@@ -14,7 +15,9 @@ export async function middleware(request: NextRequest) {
 
         // Redirect to login page if not authenticated
         if (isUnauthenticated) {
-            return NextResponse.redirect(new URL('/login', request.url));
+            return NextResponse.redirect(
+                new URL(LOGIN_ROUTE.pathname, request.url)
+            );
         }
     }
 
