@@ -1,5 +1,5 @@
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
-import WorkHome from '@/components/custom/WorkHome/WorkHome';
+import WorkHome from '@/components/custom/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
 import {
     getValidatedUserApi,
@@ -78,7 +78,7 @@ const Work = async ({
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <SessionWrapper syncSessionIntoCrewWorkLayoutStore />
+            <SessionWrapper />
             <WorkHome />
         </PageStoreProvider>
     );

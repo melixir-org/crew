@@ -1,6 +1,6 @@
 import { isArray } from 'lodash-es';
 
-import Workspace from '@/components/custom/Workspace/Workspace';
+import Workspace from '@/components/custom/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrewsApi, getValidatedUserApi } from '@/lib/server-only-api';
 import { getWorksApi } from '@/lib/server-only-api';
@@ -61,7 +61,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     return (
         <PageStoreProvider initialState={initialState}>
-            <SessionWrapper />
+            <SessionWrapper syncSessionIntoCrewWorkLayoutStore={false} />
             <Workspace ids={ids} />
         </PageStoreProvider>
     );

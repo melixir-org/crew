@@ -18,7 +18,7 @@ export function SyncSessionIntoCrewWorkLayoutStore() {
 }
 
 export default function SessionWrapper({
-    syncSessionIntoCrewWorkLayoutStore = false,
+    syncSessionIntoCrewWorkLayoutStore = true,
 }: {
     syncSessionIntoCrewWorkLayoutStore?: boolean;
 }) {

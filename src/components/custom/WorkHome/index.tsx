@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { extractWorkId } from '@/lib/utils';
 import CreateDescription from './CreateDescription';
 import ReadUpdateDescription from './ReadUpdateDescription';
-import Assignments from './Assignments/Assignments';
+import Assignments from './Assignments';
 import ReadUpdateStatus from './Status/ReadUpdateStatus';
 import CreateStatus from './Status/CreateStatus';
 

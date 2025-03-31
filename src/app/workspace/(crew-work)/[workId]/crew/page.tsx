@@ -7,7 +7,7 @@ import { PageStoreProvider } from '@/provider/PageStore';
 import SessionWrapper from '@/provider/SessionWrapper';
 import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
-import CrewHome from '@/components/custom/CrewHome/CrewHome';
+import CrewHome from '@/components/custom/CrewHome';
 import { NEW } from '@/lib/constants';
 
 const Crew = async ({ params }: { params: Promise<{ workId: string }> }) => {
@@ -53,7 +53,7 @@ const Crew = async ({ params }: { params: Promise<{ workId: string }> }) => {
     return (
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
-            <SessionWrapper syncSessionIntoCrewWorkLayoutStore />
+            <SessionWrapper />
             <CrewHome />
         </PageStoreProvider>
     );

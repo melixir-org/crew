@@ -7,7 +7,7 @@ const Members = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
-            <SessionWrapper syncSessionIntoCrewWorkLayoutStore />
+            <SessionWrapper />
             <MembersList />
         </PageStoreProvider>
     );

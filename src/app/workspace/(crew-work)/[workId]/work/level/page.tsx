@@ -6,7 +6,7 @@ const Level = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
-            <SessionWrapper syncSessionIntoCrewWorkLayoutStore />
+            <SessionWrapper />
             <div>Level</div>
         </PageStoreProvider>
     );

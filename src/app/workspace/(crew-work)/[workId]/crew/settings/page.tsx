@@ -6,7 +6,7 @@ const Settings = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
-            <SessionWrapper syncSessionIntoCrewWorkLayoutStore />
+            <SessionWrapper />
             <div>Settings</div>
         </PageStoreProvider>
     );

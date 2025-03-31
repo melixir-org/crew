@@ -1,4 +1,4 @@
-import CrewWorkLayout from '@/components/custom/CrewWorkLayout/CrewWorkLayout';
+import CrewWorkLayout from '@/components/custom/CrewWorkLayout';
 import { CrewWorkLayoutStoreProvider } from '@/provider/CrewWorkLayoutStore';
 
 interface LayoutProps {

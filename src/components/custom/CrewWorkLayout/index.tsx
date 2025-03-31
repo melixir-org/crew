@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 import { List, Network } from 'lucide-react';
 
 import AncestorsPanel from './AncestorsPanel';
-import CrewLayout from './CrewLayout/CrewLayout';
-import WorkLayout from './WorkLayout/WorkLayout';
+import CrewLayout from './CrewLayout';
+import WorkLayout from './WorkLayout';
 import { CREW_ROUTE_GROUP } from '@/types/RouteGroup';
 import { extractWorkId, getRouteGroup } from '@/lib/utils';
 import ChildrenPanel from './ChildrenPanel';
