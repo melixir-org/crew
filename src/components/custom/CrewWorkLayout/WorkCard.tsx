@@ -98,7 +98,7 @@ export default function WorkCard({
                     </Avatar>
                 </div>
             </div>
-            <div className="h-7 w-7 flex self-center">
+            <div className="flex flex-none basis-7 self-center">
                 {hideIcon ||
                     (pinned ? (
                         <div
