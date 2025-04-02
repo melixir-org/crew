@@ -15,7 +15,8 @@ export default function Login() {
                         <div className="head">
                             <h1 className="text-3xl font-semibold">Welcome!</h1>
                             <p className="opacity-70">
-                                Log in to build amazing things with your crew
+                                Proceed to build your crew or join an existing
+                                crew
                             </p>
                         </div>
                         <div className="flex w-full items-center justify-center opacity-70">
