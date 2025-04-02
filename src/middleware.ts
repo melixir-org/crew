@@ -15,9 +15,15 @@ export async function middleware(request: NextRequest) {
 
         // Redirect to login page if not authenticated
         if (isUnauthenticated) {
-            return NextResponse.redirect(
-                new URL(LOGIN_ROUTE.pathname, request.url)
+            const currentUrl = new URL(request.url);
+            const redirectTo = new URL(LOGIN_ROUTE.pathname, currentUrl.origin);
+
+            redirectTo.searchParams.set(
+                'next',
+                currentUrl.pathname + currentUrl.search
             );
+
+            return NextResponse.redirect(redirectTo);
         }
     }
 
