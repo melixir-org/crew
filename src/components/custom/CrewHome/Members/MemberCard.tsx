@@ -1,25 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { removeCrewMemberApi } from '@/lib/client-only-api';
-import { extractWorkId } from '@/lib/utils';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePageStore } from '@/provider/PageStore';
 import { createMember, Member } from '@/types/Member';
 import { User } from '@/types/User';
-import { Work } from '@/types/Work';
-import { usePathname } from 'next/navigation';
 
-const MembersCard = ({ user }: { user: User }) => {
-    const pathname = usePathname();
-    const workId: string = extractWorkId(pathname);
+const MemberCard = ({ crewId, member }: { crewId: string; member: Member }) => {
+    const { setCrew: setCrewPageStore } = usePageStore(store => store);
 
-    const {
-        server: { works },
-        setCrew: setCrewPageStore,
-    } = usePageStore(store => store);
-
-    const work: Work = works[workId];
-
-    const crewId: string = work.crew?.id ?? '';
+    const { setCrew: setCrewCrewWorkLayoutStore } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     async function remove(crewId: string, userId: string) {
         const { data }: { data: Member | null } = await removeCrewMemberApi(
@@ -27,19 +19,36 @@ const MembersCard = ({ user }: { user: User }) => {
             userId
         );
 
-        setCrewPageStore(crewId, crew => {
-            const members = crew.members ?? [];
+        if (data) {
+            setCrewPageStore(crewId, crew => {
+                const members = crew.members ?? [];
 
-            const index = members.findIndex(m => m.user.id === userId);
-            if (index === -1) {
-                members.push(createMember({ ...data }));
-            } else {
-                members[index] = createMember({ ...data });
-            }
+                const index = members.findIndex(m => m.id === data.id);
+                if (index === -1) {
+                    members.push(createMember({ ...data }));
+                } else {
+                    members[index] = createMember({ ...data });
+                }
 
-            crew.members = members;
-        });
+                crew.members = members;
+            });
+
+            setCrewCrewWorkLayoutStore(crewId, crew => {
+                const members = crew.members ?? [];
+
+                const index = members.findIndex(m => m.id === data.id);
+                if (index === -1) {
+                    members.push(createMember({ ...data }));
+                } else {
+                    members[index] = createMember({ ...data });
+                }
+
+                crew.members = members;
+            });
+        }
     }
+
+    const user: User = member.user;
 
     return (
         <div className="p-3 flex justify-between items-center gap-2 bg-secondary-dark-bg rounded-lg">
@@ -56,9 +65,9 @@ const MembersCard = ({ user }: { user: User }) => {
                         </span>
                     </AvatarFallback>
                 </Avatar>
-                <div>
+                <span>
                     {user.name} ({user.username})
-                </div>
+                </span>
             </div>
             <Button
                 className="text-white"
@@ -72,4 +81,4 @@ const MembersCard = ({ user }: { user: User }) => {
     );
 };
 
-export default MembersCard;
+export default MemberCard;

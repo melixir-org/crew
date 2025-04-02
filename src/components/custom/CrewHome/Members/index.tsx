@@ -48,7 +48,11 @@ const MembersList = () => {
                         {crew.members
                             .filter(m => m.left_at === null)
                             .map(m => (
-                                <MemberCard key={m.user.id} user={m.user} />
+                                <MemberCard
+                                    key={m.id}
+                                    crewId={crewId}
+                                    member={m}
+                                />
                             ))}
                     </div>
                 )}
