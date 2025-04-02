@@ -70,11 +70,16 @@ const FilledAssignment = ({
     const crew: Crew = crews[crewId];
 
     return (
-        <div className="p-3 bg-secondary-dark-bg rounded-lg flex flex-col gap-1">
+        <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-1">
             <div className="flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">{type}</h5>
-                <h6 className="px-2 py-[1px] border-[1px] rounded-[54px] border-dark-border text-xs font-medium">
-                    {assignedAt.toUTCString()}
+                <h6 className="py-[2px] px-2 border-[1px] rounded-[54px] border-dark-border text-xs">
+                    {`${assignedAt
+                        .toUTCString()
+                        .slice(
+                            0,
+                            16
+                        )} ${assignedAt.getUTCHours()}:${assignedAt.getUTCMinutes()} GMT`}
                 </h6>
             </div>
             <div>{assignment.user.username}</div>
