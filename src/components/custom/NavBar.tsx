@@ -6,7 +6,7 @@ import {
     NavigationMenuList,
     navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
-import { HOME_ROUTE, LOGIN_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
+import { HOME_ROUTE, AUTH_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { cn } from '@/lib/utils';
 
 const NavBar = () => {
@@ -28,7 +28,7 @@ const NavBar = () => {
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <Link
-                            href={LOGIN_ROUTE.pathname}
+                            href={AUTH_ROUTE.pathname}
                             className={cn(navigationMenuTriggerStyle(), 'h-8')}
                         >
                             <div>Login or Sign Up</div>

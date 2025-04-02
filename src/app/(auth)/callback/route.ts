@@ -1,4 +1,4 @@
-import { HOME_ROUTE } from '@/app/routes';
+import { ERROR_ROUTE, HOME_ROUTE } from '@/app/routes';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
@@ -27,5 +27,5 @@ export async function GET(request: Request) {
     }
 
     // return the user to an error page with instructions
-    return NextResponse.redirect(`${origin}/error`);
+    return NextResponse.redirect(`${origin}${ERROR_ROUTE.pathname}`);
 }

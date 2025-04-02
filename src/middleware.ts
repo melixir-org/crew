@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { LOGIN_ROUTE, WORKSPACE_ROUTE } from './app/routes';
+import { AUTH_ROUTE, WORKSPACE_ROUTE } from './app/routes';
 
 export async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith(WORKSPACE_ROUTE.pathname)) {
@@ -13,10 +13,10 @@ export async function middleware(request: NextRequest) {
 
         const isUnauthenticated = session === null;
 
-        // Redirect to login page if not authenticated
+        // Redirect to auth page if not authenticated
         if (isUnauthenticated) {
             const currentUrl = new URL(request.url);
-            const redirectTo = new URL(LOGIN_ROUTE.pathname, currentUrl.origin);
+            const redirectTo = new URL(AUTH_ROUTE.pathname, currentUrl.origin);
 
             redirectTo.searchParams.set(
                 'next',
