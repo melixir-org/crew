@@ -58,26 +58,33 @@ export const logInActionGithub = async () => {
 
 export const logInActionGoogle = async () => {
     const supabase = await createSupabaseServerClient();
-    const origin = (await headers()).get('origin');
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-            redirectTo: `${origin}/protected`,
-        },
-    });
+    const referer = (await headers()).get('referer');
 
-    if (error) {
-        return {
-            success: false,
-            message: error.message,
-        };
-    }
+    if (referer) {
+        const refererUrl = new URL(referer);
+        const callbackUrl = new URL('/callback', refererUrl.origin);
 
-    if (data.url) {
-        redirect(data.url); // use the redirect API for your server framework
-    } else {
-        redirect('/protected');
+        refererUrl.searchParams.forEach((value, key) => {
+            callbackUrl.searchParams.set(key, value);
+        });
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: callbackUrl.toString(),
+            },
+        });
+
+        if (data.url) {
+            redirect(data.url); // use the redirect API for your server framework
+        } else {
+            return {
+                success: false,
+                message:
+                    error?.message ?? 'Something went wrong, please retry!',
+            };
+        }
     }
 };
 
