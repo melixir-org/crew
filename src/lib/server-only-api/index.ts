@@ -41,6 +41,23 @@ export async function getWorkForCrewHomePageApi({
         .single();
 }
 
+export async function getWorkForMembersPageApi({ workId }: { workId: string }) {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .from('works')
+        .select(
+            'id, title, crew:crew_id (id, title, members (id, user:user_id (id, username, name), joined_at, left_at))'
+        )
+        .eq('id', workId)
+        .is('crew_id.members.left_at', null)
+        .eq(
+            'crew_id.members.user_id',
+            (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
+        )
+        .returns<Work[]>()
+        .single();
+}
+
 export async function getWorksApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 

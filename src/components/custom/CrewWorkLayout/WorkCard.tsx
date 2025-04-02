@@ -77,8 +77,8 @@ export default function WorkCard({
                         >
                             {work.status}
                         </Badge>
-                        <Flame className="w-4 h-4 text-blue-500" />
-                        <Coins className="w-4 h-4 text-blue-500" />
+                        {/* <Flame className="w-4 h-4 text-blue-500" /> */}
+                        {/* <Coins className="w-4 h-4 text-blue-500" /> */}
                     </div>
                     <Avatar className="h-6 w-6">
                         {assignee && (
