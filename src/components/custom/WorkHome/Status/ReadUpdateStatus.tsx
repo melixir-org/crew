@@ -21,6 +21,7 @@ import {
     WIP,
     WorkStatus,
 } from '@/types/WorkStatus';
+import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 
 const ReadUpdateStatus = () => {
     const pathname = usePathname();
@@ -28,15 +29,24 @@ const ReadUpdateStatus = () => {
 
     const {
         server: { works },
-        setWork,
+        setWork: setWorkPageStore,
     } = usePageStore(store => store);
+
+    const { setWork: setWorkCrewWorkLayoutStore } = useCrewWorkLayoutStore(
+        store => store
+    );
 
     const work: Work = works[workId];
 
     const updateStatus = async (status: WorkStatus) => {
         try {
             await updateStatusApi(workId, status);
-            setWork(workId, work => {
+
+            setWorkPageStore(workId, work => {
+                work.status = status;
+            });
+
+            setWorkCrewWorkLayoutStore(workId, work => {
                 work.status = status;
             });
         } catch {}
