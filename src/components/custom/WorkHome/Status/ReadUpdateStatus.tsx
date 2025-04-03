@@ -40,15 +40,20 @@ const ReadUpdateStatus = () => {
 
     const updateStatus = async (status: WorkStatus) => {
         try {
-            await updateStatusApi(workId, status);
+            const { data }: { data: Work | null } = await updateStatusApi(
+                workId,
+                status
+            );
 
-            setWorkPageStore(workId, work => {
-                work.status = status;
-            });
+            if (data) {
+                setWorkPageStore(workId, work => {
+                    work.status = data.status;
+                });
 
-            setWorkCrewWorkLayoutStore(workId, work => {
-                work.status = status;
-            });
+                setWorkCrewWorkLayoutStore(workId, work => {
+                    work.status = data.status;
+                });
+            }
         } catch {}
     };
 

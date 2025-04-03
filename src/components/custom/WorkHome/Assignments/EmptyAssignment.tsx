@@ -22,17 +22,19 @@ const EmptyAssignment = ({
             (await supabaseBrowserClient.auth.getUser()).data.user?.id ?? ''
         );
 
-        setWorkPageStore(workId, work => {
-            const a = work.assignments ?? [];
-            a.push(createAssignment({ ...data }));
-            work.assignments = a;
-        });
+        if (data) {
+            setWorkPageStore(workId, work => {
+                const a = work.assignments ?? [];
+                a.push(createAssignment({ ...data }));
+                work.assignments = a;
+            });
 
-        setWorkCrewWorkLayoutStore(workId, work => {
-            const a = work.assignments ?? [];
-            a.push(createAssignment({ ...data }));
-            work.assignments = a;
-        });
+            setWorkCrewWorkLayoutStore(workId, work => {
+                const a = work.assignments ?? [];
+                a.push(createAssignment({ ...data }));
+                work.assignments = a;
+            });
+        }
     }
 
     return (

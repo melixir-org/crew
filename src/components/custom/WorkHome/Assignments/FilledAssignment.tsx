@@ -30,31 +30,33 @@ const FilledAssignment = ({
             assignment.user.id
         );
 
-        setWorkPageStore(workId, work => {
-            const a = work.assignments ?? [];
+        if (data) {
+            setWorkPageStore(workId, work => {
+                const a = work.assignments ?? [];
 
-            const index = a.findIndex(t => t.id === assignment.id);
-            if (index === -1) {
-                a.push(createAssignment({ ...data }));
-            } else {
-                a[index] = createAssignment({ ...data });
-            }
+                const index = a.findIndex(t => t.id === data.id);
+                if (index === -1) {
+                    a.push(createAssignment({ ...data }));
+                } else {
+                    a[index] = createAssignment({ ...data });
+                }
 
-            work.assignments = a;
-        });
+                work.assignments = a;
+            });
 
-        setWorkCrewWorkLayoutStore(workId, work => {
-            const a = work.assignments ?? [];
+            setWorkCrewWorkLayoutStore(workId, work => {
+                const a = work.assignments ?? [];
 
-            const index = a.findIndex(t => t.id === assignment.id);
-            if (index === -1) {
-                a.push(createAssignment({ ...data }));
-            } else {
-                a[index] = createAssignment({ ...data });
-            }
+                const index = a.findIndex(t => t.id === data.id);
+                if (index === -1) {
+                    a.push(createAssignment({ ...data }));
+                } else {
+                    a[index] = createAssignment({ ...data });
+                }
 
-            work.assignments = a;
-        });
+                work.assignments = a;
+            });
+        }
     }
 
     const assignedAt = new Date(assignment.assigned_at);

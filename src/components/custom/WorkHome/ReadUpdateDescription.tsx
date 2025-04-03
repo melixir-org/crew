@@ -31,11 +31,17 @@ const ReadUpdateDescription = () => {
 
     const updateDescription = async () => {
         try {
-            await updateDescriptionApi(workId, description);
-            setWork(workId, work => {
-                work.description = description;
-            });
-            setWorkUpdateDraftOff(workId);
+            const { data }: { data: Work | null } = await updateDescriptionApi(
+                workId,
+                description
+            );
+
+            if (data) {
+                setWork(workId, work => {
+                    work.description = data.description;
+                });
+                setWorkUpdateDraftOff(workId);
+            }
         } catch {}
     };
 

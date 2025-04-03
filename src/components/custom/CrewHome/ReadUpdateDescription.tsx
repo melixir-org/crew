@@ -40,11 +40,17 @@ const ReadUpdateDescription = () => {
 
     const updateDescription = async () => {
         try {
-            await updateDescriptionApi(rootWorkId, description);
-            setWork(rootWorkId, work => {
-                work.description = description;
-            });
-            setWorkUpdateDraftOff(rootWorkId);
+            const { data }: { data: Work | null } = await updateDescriptionApi(
+                rootWorkId,
+                description
+            );
+
+            if (data) {
+                setWork(rootWorkId, work => {
+                    work.description = data.description;
+                });
+                setWorkUpdateDraftOff(rootWorkId);
+            }
         } catch {}
     };
 

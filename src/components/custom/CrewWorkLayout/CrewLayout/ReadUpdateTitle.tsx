@@ -38,11 +38,17 @@ const ReadUpdateTitle = () => {
 
     const updateTitle = async () => {
         try {
-            await updateCrewTitleApi(crewId, crewTitle);
-            setCrew(crewId, crew => {
-                crew.title = crewTitle;
-            });
-            setCrewUpdateDraftOff(crewId);
+            const { data }: { data: Crew | null } = await updateCrewTitleApi(
+                crewId,
+                crewTitle
+            );
+
+            if (data) {
+                setCrew(crewId, crew => {
+                    crew.title = data.title;
+                });
+                setCrewUpdateDraftOff(crewId);
+            }
         } catch {}
     };
 

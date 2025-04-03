@@ -140,24 +140,28 @@ const CrewCreateDraftLayout = () => {
                                     })
                                 );
 
-                                const { data } = await createCrewApi(payload);
+                                const { data }: { data: Crew | null } =
+                                    await createCrewApi(payload);
 
-                                const id = data?.id ?? '';
-                                const rootWorkId: string =
-                                    data?.root_work?.id ?? '';
+                                if (data) {
+                                    const rootWorkId: string =
+                                        data.root_work?.id ?? '';
 
-                                const params = new URLSearchParams(
-                                    searchParams.toString()
-                                );
-                                params.set('entry', id);
-                                params.set('pin', rootWorkId);
-                                params.set('panel', 'hierarchy');
-                                router.push(
-                                    `${WORKSPACE_ROUTE.pathname}/${rootWorkId}${
-                                        CREW_HOME_ROUTE.pathname
-                                    }?${params.toString()}`
-                                );
-                                resetCrewCreateDraft();
+                                    const params = new URLSearchParams(
+                                        searchParams.toString()
+                                    );
+                                    params.set('entry', data.id);
+                                    params.set('pin', rootWorkId);
+                                    params.set('panel', 'hierarchy');
+                                    router.push(
+                                        `${
+                                            WORKSPACE_ROUTE.pathname
+                                        }/${rootWorkId}${
+                                            CREW_HOME_ROUTE.pathname
+                                        }?${params.toString()}`
+                                    );
+                                    resetCrewCreateDraft();
+                                }
                             }
                         }}
                     >

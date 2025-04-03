@@ -41,7 +41,10 @@ export async function updateDescriptionApi(
     return await supabaseBrowserClient
         .from('works')
         .update({ description })
-        .eq('id', workId);
+        .eq('id', workId)
+        .select()
+        .returns<Work[]>()
+        .single();
 }
 
 export async function getChildrenApi({
@@ -71,21 +74,30 @@ export async function updateStatusApi(workId: string, status: WorkStatus) {
     return await supabaseBrowserClient
         .from('works')
         .update({ status })
-        .eq('id', workId);
+        .eq('id', workId)
+        .select()
+        .returns<Work[]>()
+        .single();
 }
 
 export async function updateWorkTitleApi(workId: string, title: string) {
     return await supabaseBrowserClient
         .from('works')
         .update({ title })
-        .eq('id', workId);
+        .eq('id', workId)
+        .select()
+        .returns<Work[]>()
+        .single();
 }
 
 export async function updateCrewTitleApi(crewId: string, title: string) {
     return await supabaseBrowserClient
         .from('crews')
         .update({ title })
-        .eq('id', crewId);
+        .eq('id', crewId)
+        .select()
+        .returns<Crew[]>()
+        .single();
 }
 
 export async function assignWorkApi(workId: string, userId: string) {
