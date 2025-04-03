@@ -1,4 +1,4 @@
-import MembersList from '@/components/custom/CrewHome/Members';
+import Members from '@/components/custom/CrewHome/Members';
 import { NEW } from '@/lib/constants';
 import {
     getValidatedUserApi,
@@ -10,7 +10,7 @@ import SessionWrapper from '@/provider/SessionWrapper';
 import { initPageState, PageState } from '@/store/pageStore';
 import { Work } from '@/types/Work';
 
-const Members = async ({ params }: { params: Promise<{ workId: string }> }) => {
+const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
     const { workId } = await params;
 
     const {
@@ -42,9 +42,9 @@ const Members = async ({ params }: { params: Promise<{ workId: string }> }) => {
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
             <SessionWrapper />
-            <MembersList />
+            <Members />
         </PageStoreProvider>
     );
 };
 
-export default Members;
+export default Page;

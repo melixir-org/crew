@@ -11,7 +11,7 @@ import { initPageState, PageState } from '@/store/pageStore';
 import type { Work } from '@/types/Work';
 import SessionWrapper from '@/provider/SessionWrapper';
 
-const Work = async ({
+const Page = async ({
     params,
     searchParams,
 }: {
@@ -84,4 +84,4 @@ const Work = async ({
     );
 };
 
-export default Work;
+export default Page;

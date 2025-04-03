@@ -2,7 +2,7 @@ import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCr
 import { PageStoreProvider } from '@/provider/PageStore';
 import SessionWrapper from '@/provider/SessionWrapper';
 
-const Settings = () => {
+const Page = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
@@ -12,4 +12,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default Page;

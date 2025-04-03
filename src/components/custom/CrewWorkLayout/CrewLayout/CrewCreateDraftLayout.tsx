@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
     CREW_HOME_ROUTE,
     CREW_ROUTE_GROUP_ROUTES,
-    SETTINGS_ROUTE,
+    MEMBERS_ROUTE,
     WORKSPACE_ROUTE,
 } from '@/app/routes';
 import { isCrewHomeValid } from '@/components/custom/CrewHome/validation';
@@ -23,7 +23,7 @@ import { isCrewLayoutValid } from './validation';
 
 const routesValidation: Record<string, (crew: Crew) => boolean> = {
     [CREW_HOME_ROUTE.pathname]: isCrewHomeValid,
-    [SETTINGS_ROUTE.pathname]: () => true,
+    [MEMBERS_ROUTE.pathname]: () => true,
 };
 
 const CrewCreateDraftLayout = () => {

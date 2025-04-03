@@ -2,14 +2,14 @@ import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCr
 import { PageStoreProvider } from '@/provider/PageStore';
 import SessionWrapper from '@/provider/SessionWrapper';
 
-const Level = () => {
+const Page = () => {
     return (
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
             <SessionWrapper />
-            <div>Level</div>
+            <div>work in progress</div>
         </PageStoreProvider>
     );
 };
 
-export default Level;
+export default Page;

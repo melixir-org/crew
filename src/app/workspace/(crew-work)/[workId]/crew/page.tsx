@@ -10,7 +10,7 @@ import { initPageState, type PageState } from '@/store/pageStore';
 import CrewHome from '@/components/custom/CrewHome';
 import { NEW } from '@/lib/constants';
 
-const Crew = async ({ params }: { params: Promise<{ workId: string }> }) => {
+const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
     const { workId } = await params;
 
     const {
@@ -59,4 +59,4 @@ const Crew = async ({ params }: { params: Promise<{ workId: string }> }) => {
     );
 };
 
-export default Crew;
+export default Page;
