@@ -123,7 +123,8 @@ export function extractPathnameAfterWorkId(pathname: string): string {
 export function hasWorkUpdatePermission(
     user: User | null,
     crew: Crew | undefined,
-    work: Work | undefined
+    work: Work | undefined,
+    parentWork: Work | undefined
 ): boolean {
     const isUserMemberOfCrew = crew?.members?.find(
         m => m.user.id === user?.id && m.left_at === null
@@ -133,7 +134,15 @@ export function hasWorkUpdatePermission(
         a => a.user.id === user?.id && a.unassigned_at === null
     );
 
-    return !!(isUserMemberOfCrew || isUserAssignedToWork);
+    const isUserAssignedToParentWork = parentWork?.assignments?.find(
+        a => a.user.id === user?.id && a.unassigned_at === null
+    );
+
+    return !!(
+        isUserMemberOfCrew ||
+        isUserAssignedToWork ||
+        isUserAssignedToParentWork
+    );
 }
 
 export function hasCrewUpdatePermission(

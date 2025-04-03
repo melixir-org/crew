@@ -1,5 +1,5 @@
 import { updateStatusApi } from '@/lib/client-only-api';
-import { extractWorkId } from '@/lib/utils';
+import { extractWorkId, hasWorkUpdatePermission } from '@/lib/utils';
 import { usePageStore } from '@/provider/PageStore';
 import { Work } from '@/types/Work';
 import { usePathname } from 'next/navigation';
@@ -22,13 +22,14 @@ import {
     WorkStatus,
 } from '@/types/WorkStatus';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
+import { Crew } from '@/types/Crew';
 
 const ReadUpdateStatus = () => {
     const pathname = usePathname();
     const workId: string = extractWorkId(pathname);
 
     const {
-        server: { works },
+        server: { works, crews, user },
         setWork: setWorkPageStore,
     } = usePageStore(store => store);
 
@@ -37,6 +38,10 @@ const ReadUpdateStatus = () => {
     );
 
     const work: Work = works[workId];
+
+    const crewId = work.crew?.id ?? '';
+
+    const crew: Crew = crews[crewId];
 
     const updateStatus = async (status: WorkStatus) => {
         try {
@@ -58,7 +63,11 @@ const ReadUpdateStatus = () => {
     };
 
     return (
-        <Select value={work.status ?? ''} onValueChange={updateStatus}>
+        <Select
+            value={work.status ?? ''}
+            onValueChange={updateStatus}
+            disabled={!hasWorkUpdatePermission(user, crew, work, undefined)}
+        >
             <SelectTrigger className="w-32">
                 <SelectValue placeholder="Status" />
             </SelectTrigger>

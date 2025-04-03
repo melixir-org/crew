@@ -85,7 +85,7 @@ const FilledAssignment = ({
                 </h6>
             </div>
             <div>{assignment.user.username}</div>
-            {hasWorkUpdatePermission(user, crew, parentWork) && (
+            {hasWorkUpdatePermission(user, crew, work, parentWork) && (
                 <button
                     className="border-[1px] border-dark-border text-xs font-medium py-[1px] px-2 rounded-md"
                     onClick={() => unassignWork()}

@@ -59,7 +59,7 @@ const ReadUpdateDescription = () => {
                 <h2 className="text-primary-light-bg font-medium text-xl">
                     Description
                 </h2>
-                {hasWorkUpdatePermission(user, crew, parentWork) && (
+                {hasWorkUpdatePermission(user, crew, undefined, parentWork) && (
                     <div className="flex items-center">
                         {getIsWorkUpdateDraftOn(workId) ? (
                             <>

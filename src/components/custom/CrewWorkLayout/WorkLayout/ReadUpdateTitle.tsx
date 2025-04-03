@@ -91,7 +91,12 @@ const ReadUpdateTitle = () => {
                     <h1 className="text-2xl font-bold tracking-tight text-primary-light-bg bg-primary-dark-bg">
                         {workTitle}
                     </h1>
-                    {hasWorkUpdatePermission(user, crew, parentWork) && (
+                    {hasWorkUpdatePermission(
+                        user,
+                        crew,
+                        undefined,
+                        parentWork
+                    ) && (
                         <div className="flex items-center">
                             <Button
                                 className="text-white"
