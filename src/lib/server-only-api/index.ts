@@ -29,7 +29,7 @@ export async function getWorkForCrewHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            'id, title, crew:crew_id (id, title, root_work:root_id (id, title, description), members (id, user:user_id (id, username, name), joined_at, left_at))'
+            'id, title, crew:crew_id (id, title, root_work:root_id (id, title, description), members (id, user:user_id (id, username, name, avatar_url), joined_at, left_at))'
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
@@ -46,7 +46,7 @@ export async function getWorkForMembersPageApi({ workId }: { workId: string }) {
     return await supabaseServerClient
         .from('works')
         .select(
-            'id, title, crew:crew_id (id, title, members (id, user:user_id (id, username, name), joined_at, left_at))'
+            'id, title, crew:crew_id (id, title, members (id, user:user_id (id, username, name, avatar_url), joined_at, left_at))'
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
@@ -77,7 +77,7 @@ export async function getWorkForWorkHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, description, status, parent_id, crew:crew_id (id, title, members (id, user:user_id (id, username, name), joined_at, left_at)), assignments (id, user:user_id (id, username, name), assigned_at, unassigned_at)`
+            `id, title, description, status, parent_id, crew:crew_id (id, title, members (id, user:user_id (id, username, name, avatar_url), joined_at, left_at)), assignments (id, user:user_id (id, username, name, avatar_url), assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .is('assignments.unassigned_at', null)
@@ -95,7 +95,7 @@ export async function getWorkMetaDataApi({ workId }: { workId: string }) {
     return await supabaseServerClient
         .from('works')
         .select(
-            `id, title, status, parent_id, assignments (id, user:user_id (id, username, name), assigned_at, unassigned_at)`
+            `id, title, status, parent_id, assignments (id, user:user_id (id, username, name, avatar_url), assigned_at, unassigned_at)`
         )
         .eq('id', workId)
         .is('assignments.unassigned_at', null)

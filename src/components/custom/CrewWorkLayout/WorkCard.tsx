@@ -81,9 +81,10 @@ export default function WorkCard({
                         {/* <Coins className="w-4 h-4 text-blue-500" /> */}
                     </div>
                     <Avatar className="h-6 w-6">
-                        {assignee && (
-                            <>
-                                <AvatarImage src="" />
+                        {assignee &&
+                            (assignee.user.avatar_url ? (
+                                <AvatarImage src={assignee.user.avatar_url} />
+                            ) : (
                                 <AvatarFallback className="bg-gray-100">
                                     <span className="text-xs">
                                         {assignee.user.name
@@ -93,8 +94,7 @@ export default function WorkCard({
                                             .slice(0, 2)}
                                     </span>
                                 </AvatarFallback>
-                            </>
-                        )}
+                            ))}
                     </Avatar>
                 </div>
             </div>

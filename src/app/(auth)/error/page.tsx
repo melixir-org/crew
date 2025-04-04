@@ -8,16 +8,14 @@ const Page = () => {
     const [error_description, setErrorDescription] = useState<string>('');
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const hash = window.location.hash;
+        const hash = window.location.hash;
 
-            const params = new URLSearchParams(hash.slice(1));
-            setError(params.get('error') ?? '');
-            setErrorCode(params.get('error_code') ?? '');
-            setErrorDescription(
-                decodeURIComponent(params.get('error_description') ?? '')
-            );
-        }
+        const params = new URLSearchParams(hash.slice(1));
+        setError(params.get('error') ?? '');
+        setErrorCode(params.get('error_code') ?? '');
+        setErrorDescription(
+            decodeURIComponent(params.get('error_description') ?? '')
+        );
     }, []);
 
     return (

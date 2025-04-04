@@ -54,16 +54,19 @@ const MemberCard = ({ crewId, member }: { crewId: string; member: Member }) => {
         <div className="p-3 flex justify-between items-center gap-2 bg-secondary-dark-bg rounded-lg">
             <div className="flex gap-2">
                 <Avatar className="h-6 w-6">
-                    <AvatarImage src="" />
-                    <AvatarFallback className="bg-gray-100 text-black">
-                        <span className="text-xs">
-                            {user.name
-                                .split(' ')
-                                .map(t => t[0].toUpperCase())
-                                .join('')
-                                .slice(0, 2)}
-                        </span>
-                    </AvatarFallback>
+                    {user.avatar_url ? (
+                        <AvatarImage src={user.avatar_url} />
+                    ) : (
+                        <AvatarFallback className="bg-gray-100 text-black">
+                            <span className="text-xs">
+                                {user.name
+                                    .split(' ')
+                                    .map(t => t[0].toUpperCase())
+                                    .join('')
+                                    .slice(0, 2)}
+                            </span>
+                        </AvatarFallback>
+                    )}
                 </Avatar>
                 <span>
                     {user.name} ({user.username})
