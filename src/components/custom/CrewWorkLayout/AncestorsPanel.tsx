@@ -53,7 +53,7 @@ const AncestorsPanel = ({
                 try {
                     const { data } = await getAncestorsApi({
                         workId: pin,
-                        length: 5,
+                        length: 10,
                     });
 
                     const d = data ?? [];
