@@ -1,9 +1,24 @@
-interface PageProps {
-    searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
+'use client';
 
-const Page: React.FC<PageProps> = async ({ searchParams }) => {
-    const { error, error_code, error_description } = await searchParams;
+import { useEffect, useState } from 'react';
+
+const Page = () => {
+    const [error, setError] = useState<string>('');
+    const [error_code, setErrorCode] = useState<string>('');
+    const [error_description, setErrorDescription] = useState<string>('');
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const hash = window.location.hash;
+
+            const params = new URLSearchParams(hash.slice(1));
+            setError(params.get('error') ?? '');
+            setErrorCode(params.get('error_code') ?? '');
+            setErrorDescription(
+                decodeURIComponent(params.get('error_description') ?? '')
+            );
+        }
+    }, []);
 
     return (
         <div>
