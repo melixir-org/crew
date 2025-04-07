@@ -3,4 +3,4 @@ export const WORK = 'work';
 export const NEW = 'new';
 
 export const HIERARCHY = 'hierarchy';
-export const LIST = 'list';
+export const MANAGE = 'manage';

@@ -7,7 +7,7 @@ import CrewLayout from './CrewLayout';
 import WorkLayout from './WorkLayout';
 import { CREW_ROUTE_GROUP } from '@/types/RouteGroup';
 import { extractWorkId, getRouteGroup } from '@/lib/utils';
-import { HIERARCHY, LIST, NEW } from '@/lib/constants';
+import { HIERARCHY, MANAGE, NEW } from '@/lib/constants';
 import HierarchyPanel from './HierarchyPanel';
 import PersistentMountDiv from '../PersistentMountDiv';
 import ListPanel from './ListPanel';
@@ -46,7 +46,7 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                     <HierarchyPanel />
                 </PersistentMountDiv>
                 <PersistentMountDiv
-                    show={panel === LIST && !createCrewModeOn}
+                    show={panel === MANAGE && !createCrewModeOn}
                     className="flex-1 p-1 rounded-lg bg-secondary-dark-bg"
                 >
                     <ListPanel />
@@ -65,7 +65,7 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                             <div
                                 className="p-1 cursor-pointer hover:bg-gray-100 rounded-lg"
                                 onClick={() => {
-                                    handlePanelChange(LIST);
+                                    handlePanelChange(MANAGE);
                                 }}
                             >
                                 <List className="h-6 w-6 text-gray-400" />

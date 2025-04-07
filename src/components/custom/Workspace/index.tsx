@@ -9,7 +9,7 @@ import {
     WORK_HOME_ROUTE,
     WORKSPACE_ROUTE,
 } from '@/app/routes';
-import { CREW, NEW, WORK } from '@/lib/constants';
+import { CREW, HIERARCHY, MANAGE, NEW, WORK } from '@/lib/constants';
 import WorkList from './WorkList';
 import CrewList from './CrewList';
 import { Button } from '@/components/ui/button';
@@ -46,14 +46,14 @@ function Workspace({ ids }: { ids: string[] }) {
         params.set('entry', id);
         params.set('pin', workId);
         if (type === WORK) {
-            params.set('panel', 'hierarchy');
+            params.set('panel', HIERARCHY);
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${workId}${
                     WORK_HOME_ROUTE.pathname
                 }?${params.toString()}`
             );
         } else {
-            params.set('panel', 'manage');
+            params.set('panel', MANAGE);
             router.push(
                 `${WORKSPACE_ROUTE.pathname}/${workId}${
                     CREW_HOME_ROUTE.pathname

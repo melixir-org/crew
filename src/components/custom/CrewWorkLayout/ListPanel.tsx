@@ -13,7 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import WorkCard from './WorkCard';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
-import { HIERARCHY, LIST } from '@/lib/constants';
+import { HIERARCHY, MANAGE } from '@/lib/constants';
 
 const ListPanel = () => {
     const pathname = usePathname();
@@ -39,7 +39,7 @@ const ListPanel = () => {
     const panel = searchParams.get('panel');
 
     useEffect(() => {
-        if (panel === LIST) {
+        if (panel === MANAGE) {
             if (crewId && workIds.length === 0) {
                 (async () => {
                     setLoading(true);

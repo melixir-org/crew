@@ -18,7 +18,7 @@ import { extractPathnameAfterWorkId, mergeOverride } from '@/lib/utils';
 import { createWork } from '@/types/Work';
 import { TO_DO } from '@/types/WorkStatus';
 import { extractWorkId } from '@/lib/utils';
-import { NEW } from '@/lib/constants';
+import { HIERARCHY, NEW } from '@/lib/constants';
 import { isCrewLayoutValid } from './validation';
 
 const routesValidation: Record<string, (crew: Crew) => boolean> = {
@@ -152,7 +152,7 @@ const CrewCreateDraftLayout = () => {
                                     );
                                     params.set('entry', data.id);
                                     params.set('pin', rootWorkId);
-                                    params.set('panel', 'hierarchy');
+                                    params.set('panel', HIERARCHY);
                                     router.push(
                                         `${
                                             WORKSPACE_ROUTE.pathname
