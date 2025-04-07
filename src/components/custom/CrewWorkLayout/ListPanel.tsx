@@ -13,7 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import WorkCard from './WorkCard';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
-import { LIST } from '@/lib/constants';
+import { HIERARCHY, LIST } from '@/lib/constants';
 
 const ListPanel = () => {
     const pathname = usePathname();
@@ -61,7 +61,7 @@ const ListPanel = () => {
                 })();
             }
         }
-    }, [panel, crewId]);
+    }, [panel, crewId, workIds]);
 
     const handleWorkClick = (wid: string) => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
@@ -82,6 +82,7 @@ const ListPanel = () => {
     const handlePin = (wid: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('pin', wid);
+        params.set('panel', HIERARCHY);
 
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
             router.push(

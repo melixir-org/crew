@@ -28,7 +28,7 @@ const ReadUpdateTitle = () => {
 
     const work: Work | undefined = getWorkSafe(workId);
 
-    const parentWork: Work | undefined = getWorkSafe(work?.parent_id);
+    const parentWork: Work | undefined = getWorkSafe(work?.parent_id ?? '');
 
     const crewId: string = work?.crew?.id ?? '';
 

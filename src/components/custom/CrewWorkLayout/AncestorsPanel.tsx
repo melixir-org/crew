@@ -31,19 +31,26 @@ const AncestorsPanel = () => {
     const [ancestorIds, setAncestorIds] = useState<string[]>([]);
 
     useEffect(() => {
-        function ancestors(wid: string): string[] {
+        function getAncestorsIds(wid: string): string[] | null {
             const parentId = getWorkSafe(wid)?.parent_id;
 
             if (parentId) {
-                return [wid, ...ancestors(parentId)];
+                const p = getAncestorsIds(parentId);
+                return p ? [wid, ...p] : null;
             }
 
-            return [wid];
+            if (parentId === null) {
+                return [wid];
+            }
+
+            return null;
         }
 
-        const ancs = ancestors(pin);
+        const ancs = getAncestorsIds(pin);
 
-        if (ancs.length <= 1) {
+        if (ancs) {
+            setAncestorIds(ancs.reverse());
+        } else {
             (async () => {
                 setLoading(true);
                 try {
@@ -61,9 +68,6 @@ const AncestorsPanel = () => {
                     setLoading(false);
                 }
             })();
-        } else {
-            // TODO: work.id is undefined when navigating back and forth
-            setAncestorIds(ancs.reverse());
         }
     }, [pin]);
 

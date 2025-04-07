@@ -17,12 +17,12 @@ const HierarchyPanel = () => {
             <div className="flex-[1_1_0] flex flex-col gap-1">
                 <CrewCard />
                 {createCrewModeOn || (
-                    <div className="flex-[1_1_0] overflow-y-hidden">
+                    <div className="flex-[1_1_0] overflow-y-auto">
                         <AncestorsPanel />
                     </div>
                 )}
             </div>
-            <div className="flex-[2_2_0] overflow-y-hidden">
+            <div className="flex-[2_2_0] overflow-y-auto">
                 {createCrewModeOn || <ChildrenPanel />}
             </div>
         </>

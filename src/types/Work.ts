@@ -7,7 +7,7 @@ export interface Work {
     id: string;
     title: string;
     description?: string;
-    parent_id?: string;
+    parent_id?: string | null;
     crew?: Crew;
     assignments?: Assignment[];
     status?: WorkStatus;

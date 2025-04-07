@@ -56,8 +56,7 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                         <>
                             <div
                                 className="p-1 cursor-pointer hover:bg-gray-100 rounded-lg"
-                                onClick={e => {
-                                    e.stopPropagation();
+                                onClick={() => {
                                     handlePanelChange(HIERARCHY);
                                 }}
                             >
@@ -65,8 +64,7 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                             </div>
                             <div
                                 className="p-1 cursor-pointer hover:bg-gray-100 rounded-lg"
-                                onClick={e => {
-                                    e.stopPropagation();
+                                onClick={() => {
                                     handlePanelChange(LIST);
                                 }}
                             >
