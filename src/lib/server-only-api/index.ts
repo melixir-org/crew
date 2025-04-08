@@ -41,10 +41,7 @@ export async function getWorkForCrewHomePageApi({
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
-        .eq(
-            'crew_id.members.user_id',
-            (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
-        )
+        .eq('crew_id.members.user_id', (await getUserApi()).data.user?.id ?? '')
         .returns<Work[]>()
         .single();
 }
@@ -58,10 +55,7 @@ export async function getWorkForMembersPageApi({ workId }: { workId: string }) {
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
-        .eq(
-            'crew_id.members.user_id',
-            (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
-        )
+        .eq('crew_id.members.user_id', (await getUserApi()).data.user?.id ?? '')
         .returns<Work[]>()
         .single();
 }
@@ -90,10 +84,7 @@ export async function getWorkForWorkHomePageApi({
         .eq('id', workId)
         .is('assignments.unassigned_at', null)
         .is('crew_id.members.left_at', null)
-        .eq(
-            'crew_id.members.user_id',
-            (await supabaseServerClient.auth.getUser()).data.user?.id ?? ''
-        )
+        .eq('crew_id.members.user_id', (await getUserApi()).data.user?.id ?? '')
         .returns<Work[]>()
         .single();
 }
