@@ -104,14 +104,15 @@ const ChildrenPanel = () => {
         const params = new URLSearchParams(searchParams);
         const pin = params.get('pin') ?? '';
         params.set('create_work', pin);
+
+        const path = `${WORKSPACE_ROUTE.pathname}/${pin}${
+            WORK_HOME_ROUTE.pathname
+        }?${params.toString()}`;
+
         if (workId === pin) {
-            router.replace(`${pathname}?${params.toString()}`);
+            router.replace(path);
         } else {
-            router.push(
-                `${WORKSPACE_ROUTE.pathname}/${pin}${
-                    WORK_HOME_ROUTE.pathname
-                }?${params.toString()}`
-            );
+            router.push(path);
         }
     };
 
