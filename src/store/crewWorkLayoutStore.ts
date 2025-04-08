@@ -27,7 +27,7 @@ import { User } from '@supabase/supabase-js';
 type Server = {
     crews: Record<string, Crew>;
     works: Record<string, Work>;
-    user: null | User;
+    user: User | null;
 };
 
 export type CrewWorkLayoutState = {

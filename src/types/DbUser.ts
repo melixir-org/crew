@@ -1,17 +1,17 @@
 import { DeepPartial } from './DeepPartial';
 
-export interface User {
+export interface DbUser {
     id: string;
     username: string;
     name: string;
     avatar_url: string;
 }
 
-export function createUser({
+export function createDbUser({
     id = '',
     username = '',
     name = '',
     avatar_url = '',
-}: DeepPartial<User> = {}): User {
+}: DeepPartial<DbUser> = {}): DbUser {
     return { id, username, name, avatar_url };
 }

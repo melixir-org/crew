@@ -1,9 +1,6 @@
 import Members from '@/components/custom/CrewHome/Members';
 import { NEW } from '@/lib/constants';
-import {
-    getValidatedUserApi,
-    getWorkForMembersPageApi,
-} from '@/lib/server-only-api';
+import { getUserApi, getWorkForMembersPageApi } from '@/lib/server-only-api';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
 import SessionWrapper from '@/provider/SessionWrapper';
@@ -15,7 +12,7 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
 
     const {
         data: { user },
-    } = await getValidatedUserApi();
+    } = await getUserApi();
 
     let initialState: PageState = initPageState({
         server: { user },

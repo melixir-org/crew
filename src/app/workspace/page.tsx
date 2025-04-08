@@ -2,7 +2,7 @@ import { isArray } from 'lodash-es';
 
 import Workspace from '@/components/custom/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getCrewsApi, getValidatedUserApi } from '@/lib/server-only-api';
+import { getCrewsApi, getUserApi } from '@/lib/server-only-api';
 import { getWorksApi } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import { CREW, WORK } from '@/lib/constants';
@@ -27,7 +27,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     const {
         data: { user },
-    } = await getValidatedUserApi();
+    } = await getUserApi();
 
     let initialState: PageState = initPageState({
         server: { user },

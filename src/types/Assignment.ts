@@ -1,9 +1,9 @@
 import { DeepPartial } from './DeepPartial';
-import { createUser, User } from './User';
+import { createDbUser, DbUser } from './DbUser';
 
 export interface Assignment {
     id: string;
-    user: User;
+    user: DbUser;
     assigned_at: string;
     unassigned_at: string | null;
 }
@@ -14,5 +14,5 @@ export function createAssignment({
     assigned_at = '',
     unassigned_at = null,
 }: DeepPartial<Assignment> = {}): Assignment {
-    return { id, user: createUser(user), assigned_at, unassigned_at };
+    return { id, user: createDbUser(user), assigned_at, unassigned_at };
 }

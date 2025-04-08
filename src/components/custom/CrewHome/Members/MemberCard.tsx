@@ -4,7 +4,7 @@ import { removeCrewMemberApi } from '@/lib/client-only-api';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { usePageStore } from '@/provider/PageStore';
 import { createMember, Member } from '@/types/Member';
-import { User } from '@/types/User';
+import { DbUser } from '@/types/DbUser';
 
 const MemberCard = ({ crewId, member }: { crewId: string; member: Member }) => {
     const { setCrew: setCrewPageStore } = usePageStore(store => store);
@@ -48,7 +48,7 @@ const MemberCard = ({ crewId, member }: { crewId: string; member: Member }) => {
         }
     }
 
-    const user: User = member.user;
+    const user: DbUser = member.user;
 
     return (
         <div className="p-3 flex justify-between items-center gap-2 bg-secondary-dark-bg rounded-lg">

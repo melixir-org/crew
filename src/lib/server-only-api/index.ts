@@ -10,6 +10,14 @@ export async function getValidatedUserApi() {
     return await supabaseServerClient.auth.getUser();
 }
 
+export async function getUserApi() {
+    const supabaseServerClient = await createSupabaseServerClient();
+
+    const { data, ...rest } = await supabaseServerClient.auth.getSession();
+
+    return { data: { user: data.session?.user ?? null }, ...rest };
+}
+
 export async function getCrewsApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 

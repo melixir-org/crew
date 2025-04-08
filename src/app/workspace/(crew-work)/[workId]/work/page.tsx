@@ -2,7 +2,7 @@ import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCr
 import WorkHome from '@/components/custom/WorkHome';
 import { PageStoreProvider } from '@/provider/PageStore';
 import {
-    getValidatedUserApi,
+    getUserApi,
     getWorkForWorkHomePageApi,
     getWorkMetaDataApi,
     getWorkWhileCreateWorkForWorkHomePageApi,
@@ -23,7 +23,7 @@ const Page = async ({
 
     const {
         data: { user },
-    } = await getValidatedUserApi();
+    } = await getUserApi();
 
     let initialState: PageState = initPageState({
         server: { user },
