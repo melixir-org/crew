@@ -8,6 +8,7 @@ import ReadUpdateDescription from './ReadUpdateDescription';
 import Assignments from './Assignments';
 import ReadUpdateStatus from './Status/ReadUpdateStatus';
 import CreateStatus from './Status/CreateStatus';
+import AssignMyself from './Assignments/AssignMyself';
 
 const WorkHome = () => {
     const searchParams = useSearchParams();
@@ -22,15 +23,19 @@ const WorkHome = () => {
         <div className="flex flex-col gap-2 mt-2">
             <div className="w-[70%] flex justify-end gap-2">
                 {createWorkModeOn ? <CreateStatus /> : <ReadUpdateStatus />}
-                {/* {createWorkModeOn ? <CreateStatus /> : <ReadUpdateStatus />} */}
             </div>
             <div className="flex items-start gap-2">
                 <div className="flex-[0_0_70%]">
-                    {createWorkModeOn ? (
-                        <CreateDescription />
-                    ) : (
-                        <ReadUpdateDescription />
-                    )}
+                    <div className="flex flex-col gap-2">
+                        {createWorkModeOn ? (
+                            <CreateDescription />
+                        ) : (
+                            <ReadUpdateDescription />
+                        )}
+                        <div className="flex justify-end">
+                            <AssignMyself workId={workId} />
+                        </div>
+                    </div>
                 </div>
                 {!createWorkModeOn && (
                     <div className="flex-1">

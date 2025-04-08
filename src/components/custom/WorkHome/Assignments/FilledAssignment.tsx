@@ -1,3 +1,5 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { unassignWorkApi } from '@/lib/client-only-api';
 import { hasWorkUpdatePermission } from '@/lib/utils';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
@@ -72,7 +74,7 @@ const FilledAssignment = ({
     const crew: Crew = crews[crewId];
 
     return (
-        <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-1">
+        <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-2">
             <div className="flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">{type}</h5>
                 <h6 className="py-[2px] px-2 border-[1px] rounded-[54px] border-dark-border text-xs">
@@ -84,15 +86,37 @@ const FilledAssignment = ({
                         )} ${assignedAt.getUTCHours()}:${assignedAt.getUTCMinutes()} GMT`}
                 </h6>
             </div>
-            <div>{assignment.user.username}</div>
-            {hasWorkUpdatePermission(user, crew, work, parentWork) && (
-                <button
-                    className="border-[1px] border-dark-border text-xs font-medium py-[1px] px-2 rounded-md"
-                    onClick={() => unassignWork()}
-                >
-                    Unassign
-                </button>
-            )}
+            <div className="flex items-center justify-between gap-2">
+                <div className="flex gap-2">
+                    <Avatar className="h-6 w-6">
+                        {assignment.user &&
+                            (assignment.user.avatar_url ? (
+                                <AvatarImage src={assignment.user.avatar_url} />
+                            ) : (
+                                <AvatarFallback className="bg-gray-100">
+                                    <span className="text-xs">
+                                        {assignment.user.name
+                                            .split(' ')
+                                            .map(t => t[0].toUpperCase())
+                                            .join('')
+                                            .slice(0, 2)}
+                                    </span>
+                                </AvatarFallback>
+                            ))}
+                    </Avatar>
+                    <span>{assignment.user.username}</span>
+                </div>
+                {hasWorkUpdatePermission(user, crew, work, parentWork) && (
+                    <Button
+                        className="text-white"
+                        variant="link"
+                        size="sm"
+                        onClick={() => unassignWork()}
+                    >
+                        Unassign
+                    </Button>
+                )}
+            </div>
         </div>
     );
 };

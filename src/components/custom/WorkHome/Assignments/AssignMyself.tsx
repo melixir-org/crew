@@ -3,18 +3,22 @@ import { assignWorkApi } from '@/lib/client-only-api';
 import { Assignment, createAssignment } from '@/types/Assignment';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Button } from '@/components/ui/button';
+import { Work } from '@/types/Work';
 
-const EmptyAssignment = ({
-    workId,
-    type,
-}: {
-    workId: string;
-    type: string;
-}) => {
+const AssignMyself = ({ workId }: { workId: string }) => {
     const {
-        server: { user },
+        server: { works, user },
         setWork: setWorkPageStore,
     } = usePageStore(store => store);
+
+    const work: Work = works[workId];
+
+    const assignments: Assignment[] = work.assignments ?? [];
+
+    const activeAssignments = assignments.filter(a => a.unassigned_at === null);
+
+    const assignee = activeAssignments[0];
+
     const { setWork: setWorkCrewWorkLayoutStore } = useCrewWorkLayoutStore(
         store => store
     );
@@ -40,24 +44,11 @@ const EmptyAssignment = ({
         }
     }
 
-    return (
-        <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-2">
-            <div className="h-[22px] flex justify-between items-center">
-                <h5 className="text-primary-light-bg text-xs">{type}</h5>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-                <span>no one</span>
-                <Button
-                    className="text-white"
-                    variant="link"
-                    size="sm"
-                    onClick={assignWork}
-                >
-                    Assign Myself
-                </Button>
-            </div>
-        </div>
+    return assignee ? null : (
+        <Button className="w-32 bg-white text-black" onClick={assignWork}>
+            Let's Go
+        </Button>
     );
 };
 
-export default EmptyAssignment;
+export default AssignMyself;
