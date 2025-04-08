@@ -10,6 +10,7 @@ import { HOME_ROUTE, AUTH_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
 import { cn } from '@/lib/utils';
 import { getUserApi } from '@/lib/server-only-api';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { DiscordLogoIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 
 const NavBar = async () => {
     const {
@@ -31,7 +32,23 @@ const NavBar = async () => {
                 </NavigationMenuList>
             </NavigationMenu>
             <NavigationMenu>
-                <NavigationMenuList>
+                <NavigationMenuList className="gap-2">
+                    <NavigationMenuItem>
+                        <Link
+                            href={'https://github.com/melixir-org/crew/issues'}
+                            target="_blank"
+                        >
+                            <GitHubLogoIcon className="h-8 w-8" />
+                        </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link
+                            href={'https://discord.gg/4H69nEvHmm'}
+                            target="_blank"
+                        >
+                            <DiscordLogoIcon className="h-8 w-8" />
+                        </Link>
+                    </NavigationMenuItem>
                     <NavigationMenuItem>
                         {user ? (
                             <Link href={AUTH_ROUTE.pathname}>
