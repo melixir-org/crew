@@ -22,7 +22,7 @@ const WorkHome = () => {
         <div className="flex flex-col gap-2 mt-2">
             <div className="w-[70%] flex justify-end gap-2">
                 {createWorkModeOn ? <CreateStatus /> : <ReadUpdateStatus />}
-                {createWorkModeOn ? <CreateStatus /> : <ReadUpdateStatus />}
+                {/* {createWorkModeOn ? <CreateStatus /> : <ReadUpdateStatus />} */}
             </div>
             <div className="flex items-start gap-2">
                 <div className="flex-[0_0_70%]">
