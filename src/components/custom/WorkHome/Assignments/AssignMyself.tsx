@@ -46,7 +46,7 @@ const AssignMyself = ({ workId }: { workId: string }) => {
 
     return assignee ? null : (
         <Button className="w-32 bg-white text-black" onClick={assignWork}>
-            Let's Go
+            Let&apos;s Go
         </Button>
     );
 };

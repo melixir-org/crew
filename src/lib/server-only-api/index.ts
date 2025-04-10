@@ -4,18 +4,10 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 
-export async function getValidatedUserApi() {
-    const supabaseServerClient = await createSupabaseServerClient();
-
-    return await supabaseServerClient.auth.getUser();
-}
-
 export async function getUserApi() {
     const supabaseServerClient = await createSupabaseServerClient();
 
-    const { data, ...rest } = await supabaseServerClient.auth.getSession();
-
-    return { data: { user: data.session?.user ?? null }, ...rest };
+    return await supabaseServerClient.auth.getUser();
 }
 
 export async function getCrewsApi(pageIndex: number, pageSize: number) {
