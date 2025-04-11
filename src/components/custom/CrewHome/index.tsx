@@ -6,6 +6,8 @@ import ReadUpdateDescription from './ReadUpdateDescription';
 import CreateDescription from './CreateDescription';
 import { extractWorkId } from '@/lib/utils';
 import { NEW } from '@/lib/constants';
+import ReadUpdateSocialLink from './SocialLink/ReadUpdateSocialLink';
+import CreateSocialLink from './SocialLink/CreateSocialLink';
 
 const CrewHome = () => {
     const pathname = usePathname();
@@ -20,6 +22,13 @@ const CrewHome = () => {
                     <CreateDescription />
                 ) : (
                     <ReadUpdateDescription />
+                )}
+            </div>
+            <div className="flex-1">
+                {crewCreateMode ? (
+                    <CreateSocialLink />
+                ) : (
+                    <ReadUpdateSocialLink />
                 )}
             </div>
         </div>

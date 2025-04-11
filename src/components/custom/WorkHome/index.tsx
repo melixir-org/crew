@@ -32,9 +32,11 @@ const WorkHome = () => {
                         ) : (
                             <ReadUpdateDescription />
                         )}
-                        <div className="flex justify-end">
-                            <AssignMyself workId={workId} />
-                        </div>
+                        {!createWorkModeOn && (
+                            <div className="flex justify-end">
+                                <AssignMyself workId={workId} />
+                            </div>
+                        )}
                     </div>
                 </div>
                 {!createWorkModeOn && (

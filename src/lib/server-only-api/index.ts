@@ -29,7 +29,7 @@ export async function getWorkForCrewHomePageApi({
     return await supabaseServerClient
         .from('works')
         .select(
-            'id, title, crew:crew_id (id, title, root_work:root_id (id, title, description), members (id, user:user_id (id, username, name, avatar_url), joined_at, left_at))'
+            'id, title, crew:crew_id (id, title, social_link, root_work:root_id (id, title, description), members (id, user:user_id (id, username, name, avatar_url), joined_at, left_at))'
         )
         .eq('id', workId)
         .is('crew_id.members.left_at', null)
