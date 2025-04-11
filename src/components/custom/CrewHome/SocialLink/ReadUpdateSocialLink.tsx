@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { extractWorkId } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { updateCrewSocialLinkApi } from '@/lib/client-only-api';
+import { extractWorkId, hasCrewUpdatePermission } from '@/lib/utils';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
@@ -8,7 +10,13 @@ import { usePathname } from 'next/navigation';
 
 const ReadUpdateSocialLink = () => {
     const {
-        server: { crews, works },
+        server: { crews, works, user },
+        setCrew,
+        getIsCrewUpdateDraftOn,
+        setCrewUpdateDraftOn,
+        setCrewUpdateDraftOff,
+        getCrewUpdateDraft,
+        setCrewUpdateDraft,
     } = usePageStore(store => store);
 
     const pathname = usePathname();
@@ -21,28 +29,92 @@ const ReadUpdateSocialLink = () => {
 
     const crew: Crew = crews[crewId];
 
-    const social_link: string | null | undefined = crew.social_link;
+    const social_link: string = getIsCrewUpdateDraftOn(crewId)
+        ? getCrewUpdateDraft(crewId).crew.social_link ?? ''
+        : crew.social_link ?? '';
 
-    return social_link ? (
+    const updateSocialLink = async () => {
+        try {
+            const { data }: { data: Crew | null } =
+                await updateCrewSocialLinkApi(crewId, social_link);
+
+            if (data) {
+                setCrew(crewId, crew => {
+                    crew.social_link = data.social_link;
+                });
+                setCrewUpdateDraftOff(crewId);
+            }
+        } catch {}
+    };
+
+    return (
         <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-2">
             <div className="h-6 flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-base">Join Crew!</h5>
             </div>
-            <div className="flex items-center justify-between gap-2">
-                <Link
-                    href={social_link}
-                    className="underline text-blue-500"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    {social_link}
-                </Link>
-                <Button className="text-white" variant="link" size="sm">
-                    Edit
-                </Button>
+            <div className="h-9 flex items-center justify-between gap-2">
+                {getIsCrewUpdateDraftOn(crewId) ? (
+                    <>
+                        <Input
+                            value={social_link}
+                            onChange={e =>
+                                setCrewUpdateDraft(crewId, crewUpdateDraft => {
+                                    crewUpdateDraft.crew.social_link =
+                                        e.target.value;
+                                })
+                            }
+                            className="border-gray-700"
+                        />
+                        <div className="flex items-center">
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={updateSocialLink}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={() => setCrewUpdateDraftOff(crewId)}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {social_link ? (
+                            <Link
+                                href={social_link}
+                                className="underline text-blue-500"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {social_link}
+                            </Link>
+                        ) : (
+                            <span>no link</span>
+                        )}
+                        {hasCrewUpdatePermission(user, crew) && (
+                            <Button
+                                className="text-white"
+                                variant="link"
+                                size="sm"
+                                onClick={() => {
+                                    setCrewUpdateDraftOn(crewId, crew);
+                                }}
+                            >
+                                Edit
+                            </Button>
+                        )}
+                    </>
+                )}
             </div>
         </div>
-    ) : null;
+    );
 };
 
 export default ReadUpdateSocialLink;

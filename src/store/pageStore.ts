@@ -5,7 +5,10 @@ import { mergeOverride } from '../lib/utils';
 import { Crew } from '@/types/Crew';
 import { Work } from '@/types/Work';
 import { DeepPartial } from '@/types/DeepPartial';
-import { CrewUpdateDraft } from '@/types/CrewUpdateDraft';
+import {
+    createCrewUpdateDraft,
+    CrewUpdateDraft,
+} from '@/types/CrewUpdateDraft';
 import {
     createWorkUpdateDraft,
     WorkUpdateDraft,
@@ -33,6 +36,15 @@ export type PageActions = {
     addWorks: (works: Work[]) => void;
     setCrew: (crewId: string, fn: (state: Crew) => void) => void;
     setWork: (workId: string, fn: (state: Work) => void) => void;
+
+    getIsCrewUpdateDraftOn: (crewId: string) => boolean;
+    setCrewUpdateDraftOn: (crewId: string, data: Crew) => void;
+    setCrewUpdateDraftOff: (crewId: string) => void;
+    getCrewUpdateDraft: (crewId: string) => CrewUpdateDraft;
+    setCrewUpdateDraft: (
+        crewId: string,
+        fn: (state: CrewUpdateDraft) => void
+    ) => void;
 
     getIsWorkUpdateDraftOn: (workId: string) => boolean;
     setWorkUpdateDraftOn: (workId: string, data: Work) => void;
@@ -114,6 +126,28 @@ export const createPageStore = (initialState: PageState) => {
             setWorkUpdateDraft: (workId, fn) => {
                 set(store => {
                     fn(store.client.workUpdateDrafts[workId]);
+                });
+            },
+            getIsCrewUpdateDraftOn: crewId => {
+                return Boolean(get().client.crewUpdateDrafts[crewId]);
+            },
+            setCrewUpdateDraftOn: (crewId, crew) => {
+                set(store => {
+                    store.client.crewUpdateDrafts[crewId] =
+                        createCrewUpdateDraft(crew);
+                });
+            },
+            setCrewUpdateDraftOff: crewId => {
+                set(store => {
+                    delete store.client.crewUpdateDrafts[crewId];
+                });
+            },
+            getCrewUpdateDraft: crewId => {
+                return get().client.crewUpdateDrafts[crewId];
+            },
+            setCrewUpdateDraft: (crewId, fn) => {
+                set(store => {
+                    fn(store.client.crewUpdateDrafts[crewId]);
                 });
             },
         }))

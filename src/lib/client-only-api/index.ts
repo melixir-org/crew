@@ -123,6 +123,19 @@ export async function updateCrewTitleApi(crewId: string, title: string) {
         .single();
 }
 
+export async function updateCrewSocialLinkApi(
+    crewId: string,
+    social_link: string
+) {
+    return await supabaseBrowserClient
+        .from('crews')
+        .update({ social_link })
+        .eq('id', crewId)
+        .select()
+        .returns<Crew[]>()
+        .single();
+}
+
 export async function assignWorkApi(workId: string, userId: string) {
     return await supabaseBrowserClient
         .rpc('assign_work', {
