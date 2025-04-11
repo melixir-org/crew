@@ -9,7 +9,6 @@ import { getWorksForCrewApi } from '@/lib/client-only-api';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import { Work } from '@/types/Work';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
 import WorkCard from './WorkCard';
 import { CREW_ROUTE_GROUP, WORK_ROUTE_GROUP } from '@/types/RouteGroup';
 import { WORK_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
@@ -33,7 +32,6 @@ const ListPanel = () => {
     const crewId: string = work?.crew?.id ?? '';
 
     const [workIds, setWorkIds] = useState<string[]>([]);
-    const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
 
     const panel = searchParams.get('panel');
@@ -42,7 +40,6 @@ const ListPanel = () => {
         if (panel === MANAGE) {
             if (crewId && workIds.length === 0) {
                 (async () => {
-                    setLoading(true);
                     try {
                         const { data }: { data: Work[] | null } =
                             await getWorksForCrewApi({
@@ -54,10 +51,7 @@ const ListPanel = () => {
 
                         addWorks(d);
                         setWorkIds(d.map(work => work.id));
-                    } catch (e) {
-                    } finally {
-                        setLoading(false);
-                    }
+                    } catch (e) {}
                 })();
             }
         }
@@ -106,33 +100,30 @@ const ListPanel = () => {
     };
 
     return (
-        <div className="h-full flex flex-col gap-1">
-            <Input
-                placeholder="Search works..."
-                className="border-gray-700"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-            />
-            <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
-                {loading
-                    ? [...Array(10)].map((_, i) => (
-                          <Skeleton
-                              key={i}
-                              className="bg-gray-700 w-full flex-[0_0_64px] rounded-lg"
-                          />
-                      ))
-                    : workIds
-                          .map(w => works[w])
-                          .map((work: Work) => (
-                              <WorkCard
-                                  key={work.id}
-                                  work={work}
-                                  highlighted={isWorkShown(work.id)}
-                                  handleClick={() => handleWorkClick(work.id)}
-                                  pinned={false}
-                                  handlePin={() => handlePin(work.id)}
-                              />
-                          ))}
+        <div className="h-full flex flex-col">
+            <div className="flex-[1_1_0] flex overflow-y-auto">
+                <div className="flex flex-col gap-1">
+                    <Input
+                        placeholder="Search works..."
+                        className="border-gray-700"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                    <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
+                        {workIds
+                            .map(w => works[w])
+                            .map((work: Work) => (
+                                <WorkCard
+                                    key={work.id}
+                                    work={work}
+                                    highlighted={isWorkShown(work.id)}
+                                    handleClick={() => handleWorkClick(work.id)}
+                                    pinned={false}
+                                    handlePin={() => handlePin(work.id)}
+                                />
+                            ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
