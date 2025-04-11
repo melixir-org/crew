@@ -89,7 +89,7 @@ const ReadUpdateSocialLink = () => {
                         {social_link ? (
                             <Link
                                 href={social_link}
-                                className="underline text-blue-500"
+                                className="min-w-0 text-blue-600 underline truncate"
                                 target="_blank"
                                 rel="noreferrer"
                             >

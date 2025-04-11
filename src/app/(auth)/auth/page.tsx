@@ -20,8 +20,7 @@ export default function Login() {
                             </p>
                         </div>
                         <div className="flex w-full items-center justify-center opacity-70">
-                            <hr className="w-3/12" /> <h2>CONTINUE WITH</h2>{' '}
-                            <hr className="w-3/12" />
+                            <h2>CONTINUE WITH</h2>
                         </div>
                         <div className="flex flex-col w-full justify-between gap-2">
                             <button
@@ -40,7 +39,7 @@ export default function Login() {
                     </div>
                     <p className="mt-20">
                         By continuing you agree to our <a>terms of service</a>{' '}
-                        and <a>privacy policy</a>.
+                        and <a>privacy policy</a>
                     </p>
                 </div>
             </div>
