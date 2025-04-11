@@ -2,8 +2,8 @@ import { logInSignUpWithGithub, logInSignUpWithGoogle } from '@/app/actions';
 
 export default function Login() {
     return (
-        <main className="bg-primary-dark-bg w-full h-full">
-            <div className="flex h-screen bg-primary-dark-bg w-full ">
+        <main className="bg-primary-dark-bg w-full flex-1 flex">
+            <div className="flex bg-primary-dark-bg w-full flex-1">
                 <div className="h-full w-0 flex flex-col justify-center items-center md:w-6/12 overflow-hidden">
                     <h1 className="text-9xl font-semibold">Melixir</h1>
                     <p className="text-center opacity-95 font-light">
