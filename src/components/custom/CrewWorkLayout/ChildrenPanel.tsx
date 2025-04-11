@@ -35,6 +35,7 @@ const ChildrenPanel = () => {
 
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
+    const [childrenIds, setChildrenIds] = useState<string[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -48,6 +49,7 @@ const ChildrenPanel = () => {
                 const d = data ?? [];
 
                 addWorks(d);
+                setChildrenIds(d.map(work => work.id));
             } catch (e) {
             } finally {
                 setLoading(false);
@@ -55,9 +57,11 @@ const ChildrenPanel = () => {
         })();
     }, [pin, search]);
 
-    const childrenWorks = Object.entries(works)
-        .map(([_k, v]) => v)
-        .filter(work => work.parent_id === pin);
+    const childrenWorks = search
+        ? childrenIds.map(id => works[id])
+        : Object.entries(works)
+              .map(([_k, v]) => v)
+              .filter(work => work.parent_id === pin);
 
     const handleWorkClick = (wid: string) => {
         if (getRouteGroup(pathname) === CREW_ROUTE_GROUP) {
