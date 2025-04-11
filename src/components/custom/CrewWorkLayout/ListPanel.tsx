@@ -102,14 +102,14 @@ const ListPanel = () => {
     return (
         <div className="h-full flex flex-col">
             <div className="flex-[1_1_0] flex overflow-y-auto">
-                <div className="flex flex-col gap-1">
+                <div className="flex-[1_1_0] flex flex-col gap-1">
                     <Input
                         placeholder="Search works..."
                         className="border-gray-700"
                         value={search}
                         onChange={e => setSearch(e.target.value)}
                     />
-                    <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
+                    <div className="flex-[1_1_0] flex flex-col gap-1 overflow-y-auto scrollbar-none">
                         {workIds
                             .map(w => works[w])
                             .map((work: Work) => (
