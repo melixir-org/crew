@@ -3,7 +3,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import WorkCard from './WorkCard';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useCrewWorkLayoutStore } from '@/provider/CrewWorkLayoutStore';
 import {
     extractPathnameAfterWorkId,
@@ -135,23 +134,16 @@ const ChildrenPanel = () => {
                 onChange={e => setSearch(e.target.value)}
             />
             <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-none">
-                {loading
-                    ? [...Array(10)].map((_, i) => (
-                          <Skeleton
-                              key={i}
-                              className="bg-gray-700 w-full flex-[0_0_64px] rounded-lg"
-                          />
-                      ))
-                    : childrenWorks.map((work: Work) => (
-                          <WorkCard
-                              key={work.id}
-                              work={work}
-                              highlighted={isWorkShown(work.id)}
-                              handleClick={() => handleWorkClick(work.id)}
-                              pinned={false}
-                              handlePin={() => handlePin(work.id)}
-                          />
-                      ))}
+                {childrenWorks.map((work: Work) => (
+                    <WorkCard
+                        key={work.id}
+                        work={work}
+                        highlighted={isWorkShown(work.id)}
+                        handleClick={() => handleWorkClick(work.id)}
+                        pinned={false}
+                        handlePin={() => handlePin(work.id)}
+                    />
+                ))}
             </div>
             {hasWorkUpdatePermission(user, crew, undefined, pinnedWork) && (
                 <Button
