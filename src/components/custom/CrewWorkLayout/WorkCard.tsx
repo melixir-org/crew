@@ -1,4 +1,4 @@
-import { Flame, Coins, PinOff, Pin } from 'lucide-react';
+import { Flame, Coins, Maximize2, X } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -108,7 +108,7 @@ export default function WorkCard({
                                 handleUnpin?.();
                             }}
                         >
-                            <PinOff className="h-full w-full text-gray-400" />
+                            <X className="h-full w-full text-gray-400" />
                         </div>
                     ) : (
                         <div
@@ -118,7 +118,7 @@ export default function WorkCard({
                                 handlePin?.();
                             }}
                         >
-                            <Pin className="h-full w-full text-gray-400" />
+                            <Maximize2 className="h-full w-full text-gray-400" />
                         </div>
                     ))}
             </div>

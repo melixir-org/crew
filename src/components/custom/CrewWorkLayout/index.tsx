@@ -55,7 +55,9 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                     {createCrewModeOn || (
                         <>
                             <div
-                                className="p-1 cursor-pointer hover:bg-gray-100 rounded-lg"
+                                className={`p-1 cursor-pointer ${
+                                    panel === HIERARCHY ? 'bg-gray-100' : ''
+                                } hover:bg-gray-100 rounded-lg`}
                                 onClick={() => {
                                     handlePanelChange(HIERARCHY);
                                 }}
@@ -63,7 +65,9 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
                                 <Network className="h-6 w-6 text-gray-400" />
                             </div>
                             <div
-                                className="p-1 cursor-pointer hover:bg-gray-100 rounded-lg"
+                                className={`p-1 cursor-pointer ${
+                                    panel === MANAGE ? 'bg-gray-100' : ''
+                                } hover:bg-gray-100 rounded-lg`}
                                 onClick={() => {
                                     handlePanelChange(MANAGE);
                                 }}
