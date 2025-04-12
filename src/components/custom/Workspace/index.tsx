@@ -13,6 +13,15 @@ import { CREW, HIERARCHY, MANAGE, NEW, WORK } from '@/lib/constants';
 import WorkList from './WorkList';
 import CrewList from './CrewList';
 import { Button } from '@/components/ui/button';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationNext,
+    PaginationPrevious,
+    PaginationEllipsis,
+    PaginationLink,
+} from '@/components/ui/pagination';
 
 function Workspace({ ids }: { ids: string[] }) {
     const router = useRouter();
@@ -85,6 +94,61 @@ function Workspace({ ids }: { ids: string[] }) {
         );
     };
 
+    const renderPagination = () => {
+        const maxLinks = 5;
+        const current = pageIndex;
+        const range = Array.from({ length: totalPages }, (_, i) => i).filter(
+            i =>
+                i === 0 ||
+                i === totalPages - 1 ||
+                (i >= current - 1 && i <= current + 1)
+        );
+
+        return (
+            <Pagination className="mt-6">
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            onClick={() =>
+                                handlePageChange(Math.max(0, pageIndex - 1))
+                            }
+                            className="cursor-pointer"
+                        />
+                    </PaginationItem>
+
+                    {range.map((i, idx) => (
+                        <PaginationItem key={i}>
+                            <PaginationLink
+                                isActive={i === pageIndex}
+                                onClick={() => handlePageChange(i)}
+                                className="cursor-pointer"
+                            >
+                                {i + 1}
+                            </PaginationLink>
+                            {idx < range.length - 1 &&
+                                range[idx + 1] !== i + 1 && (
+                                    <span className="px-2 text-muted-foreground font-bold text-white">
+                                        ...
+                                    </span>
+                                )}
+                        </PaginationItem>
+                    ))}
+
+                    <PaginationItem>
+                        <PaginationNext
+                            onClick={() =>
+                                handlePageChange(
+                                    Math.min(totalPages - 1, pageIndex + 1)
+                                )
+                            }
+                            className="cursor-pointer"
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
+        );
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
             <Button className="bg-white text-black" onClick={handleCreateCrew}>
@@ -120,37 +184,7 @@ function Workspace({ ids }: { ids: string[] }) {
                     handleItemClick={handleItemClick}
                 />
             )}
-            <div className="flex justify-between items-center mt-6">
-                <Button
-                    disabled={pageIndex === 0}
-                    onClick={() => handlePageChange(0)}
-                >
-                    First
-                </Button>
-                <Button
-                    disabled={pageIndex === 0}
-                    onClick={() => handlePageChange(pageIndex - 1)}
-                >
-                    Previous
-                </Button>
-
-                <span className="text-sm">
-                    Page {pageIndex + 1} of {totalPages}
-                </span>
-
-                <Button
-                    disabled={pageIndex >= totalPages - 1}
-                    onClick={() => handlePageChange(pageIndex + 1)}
-                >
-                    Next
-                </Button>
-                <Button
-                    disabled={pageIndex >= totalPages - 1}
-                    onClick={() => handlePageChange(totalPages - 1)}
-                >
-                    Last
-                </Button>
-            </div>
+            {totalPages > 1 && renderPagination()}
         </div>
     );
 }
