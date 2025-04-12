@@ -72,7 +72,7 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <QueryProvider>
-                    <div className="min-h-screen flex flex-col bg-black text-white">
+                    <div className="min-h-screen flex flex-col bg-[#101010]  text-white">
                         <NavBar />
                         {children}
                     </div>

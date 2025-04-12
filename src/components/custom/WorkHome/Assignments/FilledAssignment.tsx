@@ -74,7 +74,7 @@ const FilledAssignment = ({
     const crew: Crew = crews[crewId];
 
     return (
-        <div className="p-2 bg-secondary-dark-bg rounded-lg flex flex-col gap-2">
+        <div className="p-2 bg-[#121212] rounded-lg flex flex-col gap-2">
             <div className="h-6 flex justify-between items-center">
                 <h5 className="text-primary-light-bg text-xs">{type}</h5>
                 <h6 className="py-[2px] px-2 border-[1px] rounded-[54px] border-dark-border text-xs">
