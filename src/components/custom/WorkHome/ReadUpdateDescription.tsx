@@ -54,7 +54,7 @@ const ReadUpdateDescription = () => {
         : undefined;
 
     return (
-        <div className="bg-[#121212] rounded-lg p-2 pt-1 flex flex-col gap-2">
+        <div className="bg-secondary-dark-bg rounded-lg p-2 pt-1 flex flex-col gap-2">
             <div className="h-8 flex items-center justify-between">
                 <h2 className="text-primary-light-bg font-medium text-xl">
                     Description
