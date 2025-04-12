@@ -30,8 +30,8 @@ function Workspace({ ids }: { ids: string[] }) {
 
     const { crews, works } = usePageStore(store => store.server);
 
-    const pageIndex = parseInt(searchParams.get('page_index') || '0', 10);
-    const pageSize = parseInt(searchParams.get('page_size') || '10', 10);
+    const pageIndex = +(searchParams.get('page_index') || '0');
+    const pageSize = +(searchParams.get('page_size') || '10');
     const type = searchParams.get('type') || WORK;
 
     const workItems = ids.map(id => works[id]);
@@ -52,6 +52,7 @@ function Workspace({ ids }: { ids: string[] }) {
         );
         router.replace(`?${params.toString()}`);
     };
+
     const handlePageChange = (newPageIndex: number) => {
         if (newPageIndex >= 0 && newPageIndex < totalPages) {
             updateParams({ page_index: newPageIndex.toString() });
@@ -133,7 +134,6 @@ function Workspace({ ids }: { ids: string[] }) {
                                 )}
                         </PaginationItem>
                     ))}
-
                     <PaginationItem>
                         <PaginationNext
                             onClick={() =>
@@ -150,41 +150,49 @@ function Workspace({ ids }: { ids: string[] }) {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-            <Button className="bg-white text-black" onClick={handleCreateCrew}>
-                Create a Crew
-            </Button>
-            <h1 className="text-3xl font-bold mb-6">{type} list</h1>
-            <Tabs
-                value={type}
-                onValueChange={value => handleTypeChange(value)}
-                className="w-full"
+        <div className="container p-1 flex gap-2">
+            <Button
+                className="w-96 bg-white text-black"
+                onClick={handleCreateCrew}
             >
-                <TabsList className="bg-zinc-900 border border-zinc-800">
-                    {[CREW, WORK].map(t => (
-                        <TabsTrigger
-                            key={t}
-                            value={t}
-                            className="data-[state=active]:bg-zinc-800"
-                        >
-                            {t}
-                        </TabsTrigger>
-                    ))}
-                </TabsList>
-            </Tabs>
-            {type === WORK && (
-                <WorkList
-                    items={currentItems}
-                    handleItemClick={handleItemClick}
-                />
-            )}
-            {type === CREW && (
-                <CrewList
-                    items={currentItems}
-                    handleItemClick={handleItemClick}
-                />
-            )}
-            {totalPages > 1 && renderPagination()}
+                Create Crew
+            </Button>
+            <div className="flex-1 max-w-5xl flex flex-col gap-2">
+                <Tabs
+                    value={type}
+                    onValueChange={value => handleTypeChange(value)}
+                    className="w-60"
+                >
+                    <TabsList className="grid grid-cols-2">
+                        {[CREW, WORK].map(t => (
+                            <TabsTrigger
+                                key={t}
+                                value={t}
+                                className="data-[state=active]:bg-black data-[state=active]:text-white"
+                            >
+                                {t}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                </Tabs>
+                <div className="flex-1 overflow-y-auto">
+                    <div className="flex flex-col">
+                        {type === WORK && (
+                            <WorkList
+                                items={currentItems}
+                                handleItemClick={handleItemClick}
+                            />
+                        )}
+                        {type === CREW && (
+                            <CrewList
+                                items={currentItems}
+                                handleItemClick={handleItemClick}
+                            />
+                        )}
+                    </div>
+                </div>
+                {totalPages > 1 && renderPagination()}
+            </div>
         </div>
     );
 }

@@ -18,19 +18,19 @@ const NavBar = async () => {
     } = await getUserApi();
 
     return (
-        <nav className="flex justify-between items-center px-8 py-5 bg-[#101010] sticky top-0 z-50 shadow-md">
+        <nav className="flex justify-between items-center px-12 py-2 bg-[#101010] sticky top-0 z-50 shadow-md">
             <NavigationMenu>
                 <NavigationMenuList className="gap-6">
                     <NavigationMenuItem>
                         <Link href={HOME_ROUTE.pathname}>
-                            <span className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                            <span className="text-lg md:text-lg font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
                                 Melixir
                             </span>
                         </Link>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <Link href={WORKSPACE_ROUTE.pathname}>
-                            <span className="text-xl opacity-65 hover:opacity-90 transition-opacity">
+                            <span className="text-lg opacity-65 hover:opacity-90 transition-opacity">
                                 Workspace
                             </span>
                         </Link>
