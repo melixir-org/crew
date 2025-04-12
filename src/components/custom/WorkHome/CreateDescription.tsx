@@ -25,6 +25,7 @@ const CreateDescription = () => {
                 autoComplete={'off'}
                 spellCheck={true}
                 value={description}
+                placeholder="Enter description of work (required)"
                 onChange={e =>
                     setWorkCreateDraftRoute(pathnameAfterWorkId, route => {
                         route.work.description = e.target.value;

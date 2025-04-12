@@ -14,6 +14,7 @@ const CreateTitle = () => {
         <div className="flex items-center justify-between">
             <Input
                 value={workTitle}
+                placeholder="Enter title of work (required)"
                 onChange={e =>
                     setWorkCreateLayout(workCreateLayout => {
                         workCreateLayout.work.title = e.target.value;

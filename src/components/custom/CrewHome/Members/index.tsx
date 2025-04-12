@@ -12,7 +12,11 @@ const Members = () => {
 
     const crewCreateMode = workId === NEW;
 
-    return crewCreateMode ? <div>work in progress</div> : <MembersList />;
+    return crewCreateMode ? (
+        <div>work in progress, please ignore & continue</div>
+    ) : (
+        <MembersList />
+    );
 };
 
 export default Members;
