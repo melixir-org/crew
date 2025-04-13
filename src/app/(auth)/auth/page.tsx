@@ -1,6 +1,6 @@
 import { logInSignUpWithGithub, logInSignUpWithGoogle } from '@/app/actions';
 
-export default function Login() {
+export default function Page() {
     return (
         <main className="bg-primary-dark-bg w-full flex-1 flex">
             <div className="flex bg-gradient-to-b from-[#101010] to-primary-dark-bg w-full flex-1">
