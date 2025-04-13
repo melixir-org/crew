@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { WORKSPACE_ROUTE } from './routes';
 
 export default function Home() {
     return (
@@ -11,15 +12,15 @@ export default function Home() {
                     Collaborate, Build, and Share Success
                 </h1>
                 <p className="text-lg text-gray-400 mt-6 max-w-2xl">
-                    A platform where tech founders post projects, break them
-                    into tasks, and collaborate with contributors to bring ideas
-                    to life.
+                    A platform where tech founders bring projects, break them
+                    into smaller tasks, and collaborate with contributors to
+                    bring ideas to life.
                 </p>
                 <Link
-                    href="https://tally.so/r/3xRj9d"
+                    href={WORKSPACE_ROUTE.pathname}
                     className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                 >
-                    Join the Waitlist
+                    Explore Crews
                 </Link>
             </header>
 
@@ -63,7 +64,7 @@ export default function Home() {
                             {
                                 title: 'Shared Success',
                                 description:
-                                    'Get rewarded for your efforts with equity, profits, or recognition.',
+                                    'Get rewarded for your efforts with equity, profits, or a full time job.',
                             },
                         ].map((feature, index) => (
                             <div
@@ -91,19 +92,19 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
-                                step: '1. Join the Waitlist',
+                                step: '1. Find What Inspires You',
                                 description:
-                                    'Be the first to know when Melixir goes live and start exploring opportunities early!',
+                                    'Discover exciting projects by fellow founders or start your own project.',
                             },
                             {
-                                step: '2. Find What Inspires You',
+                                step: '2. Build in Public',
                                 description:
-                                    'Discover exciting projects by founders or kickstart your own journey.',
+                                    "Catch world's attention as you build to get early feedback. #buildinpublic",
                             },
                             {
                                 step: '3. Build with the Right People',
                                 description:
-                                    'Do your part, and the right teammates will naturally join along the way.',
+                                    'Keep doing your part, and the right teammates will naturally join along the way.',
                             },
                         ].map((step, index) => (
                             <div
@@ -126,17 +127,16 @@ export default function Home() {
             <section className="py-20 px-6 bg-gradient-to-b from-black to-[#101010]">
                 <div className="max-w-5xl mx-auto text-center">
                     <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-                        Join the Waitlist Today
+                        Join a Crew Today
                     </h2>
                     <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
-                        Don’t miss out on the chance to collaborate with
-                        passionate individuals.
+                        Don’t miss out on the chance to build something great.
                     </p>
                     <Link
-                        href="https://tally.so/r/3xRj9d"
+                        href={WORKSPACE_ROUTE.pathname}
                         className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                     >
-                        Join the Waitlist
+                        Explore Crews
                     </Link>
                 </div>
             </section>
