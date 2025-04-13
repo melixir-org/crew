@@ -87,24 +87,24 @@ export default function Home() {
             <section className="py-20 px-6 bg-[#121212]">
                 <div className="max-w-5xl mx-auto text-center">
                     <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        How It Works
+                        How it Works
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
                                 step: '1. Find What Inspires You',
                                 description:
-                                    'Discover exciting projects by fellow founders or start your own project.',
+                                    'Discover projects (aka crews) or start your own project.',
                             },
                             {
-                                step: '2. Build in Public',
+                                step: '2. Break into Tasks & Build',
                                 description:
-                                    "Catch world's attention as you build to get early feedback. #buildinpublic",
+                                    'Break your project into tasks (aka works) strategically to help contributors get started easily.',
                             },
                             {
-                                step: '3. Build with the Right People',
+                                step: '3. Rinse & Repeat',
                                 description:
-                                    'Keep doing your part, and the right teammates will naturally join along the way.',
+                                    'Keep doing your part, and the right people will naturally join along the way.',
                             },
                         ].map((step, index) => (
                             <div

@@ -19,9 +19,6 @@ export default function Login() {
                                 crew
                             </p>
                         </div>
-                        <div className="flex w-full items-center justify-center opacity-70">
-                            <h2>CONTINUE WITH</h2>
-                        </div>
                         <div className="flex flex-col w-full justify-between gap-2">
                             <button
                                 className="py-1 border-[1px] border-auth-border rounded-md"
@@ -38,8 +35,7 @@ export default function Login() {
                         </div>
                     </div>
                     <p className="mt-20">
-                        By continuing you agree to our <a>terms of service</a>{' '}
-                        and <a>privacy policy</a>
+                        Don&apos;t worry, we hate spams too :)
                     </p>
                 </div>
             </div>
