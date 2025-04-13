@@ -18,7 +18,7 @@ const NavBar = async () => {
     } = await getUserApi();
 
     return (
-        <nav className="flex justify-between items-center px-12 py-2 bg-[#101010] sticky top-0 z-50 shadow-md">
+        <nav className="flex justify-between gap-5 items-center px-12 py-2 bg-[#101010] sticky top-0 z-50 shadow-md">
             <NavigationMenu>
                 <NavigationMenuList className="gap-6">
                     <NavigationMenuItem>
@@ -86,7 +86,7 @@ const NavBar = async () => {
                                     'h-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 transition-all hover:text-white hover:scale-105'
                                 )}
                             >
-                                <div>Login or Sign Up</div>
+                                Login or Sign Up
                             </Link>
                         )}
                     </NavigationMenuItem>

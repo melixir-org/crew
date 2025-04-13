@@ -18,7 +18,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const {
         page_index = '0',
         page_size = '10',
-        type = WORK,
+        type = CREW,
     } = await searchParams;
 
     const pi = isArray(page_index) ? Number(page_index[0]) : Number(page_index);
@@ -34,9 +34,13 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     });
 
     const ids: string[] = [];
+    let totalIds: number = 0;
 
     if (t === CREW) {
-        const { data }: { data: Crew[] | null } = await getCrewsApi(pi, ps);
+        const { data, count }: { data: Crew[] | null; count: number | null } =
+            await getCrewsApi(pi, ps);
+
+        totalIds = count ?? 0;
 
         const crews: Record<string, Crew> = {};
         data?.forEach(crew => {
@@ -48,7 +52,10 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     }
 
     if (t === WORK) {
-        const { data }: { data: Work[] | null } = await getWorksApi(pi, ps);
+        const { data, count }: { data: Work[] | null; count: number | null } =
+            await getWorksApi(pi, ps);
+
+        totalIds = count ?? 0;
 
         const works: Record<string, Work> = {};
         data?.forEach(work => {
@@ -62,7 +69,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     return (
         <PageStoreProvider initialState={initialState}>
             <SessionWrapper syncSessionIntoCrewWorkLayoutStore={false} />
-            <Workspace ids={ids} />
+            <Workspace ids={ids} totalIds={totalIds} />
         </PageStoreProvider>
     );
 };

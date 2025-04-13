@@ -45,7 +45,10 @@ const AssignMyself = ({ workId }: { workId: string }) => {
     }
 
     return assignee ? null : (
-        <Button className="w-32 bg-white text-black" onClick={assignWork}>
+        <Button
+            className="w-32 bg-white text-black hover:bg-white"
+            onClick={assignWork}
+        >
             Let&apos;s Go
         </Button>
     );

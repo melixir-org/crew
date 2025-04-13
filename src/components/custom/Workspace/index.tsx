@@ -23,27 +23,20 @@ import {
     PaginationLink,
 } from '@/components/ui/pagination';
 
-function Workspace({ ids }: { ids: string[] }) {
+function Workspace({ ids, totalIds }: { ids: string[]; totalIds: number }) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const pathname = usePathname();
 
     const { crews, works } = usePageStore(store => store.server);
 
     const pageIndex = +(searchParams.get('page_index') || '0');
     const pageSize = +(searchParams.get('page_size') || '10');
-    const type = searchParams.get('type') || WORK;
+    const type = searchParams.get('type') || CREW;
 
-    const workItems = ids.map(id => works[id]);
-    const crewItems = ids.map(id => crews[id]);
+    const items =
+        type === WORK ? ids.map(id => works[id]) : ids.map(id => crews[id]);
 
-    const items = type === WORK ? workItems : crewItems;
-    const totalPages = Math.ceil(items.length / pageSize);
-
-    const currentItems = items.slice(
-        pageIndex * pageSize,
-        (pageIndex + 1) * pageSize
-    );
+    const totalPages = Math.ceil(totalIds / pageSize);
 
     const updateParams = (updates: Record<string, string>) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -54,16 +47,11 @@ function Workspace({ ids }: { ids: string[] }) {
     };
 
     const handlePageChange = (newPageIndex: number) => {
-        if (newPageIndex >= 0 && newPageIndex < totalPages) {
-            updateParams({ page_index: newPageIndex.toString() });
-        }
+        updateParams({ page_index: newPageIndex.toString() });
     };
 
     const handleTypeChange = (type: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('type', type);
-        params.set('page_index', '0');
-        router.replace(`${pathname}?${params.toString()}`);
+        updateParams({ type, page_index: '0' });
     };
 
     const handleItemClick = (id: string, workId: string) => {
@@ -95,64 +83,12 @@ function Workspace({ ids }: { ids: string[] }) {
         );
     };
 
-    const renderPagination = () => {
-        const maxLinks = 5;
-        const current = pageIndex;
-        const range = Array.from({ length: totalPages }, (_, i) => i).filter(
-            i =>
-                i === 0 ||
-                i === totalPages - 1 ||
-                (i >= current - 1 && i <= current + 1)
-        );
-
-        return (
-            <Pagination className="mt-6">
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious
-                            onClick={() =>
-                                handlePageChange(Math.max(0, pageIndex - 1))
-                            }
-                            className="cursor-pointer"
-                        />
-                    </PaginationItem>
-
-                    {range.map((i, idx) => (
-                        <PaginationItem key={i}>
-                            <PaginationLink
-                                isActive={i === pageIndex}
-                                onClick={() => handlePageChange(i)}
-                                className="cursor-pointer"
-                            >
-                                {i + 1}
-                            </PaginationLink>
-                            {idx < range.length - 1 &&
-                                range[idx + 1] !== i + 1 && (
-                                    <span className="px-2 text-muted-foreground font-bold text-white">
-                                        ...
-                                    </span>
-                                )}
-                        </PaginationItem>
-                    ))}
-                    <PaginationItem>
-                        <PaginationNext
-                            onClick={() =>
-                                handlePageChange(
-                                    Math.min(totalPages - 1, pageIndex + 1)
-                                )
-                            }
-                            className="cursor-pointer"
-                        />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
-        );
-    };
+    const currentPage = pageIndex + 1;
 
     return (
         <div className="container p-1 flex gap-2">
             <Button
-                className="w-96 bg-white text-black"
+                className="w-96 bg-white text-black hover:bg-white"
                 onClick={handleCreateCrew}
             >
                 Create Crew
@@ -179,19 +115,67 @@ function Workspace({ ids }: { ids: string[] }) {
                     <div className="flex flex-col">
                         {type === WORK && (
                             <WorkList
-                                items={currentItems}
+                                items={items}
                                 handleItemClick={handleItemClick}
                             />
                         )}
                         {type === CREW && (
                             <CrewList
-                                items={currentItems}
+                                items={items}
                                 handleItemClick={handleItemClick}
                             />
                         )}
                     </div>
                 </div>
-                {totalPages > 1 && renderPagination()}
+                <Pagination className="mt-6">
+                    <PaginationContent>
+                        {currentPage > 1 && (
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() =>
+                                        handlePageChange(
+                                            Math.max(0, pageIndex - 1)
+                                        )
+                                    }
+                                    className="cursor-pointer"
+                                />
+                            </PaginationItem>
+                        )}
+                        {currentPage > 1 && (
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                        )}
+                        <PaginationItem>
+                            <PaginationLink
+                                isActive={true}
+                                className="cursor-pointer text-black"
+                            >
+                                {currentPage}
+                            </PaginationLink>
+                        </PaginationItem>
+                        {currentPage < totalPages && (
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                        )}
+                        {currentPage < totalPages && (
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() =>
+                                        handlePageChange(
+                                            Math.min(
+                                                totalPages - 1,
+                                                pageIndex + 1
+                                            )
+                                        )
+                                    }
+                                    className="cursor-pointer"
+                                />
+                            </PaginationItem>
+                        )}
+                    </PaginationContent>
+                </Pagination>
             </div>
         </div>
     );

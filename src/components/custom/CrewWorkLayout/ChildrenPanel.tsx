@@ -147,7 +147,7 @@ const ChildrenPanel = () => {
             </div>
             {hasWorkUpdatePermission(user, crew, undefined, pinnedWork) && (
                 <Button
-                    className="w-full bg-white text-black"
+                    className="w-full bg-white text-black hover:bg-white"
                     onClick={() => handleCreateWork()}
                 >
                     Create Child Work

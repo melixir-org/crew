@@ -99,7 +99,7 @@ const WorkCreateDraftLayout = () => {
             <div className="flex justify-end gap-2">
                 {isFirstPage ? (
                     <Button
-                        className="w-32 bg-white text-black"
+                        className="w-32 bg-white text-black hover:bg-white"
                         onClick={() => {
                             const params = new URLSearchParams(
                                 searchParams.toString()
@@ -113,7 +113,7 @@ const WorkCreateDraftLayout = () => {
                     </Button>
                 ) : (
                     <Button
-                        className="w-32 bg-white text-black"
+                        className="w-32 bg-white text-black hover:bg-white"
                         onClick={() => {
                             redirectToPageWithIndex(currentPageIndex - 1);
                         }}
@@ -123,7 +123,7 @@ const WorkCreateDraftLayout = () => {
                 )}
                 {isLastPage ? (
                     <Button
-                        className="w-32 bg-white text-black"
+                        className="w-32 bg-white text-black hover:bg-white"
                         onClick={async () => {
                             const vl = validateLayout();
                             const invalidRouteIndex = validateAllRoute();
@@ -176,7 +176,7 @@ const WorkCreateDraftLayout = () => {
                     </Button>
                 ) : (
                     <Button
-                        className="w-32 bg-white text-black"
+                        className="w-32 bg-white text-black hover:bg-white"
                         onClick={() => {
                             setWorkCreateDraftRoute(
                                 pathnameAfterWorkId,
