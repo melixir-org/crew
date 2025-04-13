@@ -13,14 +13,14 @@ const WorkList = ({
     const entry = searchParams.get('entry');
 
     return (
-        <ul className="space-y-4">
+        <ul className="flex flex-col gap-2 overflow-y-auto scrollbar-none">
             {items.map(item => (
                 <li key={item.id}>
                     <Card
-                        className={`cursor-pointer transition-colors ${
+                        className={`border-none relative p-2 flex justify-between gap-2 cursor-pointer ${
                             entry === item.id
-                                ? 'bg-secondary text-secondary-foreground'
-                                : 'bg-primary text-primary-foreground'
+                                ? 'text-secondary-foreground'
+                                : 'bg-secondary-dark-bg text-primary-foreground'
                         }`}
                         onClick={() => handleItemClick(item.id, item.id)}
                     >

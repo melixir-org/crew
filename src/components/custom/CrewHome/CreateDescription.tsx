@@ -27,6 +27,7 @@ const CreateDescription = () => {
                 autoComplete={'off'}
                 spellCheck={true}
                 value={description}
+                placeholder="Enter description of crew (required)"
                 onChange={e =>
                     setCrewCreateDraftRoute(pathnameAfterWorkId, route => {
                         if (route.crew.root_work) {

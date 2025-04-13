@@ -14,6 +14,7 @@ const CreateTitle = () => {
         <div className="flex items-center justify-between">
             <Input
                 value={crewTitle}
+                placeholder="Enter title of crew (required)"
                 onChange={e =>
                     setCrewCreateLayout(crewCreateLayout => {
                         crewCreateLayout.crew.title = e.target.value;

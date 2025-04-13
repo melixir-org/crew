@@ -18,16 +18,22 @@ const NavBar = async () => {
     } = await getUserApi();
 
     return (
-        <div className="flex justify-between px-12 py-2 border-b border-zinc-800 bg-primary-dark-bg backdrop-blur supports-[backdrop-filter]:bg-black/60">
+        <nav className="flex justify-between items-center px-12 py-2 bg-[#101010] sticky top-0 z-50 shadow-md">
             <NavigationMenu>
-                <NavigationMenuList className="gap-3">
+                <NavigationMenuList className="gap-6">
                     <NavigationMenuItem>
                         <Link href={HOME_ROUTE.pathname}>
-                            <span className="font-bold text-lg">Melixir</span>
+                            <span className="text-lg md:text-lg font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                                Melixir
+                            </span>
                         </Link>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <Link href={WORKSPACE_ROUTE.pathname}>Workspace</Link>
+                        <Link href={WORKSPACE_ROUTE.pathname}>
+                            <span className="text-lg opacity-65 hover:opacity-90 transition-opacity">
+                                Workspace
+                            </span>
+                        </Link>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
@@ -77,7 +83,7 @@ const NavBar = async () => {
                                 href={AUTH_ROUTE.pathname}
                                 className={cn(
                                     navigationMenuTriggerStyle(),
-                                    'h-8'
+                                    'h-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 transition-all hover:text-white hover:scale-105'
                                 )}
                             >
                                 <div>Login or Sign Up</div>
@@ -86,7 +92,7 @@ const NavBar = async () => {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-        </div>
+        </nav>
     );
 };
 

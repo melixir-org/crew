@@ -7,7 +7,7 @@ const Page = () => {
         <PageStoreProvider>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={{}} />
             <SessionWrapper />
-            <div>work in progress</div>
+            <div>work in progress, please ignore & continue</div>
         </PageStoreProvider>
     );
 };

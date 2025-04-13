@@ -1,14 +1,10 @@
-import Link from "next/link";
+import Link from 'next/link';
+import { WORKSPACE_ROUTE } from './routes';
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#101010] via-[#121212] to-black text-white font-sans">
             {/* Navbar */}
-            <nav className="flex justify-between items-center px-8 py-5 bg-[#101010] sticky top-0 z-50 shadow-md">
-                <div className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                    Melixir
-                </div>
-            </nav>
 
             {/* Hero Section */}
             <header className="flex flex-col items-center justify-center text-center py-28 px-6">
@@ -16,13 +12,15 @@ export default function Home() {
                     Collaborate, Build, and Share Success
                 </h1>
                 <p className="text-lg text-gray-400 mt-6 max-w-2xl">
-                A platform where tech founders post projects, break them into tasks, and collaborate with contributors to bring ideas to life.
+                    A platform where tech founders bring projects, break them
+                    into smaller tasks, and collaborate with contributors to
+                    bring ideas to life.
                 </p>
                 <Link
-                    href="https://tally.so/r/3xRj9d"
+                    href={WORKSPACE_ROUTE.pathname}
                     className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                 >
-                    Join the Waitlist
+                    Explore Crews
                 </Link>
             </header>
 
@@ -33,7 +31,8 @@ export default function Home() {
                         The Challenge
                     </h2>
                     <p className="text-lg text-gray-400">
-                    Building something meaningful needs the right people who share your vision and passion for collaboration.
+                        Building something meaningful needs the right people who
+                        share your vision and passion for collaboration.
                     </p>
                 </div>
             </section>
@@ -45,22 +44,28 @@ export default function Home() {
                         Our Solution
                     </h2>
                     <p className="text-lg text-gray-400">
-                    Whether you’re building your MVP or providing your expertise, Melixir creates a collaborative space by ensuring transparency, easier management, and rewarding contributions equitably for shared success.
+                        Whether you’re building your MVP or providing your
+                        expertise, Melixir creates a collaborative space by
+                        ensuring transparency, easier management, and rewarding
+                        contributions equitably for shared success.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
-                              title: 'For Founders',
-                              description: 'Break your project into simple tasks to help others get started and keep things organized.',
-                          },
-                          {
-                              title: 'For Contributors',
-                              description: 'Work on exciting projects, team up with great founders, and build your skills.',
-                          },
-                          {
-                              title: 'Shared Success',
-                              description: 'Get rewarded for your efforts with equity, profits, or recognition.',
-                          },
+                                title: 'For Founders',
+                                description:
+                                    'Break your project into simple tasks to help others get started and keep things organized.',
+                            },
+                            {
+                                title: 'For Contributors',
+                                description:
+                                    'Work on exciting projects, team up with great founders, and build your skills.',
+                            },
+                            {
+                                title: 'Shared Success',
+                                description:
+                                    'Get rewarded for your efforts with equity, profits, or a full time job.',
+                            },
                         ].map((feature, index) => (
                             <div
                                 key={index}
@@ -82,21 +87,24 @@ export default function Home() {
             <section className="py-20 px-6 bg-[#121212]">
                 <div className="max-w-5xl mx-auto text-center">
                     <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        How It Works
+                        How it Works
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {[
                             {
-                              step: '1. Join the Waitlist',
-                              description: 'Be the first to know when Melixir goes live and start exploring opportunities early!',
+                                step: '1. Find What Inspires You',
+                                description:
+                                    'Discover projects (aka crews) or start your own project.',
                             },
                             {
-                                step: '2. Find What Inspires You',
-                                description: 'Discover exciting projects by founders or kickstart your own journey.',
+                                step: '2. Break into Tasks & Build',
+                                description:
+                                    'Break your project into tasks (aka works) strategically to help contributors get started easily.',
                             },
                             {
-                              step: '3. Build with the Right People',
-                              description: 'Do your part, and the right teammates will naturally join along the way.',
+                                step: '3. Rinse & Repeat',
+                                description:
+                                    'Keep doing your part, and the right people will naturally join along the way.',
                             },
                         ].map((step, index) => (
                             <div
@@ -119,25 +127,24 @@ export default function Home() {
             <section className="py-20 px-6 bg-gradient-to-b from-black to-[#101010]">
                 <div className="max-w-5xl mx-auto text-center">
                     <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-                        Join the Waitlist Today
+                        Join a Crew Today
                     </h2>
                     <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
-                        Don’t miss out on the chance to collaborate with
-                        passionate individuals.
+                        Don’t miss out on the chance to build something great.
                     </p>
                     <Link
-                        href="https://tally.so/r/3xRj9d"
+                        href={WORKSPACE_ROUTE.pathname}
                         className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
                     >
-                        Join the Waitlist
+                        Explore Crews
                     </Link>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-8 px-6 bg-black border-t border-gray-700">
+            <footer className="py-8 px-6 bg-[#101010] border-t border-gray-700">
                 <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-gray-500">
+                    <p className="text-gray-400">
                         © 2025 Melixir. All rights reserved.
                     </p>
                     <div className="flex gap-6">
@@ -149,7 +156,7 @@ export default function Home() {
                             <a
                                 key={index}
                                 href="#"
-                                className="text-gray-500 hover:text-white transition"
+                                className="text-gray-400 hover:text-white transition"
                             >
                                 {link}
                             </a>
