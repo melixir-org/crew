@@ -19,6 +19,7 @@ export async function getCrewsApi(pageIndex: number, pageSize: number) {
             'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url)',
             { count: 'exact' }
         )
+        .eq('created_by', (await getUserApi()).data.user?.id ?? '')
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Crew[]>();
 }
@@ -59,10 +60,14 @@ export async function getWorksApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 
     return await supabaseServerClient
-        .from('works')
-        .select('id, title', { count: 'exact' })
+        .from('crews')
+        .select(
+            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url)',
+            { count: 'exact' }
+        )
+        .neq('created_by', (await getUserApi()).data.user?.id ?? '')
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
-        .returns<Work[]>();
+        .returns<Crew[]>();
 }
 
 export async function getWorkForWorkHomePageApi({

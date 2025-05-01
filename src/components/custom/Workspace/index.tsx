@@ -1,16 +1,11 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePageStore } from '@/provider/PageStore';
-import {
-    CREW_HOME_ROUTE,
-    WORK_HOME_ROUTE,
-    WORKSPACE_ROUTE,
-} from '@/app/routes';
-import { CREW, HIERARCHY, MANAGE, NEW, WORK } from '@/lib/constants';
-import WorkList from './WorkList';
+import { CREW_HOME_ROUTE, WORKSPACE_ROUTE } from '@/app/routes';
+import { MY_CREW, MANAGE, NEW, THEIR_CREW } from '@/lib/constants';
 import CrewList from './CrewList';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,14 +22,13 @@ function Workspace({ ids, totalIds }: { ids: string[]; totalIds: number }) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const { crews, works } = usePageStore(store => store.server);
+    const { crews } = usePageStore(store => store.server);
 
     const pageIndex = +(searchParams.get('page_index') || '0');
     const pageSize = +(searchParams.get('page_size') || '10');
-    const type = searchParams.get('type') || CREW;
+    const type = searchParams.get('type') || MY_CREW;
 
-    const items =
-        type === WORK ? ids.map(id => works[id]) : ids.map(id => crews[id]);
+    const items = ids.map(id => crews[id]);
 
     const totalPages = Math.ceil(totalIds / pageSize);
 
@@ -58,21 +52,12 @@ function Workspace({ ids, totalIds }: { ids: string[]; totalIds: number }) {
         const params = new URLSearchParams(searchParams.toString());
         params.set('entry', id);
         params.set('pin', workId);
-        if (type === WORK) {
-            params.set('panel', HIERARCHY);
-            router.push(
-                `${WORKSPACE_ROUTE.pathname}/${workId}${
-                    WORK_HOME_ROUTE.pathname
-                }?${params.toString()}`
-            );
-        } else {
-            params.set('panel', MANAGE);
-            router.push(
-                `${WORKSPACE_ROUTE.pathname}/${workId}${
-                    CREW_HOME_ROUTE.pathname
-                }?${params.toString()}`
-            );
-        }
+        params.set('panel', MANAGE);
+        router.push(
+            `${WORKSPACE_ROUTE.pathname}/${workId}${
+                CREW_HOME_ROUTE.pathname
+            }?${params.toString()}`
+        );
     };
 
     const handleCreateCrew = () => {
@@ -97,34 +82,31 @@ function Workspace({ ids, totalIds }: { ids: string[]; totalIds: number }) {
                 <Tabs
                     value={type}
                     onValueChange={value => handleTypeChange(value)}
-                    className="w-60"
+                    className="w-96"
                 >
                     <TabsList className="grid grid-cols-2">
-                        {[CREW, WORK].map(t => (
+                        {[MY_CREW, THEIR_CREW].map(t => (
                             <TabsTrigger
                                 key={t}
                                 value={t}
                                 className="data-[state=active]:bg-black data-[state=active]:text-white"
                             >
-                                {t}
+                                {
+                                    {
+                                        [MY_CREW]: 'Founded by me',
+                                        [THEIR_CREW]: 'Contribute to others',
+                                    }[t]
+                                }
                             </TabsTrigger>
                         ))}
                     </TabsList>
                 </Tabs>
                 <div className="flex-1 overflow-y-auto">
                     <div className="flex flex-col">
-                        {type === WORK && (
-                            <WorkList
-                                items={items}
-                                handleItemClick={handleItemClick}
-                            />
-                        )}
-                        {type === CREW && (
-                            <CrewList
-                                items={items}
-                                handleItemClick={handleItemClick}
-                            />
-                        )}
+                        <CrewList
+                            items={items}
+                            handleItemClick={handleItemClick}
+                        />
                     </div>
                 </div>
                 <Pagination className="mt-6">

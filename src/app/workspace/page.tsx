@@ -5,9 +5,8 @@ import { PageStoreProvider } from '@/provider/PageStore';
 import { getCrewsApi, getUserApi } from '@/lib/server-only-api';
 import { getWorksApi } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
-import { CREW, WORK } from '@/lib/constants';
+import { MY_CREW, THEIR_CREW } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
-import type { Work } from '@/types/Work';
 import SessionWrapper from '@/provider/SessionWrapper';
 
 interface PageProps {
@@ -18,7 +17,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const {
         page_index = '0',
         page_size = '10',
-        type = CREW,
+        type = MY_CREW,
     } = await searchParams;
 
     const pi = isArray(page_index) ? Number(page_index[0]) : Number(page_index);
@@ -36,7 +35,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     const ids: string[] = [];
     let totalIds: number = 0;
 
-    if (t === CREW) {
+    if (t === MY_CREW) {
         const { data, count }: { data: Crew[] | null; count: number | null } =
             await getCrewsApi(pi, ps);
 
@@ -51,19 +50,19 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         initialState = initPageState(initialState, { server: { crews } });
     }
 
-    if (t === WORK) {
-        const { data, count }: { data: Work[] | null; count: number | null } =
+    if (t === THEIR_CREW) {
+        const { data, count }: { data: Crew[] | null; count: number | null } =
             await getWorksApi(pi, ps);
 
         totalIds = count ?? 0;
 
-        const works: Record<string, Work> = {};
+        const crews: Record<string, Crew> = {};
         data?.forEach(work => {
-            works[work.id] = work;
+            crews[work.id] = work;
             ids.push(work.id);
         });
 
-        initialState = initPageState(initialState, { server: { works } });
+        initialState = initPageState(initialState, { server: { crews } });
     }
 
     return (
