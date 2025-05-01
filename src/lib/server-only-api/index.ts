@@ -15,7 +15,10 @@ export async function getCrewsApi(pageIndex: number, pageSize: number) {
 
     return await supabaseServerClient
         .from('crews')
-        .select('id, title, root_work:root_id (id, title)', { count: 'exact' })
+        .select(
+            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url)',
+            { count: 'exact' }
+        )
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Crew[]>();
 }
