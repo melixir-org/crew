@@ -8,6 +8,7 @@ import { extractWorkId } from '@/lib/utils';
 import { NEW } from '@/lib/constants';
 import ReadUpdateSocialLink from './SocialLink/ReadUpdateSocialLink';
 import CreateSocialLink from './SocialLink/CreateSocialLink';
+import Comments from './Comments';
 
 const CrewHome = () => {
     const pathname = usePathname();
@@ -16,20 +17,27 @@ const CrewHome = () => {
     const crewCreateMode = workId === NEW;
 
     return (
-        <div className="flex items-start gap-2 mt-2">
-            <div className="flex-[0_0_70%]">
-                {crewCreateMode ? (
-                    <CreateDescription />
-                ) : (
-                    <ReadUpdateDescription />
-                )}
+        <div className="h-full flex flex-col gap-2">
+            <div className="flex items-start gap-2">
+                <div className="flex-[0_0_70%]">
+                    {crewCreateMode ? (
+                        <CreateDescription />
+                    ) : (
+                        <ReadUpdateDescription />
+                    )}
+                </div>
+                <div className="flex-1 min-w-0">
+                    {crewCreateMode ? (
+                        <CreateSocialLink />
+                    ) : (
+                        <ReadUpdateSocialLink />
+                    )}
+                </div>
             </div>
-            <div className="flex-1 min-w-0">
-                {crewCreateMode ? (
-                    <CreateSocialLink />
-                ) : (
-                    <ReadUpdateSocialLink />
-                )}
+            <div className="flex">
+                <div className="flex-[0_0_70%]">
+                    <Comments />
+                </div>
             </div>
         </div>
     );

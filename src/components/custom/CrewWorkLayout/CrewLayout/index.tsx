@@ -29,7 +29,7 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
     };
 
     return (
-        <div className="p-1 flex flex-col gap-2">
+        <div className="h-full p-1 flex flex-col gap-2">
             <div className="flex flex-col gap-4 w-[70%]">
                 <div className="flex items-center gap-4">
                     <div className="flex-1">
@@ -50,7 +50,9 @@ const CrewLayout: React.FC<CrewLayoutProps> = ({ children }) => {
                 </div>
                 <RouteTabs routes={CREW_ROUTE_GROUP_ROUTES} />
             </div>
-            {children}
+            <div className="flex-1 overflow-y-auto scrollbar-none">
+                {children}
+            </div>
             <div className="w-[70%]">
                 <CrewCreateDraftLayout />
             </div>

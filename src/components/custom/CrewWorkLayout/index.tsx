@@ -37,7 +37,7 @@ const CrewWorkLayout: React.FC<CrewWorkLayoutProps> = ({ children }) => {
     }
 
     return (
-        <div className="flex-1 p-1 flex">
+        <div className="flex-[0_1_calc(100vh-48px)] p-1 flex overflow-hidden">
             <div className="w-96 flex gap-1">
                 <PersistentMountDiv
                     show={panel === HIERARCHY || createCrewModeOn}
