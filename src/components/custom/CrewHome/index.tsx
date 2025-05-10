@@ -34,11 +34,13 @@ const CrewHome = ({ pageLoadTimestamp }: { pageLoadTimestamp: string }) => {
                     )}
                 </div>
             </div>
-            <div className="flex">
-                <div className="flex-[0_0_70%]">
-                    <Opinions pageLoadTimestamp={pageLoadTimestamp} />
+            {!crewCreateMode && (
+                <div className="flex">
+                    <div className="flex-[0_0_70%]">
+                        <Opinions pageLoadTimestamp={pageLoadTimestamp} />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

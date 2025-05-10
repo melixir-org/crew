@@ -1,4 +1,4 @@
-export type Route = {
+export interface Route {
     name: string;
     pathname: string;
-};
+}
