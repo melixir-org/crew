@@ -8,7 +8,7 @@ import { extractWorkId } from '@/lib/utils';
 import { NEW } from '@/lib/constants';
 import ReadUpdateSocialLink from './SocialLink/ReadUpdateSocialLink';
 import CreateSocialLink from './SocialLink/CreateSocialLink';
-import Comments from './Comments';
+import Opinions from './Opinions';
 
 const CrewHome = () => {
     const pathname = usePathname();
@@ -36,7 +36,7 @@ const CrewHome = () => {
             </div>
             <div className="flex">
                 <div className="flex-[0_0_70%]">
-                    <Comments />
+                    <Opinions />
                 </div>
             </div>
         </div>

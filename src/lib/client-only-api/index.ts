@@ -6,6 +6,7 @@ import { Crew } from '@/types/Crew';
 import { WorkStatus } from '@/types/WorkStatus';
 import { Assignment } from '@/types/Assignment';
 import { Member } from '@/types/Member';
+import { Opinion } from '@/types/Opinion';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -176,4 +177,37 @@ export async function getMemberListApi(crewId: string) {
         .filter('left_at', 'is', null)
         .limit(20)
         .returns<Member[]>();
+}
+
+export async function addOpinionApi({
+    crewId,
+    anonymous,
+    data,
+    replyOf,
+    createdBy,
+}: {
+    crewId: string;
+    anonymous: boolean;
+    data: string;
+    replyOf: string | null;
+    createdBy: string;
+}) {
+    const { data: response, error } = await supabaseBrowserClient
+        .from('opinions')
+        .insert({
+            crew_id: crewId,
+            anonymous,
+            data,
+            reply_of: replyOf,
+            created_by: createdBy,
+        })
+        .select(`*, created_by (*), reply_of (*, created_by (*))`)
+        .returns<Opinion>()
+        .single();
+
+    if (error) {
+        throw error;
+    }
+
+    return response;
 }

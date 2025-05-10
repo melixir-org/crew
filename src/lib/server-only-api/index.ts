@@ -3,6 +3,7 @@ import 'server-only';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
+import { Opinion } from '@/types/Opinion';
 
 export async function getUserApi() {
     const supabaseServerClient = await createSupabaseServerClient();
@@ -114,4 +115,17 @@ export async function getWorkWhileCreateWorkForWorkHomePageApi({
         .eq('id', workId)
         .returns<Work[]>()
         .single();
+}
+
+export async function getOpinionsApi({ crewId }: { crewId: string }) {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .rpc('get_opinions_by_score', {
+            input_data: {
+                crew_id: crewId,
+                last_score: null,
+                last_created_at: null,
+            },
+        })
+        .returns<Opinion[]>();
 }

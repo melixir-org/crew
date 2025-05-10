@@ -1,6 +1,7 @@
 import { createDbUser, DbUser } from './DbUser';
 import { DeepPartial } from './DeepPartial';
 import { createMember, Member } from './Member';
+import { createOpinion, Opinion } from './Opinion';
 import { createWork, Work } from './Work';
 
 export interface Crew {
@@ -10,6 +11,7 @@ export interface Crew {
     members?: Member[];
     social_link?: string | null;
     created_by?: DbUser;
+    opinions?: Opinion[];
 }
 
 export function createCrew({
@@ -19,6 +21,7 @@ export function createCrew({
     members,
     social_link,
     created_by,
+    opinions,
 }: DeepPartial<Crew> = {}): Crew {
     return {
         id,
@@ -27,5 +30,6 @@ export function createCrew({
         members: members?.map(m => createMember(m)),
         social_link,
         created_by: created_by ? createDbUser(created_by) : undefined,
+        opinions: opinions?.map(o => createOpinion(o)),
     };
 }

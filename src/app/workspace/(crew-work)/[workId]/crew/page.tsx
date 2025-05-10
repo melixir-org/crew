@@ -1,4 +1,8 @@
-import { getUserApi, getWorkForCrewHomePageApi } from '@/lib/server-only-api';
+import {
+    getOpinionsApi,
+    getUserApi,
+    getWorkForCrewHomePageApi,
+} from '@/lib/server-only-api';
 import MergeSsrStateIntoCrewWorkLayoutStore from '@/provider/MergeSsrStateIntoCrewWorkLayoutStore';
 import { PageStoreProvider } from '@/provider/PageStore';
 import SessionWrapper from '@/provider/SessionWrapper';
@@ -6,6 +10,7 @@ import { type Work } from '@/types/Work';
 import { initPageState, type PageState } from '@/store/pageStore';
 import CrewHome from '@/components/custom/CrewHome';
 import { NEW } from '@/lib/constants';
+import { Opinion } from '@/types/Opinion';
 
 const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
     const { workId } = await params;
@@ -26,6 +31,11 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
         );
 
         if (data && data.crew && data.crew.root_work) {
+            const { data: opinions }: { data: Opinion[] | null } =
+                await getOpinionsApi({
+                    crewId: data.crew.id,
+                });
+
             initialState = initPageState(
                 initialState,
                 {
@@ -40,6 +50,15 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
                     server: {
                         works: {
                             [data.crew.root_work.id]: data.crew.root_work,
+                        },
+                    },
+                },
+                {
+                    server: {
+                        crews: {
+                            [data.crew.id]: {
+                                opinions: opinions ?? [],
+                            },
                         },
                     },
                 }
