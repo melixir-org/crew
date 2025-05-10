@@ -9,6 +9,7 @@ export interface Opinion {
     data: string;
     anonymous: boolean;
     reply_of?: Opinion | null;
+    score?: number;
 }
 
 export function createOpinion({
@@ -18,7 +19,8 @@ export function createOpinion({
     created_by,
     data = '',
     anonymous = false,
-    reply_of = null,
+    reply_of,
+    score,
 }: DeepPartial<Opinion> = {}): Opinion {
     return {
         id,
@@ -27,6 +29,7 @@ export function createOpinion({
         created_by: createDbUser(created_by),
         crew_id,
         anonymous,
-        reply_of: reply_of ? createOpinion(reply_of) : null,
+        reply_of: reply_of ? createOpinion(reply_of) : reply_of,
+        score,
     };
 }

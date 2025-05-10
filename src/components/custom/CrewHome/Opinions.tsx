@@ -21,7 +21,11 @@ import { addOpinionApi } from '@/lib/client-only-api';
 
 const ANONYMOUS_USER = 'Anonymous User';
 
-export default function Opinions() {
+export default function Opinions({
+    pageLoadTimestamp,
+}: {
+    pageLoadTimestamp: string;
+}) {
     const {
         server: { crews, works, user },
         setCrew,

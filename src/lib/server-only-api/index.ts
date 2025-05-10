@@ -117,12 +117,19 @@ export async function getWorkWhileCreateWorkForWorkHomePageApi({
         .single();
 }
 
-export async function getOpinionsApi({ crewId }: { crewId: string }) {
+export async function getOpinionsApi({
+    crewId,
+    scoreTimestamp,
+}: {
+    crewId: string;
+    scoreTimestamp: string;
+}) {
     const supabaseServerClient = await createSupabaseServerClient();
     return await supabaseServerClient
         .rpc('get_opinions_by_score', {
             input_data: {
                 crew_id: crewId,
+                score_timestamp: scoreTimestamp,
                 last_score: null,
                 last_created_at: null,
             },

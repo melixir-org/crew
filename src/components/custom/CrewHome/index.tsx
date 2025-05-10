@@ -10,7 +10,7 @@ import ReadUpdateSocialLink from './SocialLink/ReadUpdateSocialLink';
 import CreateSocialLink from './SocialLink/CreateSocialLink';
 import Opinions from './Opinions';
 
-const CrewHome = () => {
+const CrewHome = ({ pageLoadTimestamp }: { pageLoadTimestamp: string }) => {
     const pathname = usePathname();
     const workId: string = extractWorkId(pathname);
 
@@ -36,7 +36,7 @@ const CrewHome = () => {
             </div>
             <div className="flex">
                 <div className="flex-[0_0_70%]">
-                    <Opinions />
+                    <Opinions pageLoadTimestamp={pageLoadTimestamp} />
                 </div>
             </div>
         </div>

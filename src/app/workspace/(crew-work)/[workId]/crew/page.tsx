@@ -23,6 +23,8 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
         server: { user },
     });
 
+    const pageLoadTimestamp = new Date().toISOString();
+
     if (workId !== NEW) {
         const { data }: { data: Work | null } = await getWorkForCrewHomePageApi(
             {
@@ -34,6 +36,7 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
             const { data: opinions }: { data: Opinion[] | null } =
                 await getOpinionsApi({
                     crewId: data.crew.id,
+                    scoreTimestamp: pageLoadTimestamp,
                 });
 
             initialState = initPageState(
@@ -70,7 +73,7 @@ const Page = async ({ params }: { params: Promise<{ workId: string }> }) => {
         <PageStoreProvider initialState={initialState}>
             <MergeSsrStateIntoCrewWorkLayoutStore ssrState={initialState} />
             <SessionWrapper />
-            <CrewHome />
+            <CrewHome pageLoadTimestamp={pageLoadTimestamp} />
         </PageStoreProvider>
     );
 };
