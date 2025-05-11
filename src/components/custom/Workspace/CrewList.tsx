@@ -86,7 +86,7 @@ const CrewList = ({
                                                         }
                                                     />
                                                 ) : (
-                                                    <AvatarFallback className="bg-gray-100">
+                                                    <AvatarFallback className="bg-gray-100 text-black">
                                                         <span className="text-xs">
                                                             {item.created_by.name
                                                                 .split(' ')

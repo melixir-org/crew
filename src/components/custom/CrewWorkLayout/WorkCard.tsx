@@ -85,7 +85,7 @@ export default function WorkCard({
                             (assignee.user.avatar_url ? (
                                 <AvatarImage src={assignee.user.avatar_url} />
                             ) : (
-                                <AvatarFallback className="bg-gray-100">
+                                <AvatarFallback className="bg-gray-100 text-black">
                                     <span className="text-xs">
                                         {assignee.user.name
                                             .split(' ')

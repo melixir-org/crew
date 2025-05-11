@@ -93,7 +93,7 @@ const FilledAssignment = ({
                             (assignment.user.avatar_url ? (
                                 <AvatarImage src={assignment.user.avatar_url} />
                             ) : (
-                                <AvatarFallback className="bg-gray-100">
+                                <AvatarFallback className="bg-gray-100 text-black">
                                     <span className="text-xs">
                                         {assignment.user.name
                                             .split(' ')
