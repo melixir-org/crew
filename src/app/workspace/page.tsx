@@ -2,8 +2,8 @@ import { isArray } from 'lodash-es';
 
 import Workspace from '@/components/custom/Workspace';
 import { PageStoreProvider } from '@/provider/PageStore';
-import { getCrewsApi, getUserApi } from '@/lib/server-only-api';
-import { getWorksApi } from '@/lib/server-only-api';
+import { getMyCrewsApi, getUserApi } from '@/lib/server-only-api';
+import { getTheirCrewsApi } from '@/lib/server-only-api';
 import { initPageState, PageState } from '@/store/pageStore';
 import { MY_CREW, THEIR_CREW } from '@/lib/constants';
 import type { Crew } from '@/types/Crew';
@@ -37,7 +37,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     if (t === MY_CREW) {
         const { data, count }: { data: Crew[] | null; count: number | null } =
-            await getCrewsApi(pi, ps);
+            await getMyCrewsApi(pi, ps);
 
         totalIds = count ?? 0;
 
@@ -52,7 +52,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     if (t === THEIR_CREW) {
         const { data, count }: { data: Crew[] | null; count: number | null } =
-            await getWorksApi(pi, ps);
+            await getTheirCrewsApi(pi, ps);
 
         totalIds = count ?? 0;
 

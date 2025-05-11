@@ -11,16 +11,19 @@ export async function getUserApi() {
     return await supabaseServerClient.auth.getUser();
 }
 
-export async function getCrewsApi(pageIndex: number, pageSize: number) {
+export async function getMyCrewsApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 
     return await supabaseServerClient
         .from('crews')
         .select(
-            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url)',
+            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url), total_members:members (count), total_opinions:opinions (count), crew_votes (id, crew_id, upvoted_at, removed_at, upvoted_by (id, username, name, avatar_url)), total_crew_votes:crew_votes (count)',
             { count: 'exact' }
         )
         .eq('created_by', (await getUserApi()).data.user?.id ?? '')
+        .is('members.left_at', null)
+        .eq('crew_votes.upvoted_by', (await getUserApi()).data.user?.id ?? '')
+        .is('crew_votes.removed_at', null)
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Crew[]>();
 }
@@ -57,16 +60,19 @@ export async function getWorkForMembersPageApi({ workId }: { workId: string }) {
         .single();
 }
 
-export async function getWorksApi(pageIndex: number, pageSize: number) {
+export async function getTheirCrewsApi(pageIndex: number, pageSize: number) {
     const supabaseServerClient = await createSupabaseServerClient();
 
     return await supabaseServerClient
         .from('crews')
         .select(
-            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url)',
+            'id, title, root_work:root_id (id, title), created_by (id, username, name, avatar_url), total_opinions:opinions (count), total_members:members (count), crew_votes (id, crew_id, upvoted_at, removed_at, upvoted_by (id, username, name, avatar_url)), total_crew_votes:crew_votes (count)',
             { count: 'exact' }
         )
         .neq('created_by', (await getUserApi()).data.user?.id ?? '')
+        .is('members.left_at', null)
+        .eq('crew_votes.upvoted_by', (await getUserApi()).data.user?.id ?? '')
+        .is('crew_votes.removed_at', null)
         .range(pageIndex * pageSize, (pageIndex + 1) * pageSize - 1)
         .returns<Crew[]>();
 }

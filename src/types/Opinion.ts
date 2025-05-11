@@ -5,7 +5,7 @@ export interface Opinion {
     id: string;
     crew_id: string;
     created_at: string;
-    created_by: DbUser;
+    created_by?: DbUser;
     data: string;
     anonymous: boolean;
     reply_of?: Opinion | null;
@@ -26,7 +26,7 @@ export function createOpinion({
         id,
         created_at,
         data,
-        created_by: createDbUser(created_by),
+        created_by: created_by ? createDbUser(created_by) : undefined,
         crew_id,
         anonymous,
         reply_of: reply_of ? createOpinion(reply_of) : reply_of,
