@@ -6,7 +6,7 @@ export interface CrewVote {
     crew_id: string;
     upvoted_at: string;
     removed_at: string | null;
-    upvoted_by?: DbUser;
+    upvoted_by: DbUser;
 }
 
 export function createCrewVote({
@@ -21,6 +21,6 @@ export function createCrewVote({
         crew_id,
         upvoted_at,
         removed_at,
-        upvoted_by: upvoted_by ? createDbUser(upvoted_by) : undefined,
+        upvoted_by: createDbUser(upvoted_by),
     };
 }

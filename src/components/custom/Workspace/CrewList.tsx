@@ -22,7 +22,7 @@ const CrewList = ({
             {items.map(item => {
                 const isUpvoted = item.crew_votes?.find(
                     cv =>
-                        cv.upvoted_by?.id === user?.id && cv.removed_at === null
+                        cv.upvoted_by.id === user?.id && cv.removed_at === null
                 );
 
                 return (
