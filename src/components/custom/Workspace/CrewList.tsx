@@ -76,9 +76,9 @@ const CrewList = ({
                         }`}
                     >
                         <CardContent className="p-4">
-                            <div className="flex gap-2 items-stretch">
+                            <div className="flex gap-2 items-start">
                                 <div
-                                    className="flex flex-col items-center justify-evenly cursor-pointer"
+                                    className="flex flex-col items-center cursor-pointer"
                                     onClick={() =>
                                         handleVote(
                                             item.id,
@@ -88,14 +88,16 @@ const CrewList = ({
                                         )
                                     }
                                 >
-                                    <ChevronUp
-                                        className={`h-5 w-5 ${
-                                            isUpvoted
-                                                ? 'text-green-500'
-                                                : 'text-muted-foreground'
-                                        }`}
-                                        strokeWidth={3}
-                                    />
+                                    <button className="flex items-center justify-center h-8 w-8 rounded-full hover:bg-gray-100">
+                                        <ChevronUp
+                                            className={`h-5 w-5 ${
+                                                isUpvoted
+                                                    ? 'text-green-500'
+                                                    : 'text-muted-foreground'
+                                            }`}
+                                            strokeWidth={3}
+                                        />
+                                    </button>
                                     <span
                                         className={`text-xs ${
                                             isUpvoted
