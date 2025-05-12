@@ -69,35 +69,33 @@ const CrewList = ({
                 return (
                     <Card
                         key={item.id}
-                        className={`border-none cursor-pointer ${
+                        className={`border-none ${
                             entry === item.id
                                 ? 'text-secondary-foreground'
                                 : 'bg-secondary-dark-bg text-primary-foreground'
                         }`}
                     >
                         <CardContent className="p-4">
-                            <div className="flex gap-2 items-start">
-                                <div className="flex flex-col items-center">
-                                    <button
-                                        className="flex items-center justify-center h-8 w-8 rounded-full focus:outline-none"
-                                        onClick={e =>
-                                            handleVote(
-                                                item.id,
-                                                isUpvoted
-                                                    ? CREW_VOTE_ACTION_REMOVE
-                                                    : CREW_VOTE_ACTION_UPVOTE
-                                            )
-                                        }
-                                    >
-                                        <ChevronUp
-                                            className={`h-5 w-5 ${
-                                                isUpvoted
-                                                    ? 'text-green-500'
-                                                    : 'text-muted-foreground'
-                                            }`}
-                                            strokeWidth={3}
-                                        />
-                                    </button>
+                            <div className="flex gap-2 items-stretch">
+                                <div
+                                    className="flex flex-col items-center justify-evenly cursor-pointer"
+                                    onClick={() =>
+                                        handleVote(
+                                            item.id,
+                                            isUpvoted
+                                                ? CREW_VOTE_ACTION_REMOVE
+                                                : CREW_VOTE_ACTION_UPVOTE
+                                        )
+                                    }
+                                >
+                                    <ChevronUp
+                                        className={`h-5 w-5 ${
+                                            isUpvoted
+                                                ? 'text-green-500'
+                                                : 'text-muted-foreground'
+                                        }`}
+                                        strokeWidth={3}
+                                    />
                                     <span
                                         className={`text-xs ${
                                             isUpvoted
@@ -109,7 +107,7 @@ const CrewList = ({
                                     </span>
                                 </div>
                                 <div
-                                    className="flex-1 flex flex-col gap-1"
+                                    className="flex-1 flex flex-col gap-1 cursor-pointer"
                                     onClick={() =>
                                         handleItemClick(
                                             item.id,
