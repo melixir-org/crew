@@ -1,7 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
+import { crewUpvoteOrRemoveApi } from '@/lib/client-only-api';
 import { usePageStore } from '@/provider/PageStore';
 import { Crew } from '@/types/Crew';
+import {
+    CREW_VOTE_ACTION_REMOVE,
+    CREW_VOTE_ACTION_UPVOTE,
+    CrewVote,
+    CrewVoteAction,
+} from '@/types/CrewVote';
 import { ChevronUp, MessageCircle, Users } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
@@ -12,15 +19,49 @@ const CrewList = ({
     items: Crew[];
     handleItemClick: (id: string, workId: string) => void;
 }) => {
-    const { user } = usePageStore(store => store.server);
+    const {
+        server: { user },
+        setCrew,
+    } = usePageStore(store => store);
 
     const searchParams = useSearchParams();
     const entry = searchParams.get('entry');
 
+    async function handleVote(crewId: string, action: CrewVoteAction) {
+        const data: CrewVote | null = await crewUpvoteOrRemoveApi({
+            crewId,
+            action,
+        });
+
+        if (data) {
+            setCrew(crewId, crew => {
+                // update existing crew vote or create new crew vote
+                const votes = crew.votes ?? [];
+
+                const index = votes.findIndex(cv => cv.id === data.id);
+                if (index === -1) {
+                    votes.push(data);
+                } else {
+                    votes[index] = data;
+                }
+
+                // update total votes
+                if (action === CREW_VOTE_ACTION_UPVOTE) {
+                    const currentTotalVotes = crew.total_votes?.[0]?.count ?? 0;
+                    crew.total_votes = [{ count: currentTotalVotes + 1 }];
+                }
+                if (action === CREW_VOTE_ACTION_REMOVE) {
+                    const currentTotalVotes = crew.total_votes?.[0]?.count ?? 1;
+                    crew.total_votes = [{ count: currentTotalVotes - 1 }];
+                }
+            });
+        }
+    }
+
     return (
         <div className="flex flex-col gap-2">
             {items.map(item => {
-                const isUpvoted = item.crew_votes?.find(
+                const isUpvoted = item.votes?.find(
                     cv =>
                         cv.upvoted_by.id === user?.id && cv.removed_at === null
                 );
@@ -39,7 +80,14 @@ const CrewList = ({
                                 <div className="flex flex-col items-center">
                                     <button
                                         className="flex items-center justify-center h-8 w-8 rounded-full focus:outline-none"
-                                        // onClick={e => handleLike(item.id, e)}
+                                        onClick={e =>
+                                            handleVote(
+                                                item.id,
+                                                isUpvoted
+                                                    ? CREW_VOTE_ACTION_REMOVE
+                                                    : CREW_VOTE_ACTION_UPVOTE
+                                            )
+                                        }
                                     >
                                         <ChevronUp
                                             className={`h-5 w-5 ${
@@ -57,7 +105,7 @@ const CrewList = ({
                                                 : 'text-muted-foreground'
                                         }`}
                                     >
-                                        {item.total_crew_votes?.[0]?.count}
+                                        {item.total_votes?.[0]?.count}
                                     </span>
                                 </div>
                                 <div

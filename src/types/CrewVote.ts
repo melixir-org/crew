@@ -1,6 +1,13 @@
 import { createDbUser, DbUser } from './DbUser';
 import { DeepPartial } from './DeepPartial';
 
+export const CREW_VOTE_ACTION_UPVOTE = 'upvote';
+export const CREW_VOTE_ACTION_REMOVE = 'remove';
+
+export type CrewVoteAction =
+    | typeof CREW_VOTE_ACTION_UPVOTE
+    | typeof CREW_VOTE_ACTION_REMOVE;
+
 export interface CrewVote {
     id: string;
     crew_id: string;

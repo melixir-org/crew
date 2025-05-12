@@ -7,6 +7,7 @@ import { WorkStatus } from '@/types/WorkStatus';
 import { Assignment } from '@/types/Assignment';
 import { Member } from '@/types/Member';
 import { Opinion } from '@/types/Opinion';
+import { CrewVote, CrewVoteAction } from '@/types/CrewVote';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -174,7 +175,7 @@ export async function getMemberListApi(crewId: string) {
         .from('members')
         .select('id, joined_at, user:user_id (id, username, name, avatar_url)')
         .eq('crew_id', crewId)
-        .filter('left_at', 'is', null)
+        .is('left_at', null)
         .limit(20)
         .returns<Member[]>();
 }
@@ -210,4 +211,24 @@ export async function addOpinionApi({
     }
 
     return response;
+}
+
+export async function crewUpvoteOrRemoveApi({
+    crewId,
+    action,
+}: {
+    crewId: string;
+    action: CrewVoteAction;
+}) {
+    const { data, error } = await supabaseBrowserClient
+        .rpc('crew_upvote_or_remove_upvote', {
+            input_data: { crew_id: crewId, action },
+        })
+        .returns<CrewVote>();
+
+    if (error) {
+        throw error;
+    }
+
+    return data;
 }
