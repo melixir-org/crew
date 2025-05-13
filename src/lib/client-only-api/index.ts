@@ -39,23 +39,23 @@ export async function getAncestorsApi({
 export async function getWorksForCrewApi({
     crewId,
     search,
+    timestamp,
+    pageSize,
 }: {
     crewId: string;
     search: string;
+    timestamp: string;
+    pageSize: number;
 }) {
     return await supabaseBrowserClient
-        .from('works')
-        .select(
-            `id, title, status, parent_id, crew:crew_id (id, title), assignments (id, user:user_id (id, username, name, avatar_url), assigned_at, unassigned_at)`,
-            {
-                count: 'exact',
-            }
-        )
-        .range(0, 15)
-        .eq('crew_id', crewId)
-        .is('assignments.unassigned_at', null)
-        .or(`title.ilike.%${search}%,description.ilike.%${search}%`)
-        .order('status', { ascending: true })
+        .rpc('get_works_for_crew', {
+            input_data: {
+                crew_id: crewId,
+                search,
+                freeze_at: timestamp,
+                page_size: pageSize,
+            },
+        })
         .returns<Work[]>();
 }
 

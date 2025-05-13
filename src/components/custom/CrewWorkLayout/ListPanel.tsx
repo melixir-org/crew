@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
     extractPathnameAfterWorkId,
@@ -36,6 +36,8 @@ const ListPanel = () => {
 
     const panel = searchParams.get('panel');
 
+    const componentMountTimestamp = useRef(new Date().toISOString()).current;
+
     useEffect(() => {
         if (panel === MANAGE) {
             if (crewId && workIds.length === 0) {
@@ -45,6 +47,8 @@ const ListPanel = () => {
                             await getWorksForCrewApi({
                                 crewId: crewId,
                                 search: '',
+                                timestamp: componentMountTimestamp,
+                                pageSize: 30,
                             });
 
                         const d = data ?? [];
