@@ -4,7 +4,10 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { AUTH_ROUTE, WORKSPACE_ROUTE } from './app/routes';
 
 export async function middleware(request: NextRequest) {
-    if (request.nextUrl.pathname.startsWith(WORKSPACE_ROUTE.pathname)) {
+    if (
+        request.nextUrl.pathname.startsWith(WORKSPACE_ROUTE.pathname) ||
+        request.nextUrl.pathname.startsWith('/upvoter')
+    ) {
         const supabaseServerClient = await createSupabaseServerClient();
 
         const {

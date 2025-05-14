@@ -178,10 +178,15 @@ export default function ItemList({
 
             <div className="flex justify-between items-center mb-4 p-3 rounded-lg">
                 <div className="font-medium text-gray-900">
-                    Remaining votes:{' '}
-                    <span className="text-primary font-bold">
-                        {remainingVotes}
-                    </span>
+                    <div>
+                        Remaining votes:{' '}
+                        <span className="text-primary font-bold">
+                            {remainingVotes}
+                        </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                        You get only 2 votes per hour. Use them wisely!
+                    </div>
                 </div>
                 <Button
                     onClick={handleRefresh}
