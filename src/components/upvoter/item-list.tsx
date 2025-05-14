@@ -64,7 +64,7 @@ export default function ItemList({
                 error,
             }: {
                 data: UpvoteData | null;
-                error: unknown | null;
+                error: unknown;
             } = await upvoteItemApi({
                 itemId: item.id,
             });
@@ -93,9 +93,22 @@ export default function ItemList({
             }
         } catch (error) {
             // Display error message to user and mark item as failed
-            setErrorMessage(
-                error instanceof Error ? error.message : 'Failed to upvote'
-            );
+
+            console.log(error);
+
+            if (error instanceof Error) {
+                setErrorMessage(error.message);
+            } else if (
+                typeof error === 'object' &&
+                error !== null &&
+                'message' in error
+            ) {
+                setErrorMessage(
+                    String((error as { message: unknown }).message)
+                );
+            } else {
+                setErrorMessage('Failed to upvote');
+            }
         } finally {
             setIsLoading(null);
         }
