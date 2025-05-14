@@ -1,7 +1,6 @@
 'use client';
 
 import type React from 'react';
-
 import { useState } from 'react';
 import {
     Card,
@@ -32,7 +31,7 @@ export default function ItemList({
     items: Item[];
     recentVotes: number;
     score: number;
-    userItem: Item;
+    userItem: Item | null;
 }) {
     const [items, setItems] = useState<Item[]>(i);
     const [userItem, setUserItem] = useState<Item | null>(ui);

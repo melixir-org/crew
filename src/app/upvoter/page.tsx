@@ -53,7 +53,7 @@ export default function Page() {
                     items={mockItems}
                     recentVotes={0}
                     score={20}
-                    userItem={mockUserItem}
+                    userItem={null}
                 />
             </div>
         </main>
