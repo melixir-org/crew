@@ -13,14 +13,15 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 import type { Item } from '@/types/Upvoter';
+import { addUpvoterItem } from '@/lib/client-only-api';
 
 interface CreateItemCardProps {
-    onCreateItem: (item: Omit<Item, 'id' | 'upvotes'>) => void;
+    setUserItem: (item: Item) => void;
 }
 
-export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
+export function CreateItemCard({ setUserItem }: CreateItemCardProps) {
     const [newItem, setNewItem] = useState({
         title: '',
         subtitle: '',
@@ -66,11 +67,22 @@ export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (validateForm()) {
-            onCreateItem(newItem);
+            setIsLoading(true);
+
+            try {
+                const response = await addUpvoterItem(newItem);
+                setUserItem(response);
+            } catch (error) {
+                console.error('Error creating item:', error);
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
@@ -80,7 +92,7 @@ export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
                 <CardHeader className="py-4">
                     <CardTitle className="flex items-center gap-2 text-gray-900">
                         <Plus className="h-5 w-5 text-primary" />
-                        Create Your Item
+                        Add Your Product (for others to Upvote)
                     </CardTitle>
                 </CardHeader>
 
@@ -94,7 +106,7 @@ export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
                             name="title"
                             value={newItem.title}
                             onChange={handleChange}
-                            placeholder="Your project or product name"
+                            placeholder="Product name"
                             className={errors.title ? 'border-destructive' : ''}
                         />
                         {errors.title && (
@@ -134,7 +146,7 @@ export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
                             name="url"
                             value={newItem.url}
                             onChange={handleChange}
-                            placeholder="https://yourproject.com"
+                            placeholder="Product Hunt or Peerlist URL"
                             className={errors.url ? 'border-destructive' : ''}
                         />
                         {errors.url && (
@@ -146,8 +158,19 @@ export function CreateItemCard({ onCreateItem }: CreateItemCardProps) {
                 </CardContent>
 
                 <CardFooter>
-                    <Button type="submit" className="w-full">
-                        Create Item
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                Submit...
+                            </>
+                        ) : (
+                            'Submit'
+                        )}
                     </Button>
                 </CardFooter>
             </form>

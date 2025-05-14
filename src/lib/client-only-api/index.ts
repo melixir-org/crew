@@ -8,6 +8,7 @@ import { Assignment } from '@/types/Assignment';
 import { Member } from '@/types/Member';
 import { Opinion } from '@/types/Opinion';
 import { CrewVote, CrewVoteAction } from '@/types/CrewVote';
+import { Item, UpvoteData, UpvoterData } from '@/types/Upvoter';
 
 export async function createCrewApi(crew: Crew) {
     return await supabaseBrowserClient
@@ -231,4 +232,56 @@ export async function crewUpvoteOrRemoveApi({
     }
 
     return data;
+}
+
+// Upvoter APIs
+export async function addUpvoterItem({
+    title,
+    subtitle,
+    url,
+}: {
+    title: string;
+    subtitle: string;
+    url: string;
+}) {
+    const { data: response, error } = await supabaseBrowserClient
+        .from('upvoter_items')
+        .insert({
+            title,
+            subtitle,
+            url,
+        })
+        .select(`*`)
+        .returns<Item>()
+        .single();
+
+    if (error) {
+        throw error;
+    }
+
+    return response;
+}
+
+export async function getUpvoterItemsApi() {
+    return await supabaseBrowserClient
+        .rpc('get_upvotable_items')
+        .returns<UpvoterData>();
+}
+
+export async function updateUserItemApi(item: Item) {
+    return await supabaseBrowserClient
+        .from('upvoter_items')
+        .update({ title: item.title, subtitle: item.subtitle, url: item.url })
+        .eq('id', item.id)
+        .select('*, upvotes:upvoter_votes (count)')
+        .returns<Item[]>()
+        .single();
+}
+
+export async function upvoteItemApi({ itemId }: { itemId: string }) {
+    return await supabaseBrowserClient
+        .rpc('upvote_item', {
+            p_item_id: itemId,
+        })
+        .returns<UpvoteData>();
 }

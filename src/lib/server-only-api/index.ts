@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { Work } from '@/types/Work';
 import { Crew } from '@/types/Crew';
 import { Opinion } from '@/types/Opinion';
+import { Item, UpvoterData } from '@/types/Upvoter';
 
 export async function getUserApi() {
     const supabaseServerClient = await createSupabaseServerClient();
@@ -143,4 +144,22 @@ export async function getOpinionsApi({
             },
         })
         .returns<Opinion[]>();
+}
+
+// Upvoter APIs
+export async function getUpvoterItemsApi() {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .rpc('get_upvotable_items')
+        .returns<UpvoterData>();
+}
+
+export async function getUserItemApi() {
+    const supabaseServerClient = await createSupabaseServerClient();
+    return await supabaseServerClient
+        .from('upvoter_items')
+        .select('*, upvotes:upvoter_votes (count)')
+        .eq('created_by', (await getUserApi()).data.user?.id ?? '')
+        .returns<Item[]>()
+        .single();
 }

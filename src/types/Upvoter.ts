@@ -4,5 +4,17 @@ export interface Item {
     subtitle: string;
     url: string;
     upvoted?: boolean;
-    upvotes?: number;
+    upvotes?: [{ count: number }];
+}
+
+export interface UpvoterData {
+    items: Item[];
+    user_recent_votes: number;
+    user_score: number;
+}
+
+export interface UpvoteData {
+    url: string;
+    user_recent_votes: number;
+    user_score: number;
 }

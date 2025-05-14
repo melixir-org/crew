@@ -13,15 +13,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Edit2, Link, Save, ThumbsUp } from 'lucide-react';
+import { Edit2, Link, Loader2, Save } from 'lucide-react';
 import type { Item } from '@/types/Upvoter';
+import { updateUserItemApi } from '@/lib/client-only-api';
 
 interface UserItemProps {
     item: Item;
-    onUpdate: (updatedItem: Item) => void;
+    setUserItem: (item: Item) => void;
 }
 
-export default function UserItemCard({ item, onUpdate }: UserItemProps) {
+export default function UserItemCard({ item, setUserItem }: UserItemProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState<Item>(item);
 
@@ -29,9 +30,21 @@ export default function UserItemCard({ item, onUpdate }: UserItemProps) {
         setIsEditing(true);
     };
 
-    const handleSave = () => {
-        onUpdate(editedItem);
-        setIsEditing(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSave = async () => {
+        setIsLoading(true);
+
+        const { data }: { data: Item | null } = await updateUserItemApi(
+            editedItem
+        );
+
+        if (data) {
+            setUserItem(data);
+            setIsEditing(false);
+        }
+
+        setIsLoading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +83,9 @@ export default function UserItemCard({ item, onUpdate }: UserItemProps) {
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="flex items-center text-primary bg-primary/10 px-3 py-1 rounded-full">
-                            <span className="font-medium">{item.upvotes}</span>
+                            <span className="font-medium">
+                                {item.upvotes?.[0].count ?? 0}
+                            </span>
                             <span className="ml-1 text-xs">upvotes</span>
                         </div>
                         {isEditing ? (
@@ -78,9 +93,19 @@ export default function UserItemCard({ item, onUpdate }: UserItemProps) {
                                 size="sm"
                                 onClick={handleSave}
                                 className="gap-1"
+                                disabled={isLoading}
                             >
-                                <Save className="h-4 w-4" />
-                                Save
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                                        Saving...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Save className="h-4 w-4" />
+                                        Save
+                                    </>
+                                )}
                             </Button>
                         ) : (
                             <Button
