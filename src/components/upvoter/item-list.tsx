@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     Card,
     CardContent,
@@ -64,7 +64,7 @@ export default function ItemList({
                 error,
             }: {
                 data: UpvoteData | null;
-                error: any | null;
+                error: unknown | null;
             } = await upvoteItemApi({
                 itemId: item.id,
             });
