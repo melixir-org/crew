@@ -185,7 +185,7 @@ export default function ItemList({
                         </span>
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
-                        You get only 2 votes per hour. Use them wisely!
+                        only 2 votes per hour
                     </div>
                 </div>
                 <Button
