@@ -167,7 +167,7 @@ export default function ItemList({
             <div className="border-t border-border my-6"></div>
 
             <h2 className="text-lg font-semibold mb-3 text-gray-900 flex items-center justify-between">
-                <span>Upvote others to get Upvoted</span>
+                <span>Upvote others to get upvoted by others!</span>
                 <span
                     className={`text-sm ${scoreDisplay.bgColor} ${scoreDisplay.textColor} px-3 py-1 rounded-full flex items-center`}
                 >
@@ -276,7 +276,7 @@ export default function ItemList({
                                             className="text-green-600 border-green-200 bg-green-50 hover:bg-green-100 hover:text-green-700 shrink-0"
                                         >
                                             <CheckCircle className="h-4 w-4 mr-2" />
-                                            Upvoted, Visit Again
+                                            Upvoted
                                         </Button>
                                     ) : item.upvoted === false ? (
                                         <Button
