@@ -172,20 +172,20 @@ export default function ItemList({
                     className={`text-sm ${scoreDisplay.bgColor} ${scoreDisplay.textColor} px-3 py-1 rounded-full flex items-center`}
                 >
                     {scoreDisplay.icon}
-                    Your Score: <span className="font-bold ml-1">{score}</span>
+                    Your Rank: <span className="font-bold ml-1">{score}</span>
                 </span>
             </h2>
 
             <div className="flex justify-between items-center mb-4 p-3 rounded-lg">
                 <div className="font-medium text-gray-900">
                     <div>
-                        Remaining votes:{' '}
+                        Upvotes left:{' '}
                         <span className="text-primary font-bold">
                             {remainingVotes}
                         </span>
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
-                        only 2 votes per hour
+                        only 2 upvotes per hour
                     </div>
                 </div>
                 <Button
