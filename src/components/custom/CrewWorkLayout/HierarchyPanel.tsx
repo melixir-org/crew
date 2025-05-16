@@ -13,7 +13,7 @@ const HierarchyPanel = () => {
     const createCrewModeOn = workId === NEW;
 
     return (
-        <div className="h-full flex flex-col gap-5">
+        <div className="h-full flex flex-col gap-1">
             <div className="flex-[1_1_0] flex flex-col gap-1">
                 <CrewCard />
                 {createCrewModeOn || (
