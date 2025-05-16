@@ -205,7 +205,7 @@ export default function Opinions({
                                         </Button>
                                     </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-sm text-muted-foreground whitespace-pre-line">
                                     {o.data}
                                 </p>
                             </div>
@@ -279,6 +279,7 @@ export default function Opinions({
                         )}
                         <div className="flex-1 space-y-2">
                             <Textarea
+                                spellCheck={true}
                                 placeholder="Write an opinion..."
                                 value={opinionText}
                                 onChange={e => setOpinionText(e.target.value)}
