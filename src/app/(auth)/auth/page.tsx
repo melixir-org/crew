@@ -15,8 +15,8 @@ export default function Page() {
                         <div className="head">
                             <h1 className="text-3xl font-semibold">Welcome!</h1>
                             <p className="opacity-70">
-                                Proceed to build your crew or join an existing
-                                crew
+                                Proceed to get your product upvoted & upvote
+                                others&apos;
                             </p>
                         </div>
                         <div className="flex flex-col w-full justify-between gap-2">
