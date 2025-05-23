@@ -428,7 +428,7 @@ export default function Home() {
                         <h3 className="flex items-center gap-2 font-grotesk text-xl mb-4">
                             <Check className="h-5 w-5 text-green-500" />
                             <span className="text-melixir-light">
-                                Not for those who...
+                                Perfect for those who...
                             </span>
                         </h3>
                         <ul className="space-y-3 text-melixir-light/80">
