@@ -22,6 +22,10 @@ export function Navbar() {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <header
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -32,9 +36,12 @@ export function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                 <div className="flex items-center">
-                    <span className="text-xl font-bold font-grotesk melixir-text-gradient">
+                    <button
+                        className="text-xl font-bold font-grotesk melixir-text-gradient hover:opacity-80 transition-opacity"
+                        onClick={scrollToTop}
+                    >
                         Melixir
-                    </span>
+                    </button>
                 </div>
 
                 <nav className="hidden md:flex items-center gap-6">

@@ -60,6 +60,10 @@ export default function Home() {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <div
             className={`${spaceGrotesk.variable} in-h-screen bg-melixir-darker overflow-x-hidden melixir-app`}
@@ -72,9 +76,9 @@ export default function Home() {
                 <div className="absolute inset-0 bg-melixir-darker opacity-80"></div>
                 <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-melixir-darker to-transparent z-10"></div>
 
-                <div className="grid md:grid-cols-2 gap-12 items-center z-20 px-4 max-w-7xl w-full">
+                <div className="grid md:grid-cols-2 gap-12 items-center z-20 px-4 max-w-7xl w-full pt-16 md:pt-0">
                     <div className="text-center md:text-left melixir-animate-on-scroll opacity-0">
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-grotesk font-bold mb-6 melixir-text-glow">
+                        <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-grotesk font-bold mb-6 melixir-text-glow">
                             <span className="block">You&apos;re</span>
                             <span className="melixir-text-gradient animate-gradient-shift bg-[length:200%]">
                                 On Time
@@ -491,9 +495,12 @@ export default function Home() {
             {/* Footer */}
             <footer className="bg-melixir-darker py-8 border-t border-white/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <p className="melixir-text-gradient font-grotesk text-xl font-bold mb-2">
+                    <button
+                        className="melixir-text-gradient font-grotesk text-xl font-bold mb-2 hover:opacity-80 transition-opacity"
+                        onClick={scrollToTop}
+                    >
                         Melixir
-                    </p>
+                    </button>
                     <p className="text-melixir-light/60 text-sm">
                         © 2025 Melixir. All rights reserved.
                     </p>

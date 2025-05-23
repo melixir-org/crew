@@ -22,7 +22,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
     title: 'Melixir - Future of how teams form & work',
     description:
-        'Be one of the curated people who are building the future of how teams form and work together!',
+        'Be one of the curated people who are building the future of how teams form and work together on internet!',
     keywords: [
         'Startup Collaboration',
         'Contributors for Ideas',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Melixir - Future of how teams form & work',
         description:
-            'Be one of the curated people who are building the future of how teams form and work together!',
+            'Be one of the curated people who are building the future of how teams form and work together on internet!',
         url: 'https://melixir.org',
         siteName: 'Melixir',
         images: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Melixir - Future of how teams form & work',
         description:
-            'Be one of the curated people who are building the future of how teams form and work together!',
+            'Be one of the curated people who are building the future of how teams form and work together on internet!',
         images: ['/preview.png'],
     },
     themeColor: '#5C9DFF',
