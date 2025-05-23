@@ -97,7 +97,8 @@ export default function Home() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                             <Button
-                                className="bg-gradient hover:opacity-90"
+                                variant="ghost"
+                                className="border border-melixir-blue/30 text-melixir-blue hover:bg-melixir-blue/10 hover:text-melixir-blue transition-all"
                                 onClick={() => scrollToSection('what')}
                             >
                                 Learn More{' '}

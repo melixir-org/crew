@@ -81,7 +81,7 @@ export function Navbar() {
                     </Button>
                     <Button
                         variant="ghost"
-                        className="text-xs px-3 py-1 h-auto text-melixir-purple hover:bg-melixir-purple/10 hover:text-melixir-purple border border-melixir-purple/50"
+                        className="text-xs px-3 py-1 h-auto text-melixir-blue hover:bg-melixir-blue/10 hover:text-melixir-blue border border-melixir-blue/50"
                         onClick={() => scrollToSection('contributors')}
                     >
                         For Contributors
