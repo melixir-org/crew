@@ -75,7 +75,7 @@ export default function Home() {
                 <div className="grid md:grid-cols-2 gap-12 items-center z-20 px-4 max-w-7xl w-full">
                     <div className="text-center md:text-left melixir-animate-on-scroll opacity-0">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-grotesk font-bold mb-6 melixir-text-glow">
-                            <span className="block">You're</span>
+                            <span className="block">You&apos;re</span>
                             <span className="melixir-text-gradient animate-gradient-shift bg-[length:200%]">
                                 On Time
                             </span>
@@ -354,9 +354,9 @@ export default function Home() {
                             Be One Of Us!
                         </h2>
                         <p className="text-melixir-light/80 mb-6">
-                            We're a curated group of founders and contributors
-                            to ensure quality connections, smooth experience and
-                            serve closely.
+                            We&apos;re a curated group of founders and
+                            contributors to ensure quality connections, smooth
+                            experience and serve closely.
                         </p>
                         <p className="text-melixir-light/80 mb-8">
                             Apply now to get access to Melixir platform & all
@@ -400,20 +400,25 @@ export default function Home() {
                                 <div className="bg-red-500/10 p-1 rounded-full mt-1">
                                     <X className="h-3 w-3 text-red-500" />
                                 </div>
-                                <p>Aren't willing to contribute real value</p>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
-                                    <X className="h-3 w-3 text-red-500" />
-                                </div>
-                                <p>View equity as 'free' compensation</p>
+                                <p>
+                                    Aren&apos;t willing to contribute real value
+                                </p>
                             </li>
                             <li className="flex items-start gap-2">
                                 <div className="bg-red-500/10 p-1 rounded-full mt-1">
                                     <X className="h-3 w-3 text-red-500" />
                                 </div>
                                 <p>
-                                    Aren't committed to long-term value creation
+                                    View equity as &apos;free&apos; compensation
+                                </p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
+                                    <X className="h-3 w-3 text-red-500" />
+                                </div>
+                                <p>
+                                    Aren&apos;t committed to long-term value
+                                    creation
                                 </p>
                             </li>
                         </ul>
