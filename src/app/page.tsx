@@ -102,7 +102,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <Card className="bg-gradient p-0.5 rounded-lg melixir-animate-on-scroll opacity-0 md:ml-auto">
+                    <Card className="bg-gradient p-0.5 rounded-lg melixir-animate-on-scroll opacity-0 md:ml-auto z-30">
                         <div className="bg-melixir-darker rounded-[calc(0.5rem-1px)] p-8">
                             <h2 className="text-2xl font-grotesk font-bold mb-6 text-melixir-light">
                                 Join WhatsApp Group
@@ -473,7 +473,7 @@ export default function Home() {
             </Section>
 
             {/* Signup Section */}
-            <Section background="gradient">
+            <Section id="beta-signup-form" background="gradient">
                 <div className="text-center max-w-3xl mx-auto melixir-animate-on-scroll opacity-0">
                     <h2 className="text-3xl md:text-5xl font-grotesk font-bold mb-6 melixir-text-gradient">
                         Be One Of Us!
@@ -482,7 +482,7 @@ export default function Home() {
                         Apply now to get access to Melixir platform & all other
                         benefits.
                     </p>
-                    <div id="beta-signup-form" className="pt-8">
+                    <div className="pt-8">
                         <SignupForm />
                     </div>
                 </div>
