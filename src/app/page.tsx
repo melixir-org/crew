@@ -1,355 +1,499 @@
-import Link from 'next/link';
-import { WORKSPACE_ROUTE } from './routes';
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { Navbar } from '@/components/custom/Home/Navbar';
+import { FloatingCTA } from '@/components/custom/Home/FloatingCTA';
+import { Section } from '@/components/custom/Home/Section';
+import { FeatureColumns } from '@/components/custom/Home/FeatureColumns';
+import { StepCard } from '@/components/custom/Home/StepCard';
+import { SignupForm } from '@/components/custom/Home/SignupForm';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Check, ChevronDown, ChevronRight, X } from 'lucide-react';
+
+import { Space_Grotesk } from 'next/font/google';
+
+const spaceGrotesk = Space_Grotesk({
+    subsets: ['latin'],
+    variable: '--font-grotesk',
+});
 
 export default function Home() {
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        const elements = document.querySelectorAll(
+            '.melixir-animate-on-scroll'
+        );
+        elements.forEach(el => {
+            observer.observe(el);
+        });
+
+        return () => {
+            elements.forEach(el => {
+                observer.unobserve(el);
+            });
+        };
+    }, []);
+
+    const betaFeatures = [
+        'Limited to 100 curated founders',
+        '500 curated contributors',
+        'Get access to Melixir platform',
+        'Full support from community',
+        'Lifetime legacy perks',
+    ];
+
+    const scrollToSection = (sectionId: string) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#101010] via-[#121212] to-black text-white font-sans">
-            {/* Navbar */}
+        <div
+            className={`${spaceGrotesk.variable} in-h-screen bg-melixir-darker overflow-x-hidden melixir-app`}
+        >
+            <Navbar />
+            <FloatingCTA />
 
             {/* Hero Section */}
-            <header className="flex flex-col items-center justify-center text-center py-28 px-6">
-                <h1 className="text-5xl md:text-7xl font-extrabold max-w-3xl bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent leading-tight">
-                    Collaborate, Build, and Share Success
-                </h1>
-                <p className="text-lg text-gray-400 mt-6 max-w-2xl">
-                    A platform where tech founders bring projects, break them
-                    into smaller tasks, and collaborate with contributors to
-                    bring ideas to life.
-                </p>
-                <Link
-                    href={WORKSPACE_ROUTE.pathname}
-                    className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
-                >
-                    Explore Crews
-                </Link>
-            </header>
+            <Section>
+                <div className="absolute inset-0 bg-melixir-darker opacity-80"></div>
+                <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-melixir-darker to-transparent z-10"></div>
 
-            {/* Problem Section */}
-            <section className="py-20 px-6 bg-[#121212]">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        The Challenge
-                    </h2>
-                    <p className="text-lg text-gray-400">
-                        Building something meaningful needs the right people who
-                        share your vision and passion for collaboration.
-                    </p>
-                </div>
-            </section>
-
-            {/* Solution Section */}
-            <section className="py-20 px-6 bg-[#101010] border-t border-gray-700">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-                        Our Solution
-                    </h2>
-                    <p className="text-lg text-gray-400">
-                        Whether you’re building your MVP or providing your
-                        expertise, Melixir creates a collaborative space by
-                        ensuring transparency, easier management, and rewarding
-                        contributions equitably for shared success.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                        {[
-                            {
-                                title: 'For Founders',
-                                description:
-                                    'Break your project into simple tasks to help others get started and keep things organized.',
-                            },
-                            {
-                                title: 'For Contributors',
-                                description:
-                                    'Work on exciting projects, team up with great founders, and build your skills.',
-                            },
-                            {
-                                title: 'Shared Success',
-                                description:
-                                    'Get rewarded for your efforts with equity, profits, or a full time job.',
-                            },
-                        ].map((feature, index) => (
-                            <div
-                                key={index}
-                                className="p-6 bg-[#121212] rounded-lg border border-gray-700 hover:scale-105 transform transition"
+                <div className="grid md:grid-cols-2 gap-12 items-center z-20 px-4 max-w-7xl w-full">
+                    <div className="text-center md:text-left melixir-animate-on-scroll opacity-0">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-grotesk font-bold mb-6 melixir-text-glow">
+                            <span className="block">You're</span>
+                            <span className="melixir-text-gradient animate-gradient-shift bg-[length:200%]">
+                                On Time
+                            </span>
+                        </h1>
+                        <p className="text-lg md:text-xl mb-8 text-melixir-light/80 max-w-2xl mx-auto md:mx-0">
+                            Melixir is the future of how{' '}
+                            <span className="text-melixir-purple font-semibold">
+                                Teams
+                            </span>{' '}
+                            form & work. Be one of the{' '}
+                            <span className="text-melixir-purple font-semibold">
+                                curated people
+                            </span>{' '}
+                            to build & enjoy this future!
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <Button
+                                className="bg-gradient hover:opacity-90"
+                                onClick={() => scrollToSection('what')}
                             >
-                                <h3 className="text-xl font-semibold mb-4">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-gray-400">
-                                    {feature.description}
-                                </p>
-                            </div>
-                        ))}
+                                Learn More{' '}
+                                <ChevronDown className="ml-1 h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
+
+                    <Card className="bg-gradient p-0.5 rounded-lg melixir-animate-on-scroll opacity-0 md:ml-auto">
+                        <div className="bg-melixir-darker rounded-[calc(0.5rem-1px)] p-8">
+                            <h2 className="text-2xl font-grotesk font-bold mb-6 text-melixir-light">
+                                Join WhatsApp Group
+                            </h2>
+                            <div className="space-y-4">
+                                {betaFeatures.map((feature, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center gap-3"
+                                    >
+                                        <div className="bg-melixir-purple/20 p-1 rounded-full">
+                                            <Check className="h-4 w-4 text-melixir-purple" />
+                                        </div>
+                                        <p className="text-melixir-light/80">
+                                            {feature}
+                                        </p>
+                                    </div>
+                                ))}
+                                <Button
+                                    className="bg-gradient hover:opacity-90 w-full mt-4"
+                                    onClick={() =>
+                                        scrollToSection('beta-signup-form')
+                                    }
+                                >
+                                    Apply Now{' '}
+                                    <ChevronRight className="ml-1 h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
-            </section>
+            </Section>
+
+            {/* What is Melixer Section */}
+            <Section id="what" background="dark" showNavButtons={true}>
+                <div className="max-w-3xl mx-auto">
+                    <div className="melixir-animate-on-scroll opacity-0 text-center">
+                        <h2 className="text-3xl md:text-4xl font-grotesk font-bold mb-4 melixir-text-gradient">
+                            What is Melixir?
+                        </h2>
+                        <p className="text-melixir-light/80 mb-6">
+                            We started by ditching all the approaches of
+                            building teams known to humans.
+                        </p>
+                        <p className="text-melixir-light/80 mb-6">
+                            Melixir is a completely new way of bridging the gap
+                            between{' '}
+                            <span className="text-melixir-blue font-semibold">
+                                Ideas
+                            </span>{' '}
+                            and{' '}
+                            <span className="text-melixir-blue font-semibold">
+                                Skills
+                            </span>
+                            . It is a unique collaboration platform for founders
+                            & contributors to work together by adding value from{' '}
+                            <span className="text-melixir-blue font-semibold">
+                                Day 1
+                            </span>
+                            .
+                        </p>
+                    </div>
+
+                    {/* <div className="melixir-card-glass rounded-lg p-8 melixir-animate-on-scroll opacity-0">
+                        <div className="flex flex-col gap-6">
+                            <div className="flex items-start gap-4">
+                                <div className="bg-gradient p-3 rounded-lg">
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                        <Lightbulb className="h-5 w-5 text-white" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-grotesk font-semibold mb-2">
+                                        Ideas Need Execution
+                                    </h3>
+                                    <p className="text-melixir-light/70 text-sm">
+                                        Founders with brilliant ideas often lack
+                                        the technical skills to bring them to
+                                        life.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="bg-gradient p-3 rounded-lg">
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                        <Wrench className="h-5 w-5 text-white" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-grotesk font-semibold mb-2">
+                                        Skills Need Direction
+                                    </h3>
+                                    <p className="text-melixir-light/70 text-sm">
+                                        Talented individuals with technical
+                                        skills seek meaningful projects to work
+                                        on.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="bg-gradient p-3 rounded-lg">
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                        <Link2 className="h-5 w-5 text-white" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-grotesk font-semibold mb-2">
+                                        Melixir Connects Both
+                                    </h3>
+                                    <p className="text-melixir-light/70 text-sm">
+                                        Our platform creates the perfect
+                                        environment for collaboration, leading
+                                        to stronger startups.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> */}
+                </div>
+            </Section>
+
+            {/* For Founders Section */}
+            <Section id="founders">
+                <FeatureColumns
+                    title="Build Without Funding"
+                    features={[
+                        {
+                            title: 'Build Without Quitting Job',
+                            description:
+                                'Melixir is async, flexible, and progress-first.',
+                        },
+                        {
+                            title: 'Iterate in Public',
+                            description:
+                                'Get feedback, attention, and community support while building.',
+                        },
+                        {
+                            title: 'No Hiring',
+                            description:
+                                'Build your startup with who add value today not in the future.',
+                        },
+                        {
+                            title: 'Law of Attraction',
+                            description:
+                                'Who are meant to join you, are waiting for you to be open & visible.',
+                        },
+                    ]}
+                />
+            </Section>
+
+            {/* For Contributors Section */}
+            <Section id="contributors" background="dark">
+                <FeatureColumns
+                    title="Get Into Unicorns Early"
+                    features={[
+                        {
+                            title: 'Try New Startups Daily',
+                            description:
+                                'Discover your passion through diverse startup experiences.',
+                        },
+                        {
+                            title: 'Equity or Revenue Share',
+                            description:
+                                'Who knows your early contributions might make you a millionaire?',
+                        },
+                        {
+                            title: 'No Interviews',
+                            description:
+                                'Interviews are obsolete. Contribute directly to earn your seat at the table.',
+                        },
+                        {
+                            title: 'Average Up',
+                            description:
+                                "Grow your network because you're the average of your 5 closest people.",
+                        },
+                    ]}
+                />
+            </Section>
 
             {/* How It Works Section */}
-            <section className="py-20 px-6 bg-[#121212]">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        How it Works
+            <Section>
+                <div className="text-center mb-12 melixir-animate-on-scroll opacity-0">
+                    <h2 className="text-3xl md:text-4xl font-grotesk font-bold mb-4 melixir-text-gradient">
+                        How Melixir Works?
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                        {[
-                            {
-                                step: '1. Find What Inspires You',
-                                description:
-                                    'Discover projects (aka crews) or start your own project.',
-                            },
-                            {
-                                step: '2. Break into Tasks & Build',
-                                description:
-                                    'Break your project into tasks (aka works) strategically to help contributors get started easily.',
-                            },
-                            {
-                                step: '3. Rinse & Repeat',
-                                description:
-                                    'Keep doing your part, and the right people will naturally join along the way.',
-                            },
-                        ].map((step, index) => (
-                            <div
-                                key={index}
-                                className="p-6 bg-[#101010] rounded-lg border border-gray-700 hover:scale-105 transform transition"
-                            >
-                                <h3 className="text-xl font-semibold mb-4">
-                                    {step.step}
-                                </h3>
-                                <p className="text-gray-400">
-                                    {step.description}
-                                </p>
+                    <p className="text-lg md:text-xl text-melixir-light/90 max-w-3xl mx-auto leading-relaxed">
+                        Melixir facilitates a{' '}
+                        <span className="text-melixir-blue font-semibold">
+                            structured collaboration
+                        </span>{' '}
+                        flow to its every minute detail.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StepCard
+                        number={1}
+                        title="Founders: Post Ideas & Tasks"
+                        description="Share your startup vision and break it down into real, actionable tasks. Others can pick them up and start contributing instantly."
+                    />
+                    <StepCard
+                        number={2}
+                        title="Contributors: Start Building"
+                        description="Designers, developers, and marketers choose tasks that match their skills and interests to add value from Day 1."
+                    />
+                    <StepCard
+                        number={3}
+                        title="Teams Form Organically"
+                        description="No hiring. Just real & structured collaboration that grows into long-term partnerships."
+                    />
+                    <StepCard
+                        number={4}
+                        title="Startups Launch, Together"
+                        description="Turn ideas into products, get paid, gain equity, grow your network, and build your portfolio from Day 1."
+                    />
+                </div>
+            </Section>
+
+            {/* Join Beta Section */}
+            <Section background="dark">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <Card className="bg-gradient p-0.5 rounded-lg melixir-animate-on-scroll opacity-0">
+                        <div className="bg-melixir-darker rounded-[calc(0.5rem-1px)] p-8">
+                            <h2 className="text-2xl font-grotesk font-bold mb-6 text-melixir-light">
+                                Join WhatsApp Group
+                            </h2>
+                            <div className="space-y-4">
+                                {betaFeatures.map((feature, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center gap-3"
+                                    >
+                                        <div className="bg-melixir-purple/20 p-1 rounded-full">
+                                            <Check className="h-4 w-4 text-melixir-purple" />
+                                        </div>
+                                        <p className="text-melixir-light/80">
+                                            {feature}
+                                        </p>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
+                    </Card>
+
+                    <div className="melixir-animate-on-scroll opacity-0">
+                        <h2 className="text-3xl md:text-4xl font-grotesk font-bold mb-4 melixir-text-gradient">
+                            Be One Of Us!
+                        </h2>
+                        <p className="text-melixir-light/80 mb-6">
+                            We're a curated group of founders and contributors
+                            to ensure quality connections, smooth experience and
+                            serve closely.
+                        </p>
+                        <p className="text-melixir-light/80 mb-8">
+                            Apply now to get access to Melixir platform & all
+                            other benefits. Shape how the next generation of
+                            startups are built with us!.
+                        </p>
+                        <Button
+                            className="bg-gradient hover:opacity-90"
+                            onClick={() => scrollToSection('beta-signup-form')}
+                        >
+                            Apply Now <ChevronRight className="ml-1 h-4 w-4" />
+                        </Button>
                     </div>
                 </div>
-            </section>
+            </Section>
 
-            {/* Call to Action Section */}
-            <section className="py-20 px-6 bg-gradient-to-b from-black to-[#101010]">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-                        Join a Crew Today
+            {/* Not For Everyone Section */}
+            <Section>
+                <div className="text-center mb-12 melixir-animate-on-scroll opacity-0">
+                    <h2 className="text-3xl md:text-4xl font-grotesk font-bold mb-4 melixir-text-gradient">
+                        Not For Everyone
                     </h2>
-                    <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-10">
-                        Don’t miss out on the chance to build something great.
-                    </p>
-                    <Link
-                        href={WORKSPACE_ROUTE.pathname}
-                        className="mt-8 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg rounded-full hover:scale-105 shadow-lg transform transition-transform"
-                    >
-                        Explore Crews
-                    </Link>
                 </div>
-            </section>
+
+                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <Card className="bg-melixir-gray/50 border-white/5 p-6 melixir-animate-on-scroll opacity-0">
+                        <h3 className="flex items-center gap-2 font-grotesk text-xl mb-4">
+                            <X className="h-5 w-5 text-red-500" />
+                            <span className="text-melixir-light">
+                                Not for those who...
+                            </span>
+                        </h3>
+                        <ul className="space-y-3 text-melixir-light/80">
+                            <li className="flex items-start gap-2">
+                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
+                                    <X className="h-3 w-3 text-red-500" />
+                                </div>
+                                <p>Want overnight success or quick fixes</p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
+                                    <X className="h-3 w-3 text-red-500" />
+                                </div>
+                                <p>Aren't willing to contribute real value</p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
+                                    <X className="h-3 w-3 text-red-500" />
+                                </div>
+                                <p>View equity as 'free' compensation</p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-red-500/10 p-1 rounded-full mt-1">
+                                    <X className="h-3 w-3 text-red-500" />
+                                </div>
+                                <p>
+                                    Aren't committed to long-term value creation
+                                </p>
+                            </li>
+                        </ul>
+                    </Card>
+
+                    <Card className="bg-melixir-gray/50 border-white/5 p-6 melixir-animate-on-scroll opacity-0">
+                        <h3 className="flex items-center gap-2 font-grotesk text-xl mb-4">
+                            <Check className="h-5 w-5 text-green-500" />
+                            <span className="text-melixir-light">
+                                Not for those who...
+                            </span>
+                        </h3>
+                        <ul className="space-y-3 text-melixir-light/80">
+                            <li className="flex items-start gap-2">
+                                <div className="bg-green-500/10 p-1 rounded-full mt-1">
+                                    <Check className="h-3 w-3 text-green-500" />
+                                </div>
+                                <p>
+                                    Value relationships built on demonstrated
+                                    value
+                                </p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-green-500/10 p-1 rounded-full mt-1">
+                                    <Check className="h-3 w-3 text-green-500" />
+                                </div>
+                                <p>
+                                    Want to build genuine partnerships through
+                                    work
+                                </p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-green-500/10 p-1 rounded-full mt-1">
+                                    <Check className="h-3 w-3 text-green-500" />
+                                </div>
+                                <p>
+                                    Understand that trust takes time to develop
+                                </p>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <div className="bg-green-500/10 p-1 rounded-full mt-1">
+                                    <Check className="h-3 w-3 text-green-500" />
+                                </div>
+                                <p>
+                                    Are committed to building something
+                                    meaningful
+                                </p>
+                            </li>
+                        </ul>
+                    </Card>
+                </div>
+            </Section>
+
+            {/* Signup Section */}
+            <Section background="gradient">
+                <div className="text-center max-w-3xl mx-auto melixir-animate-on-scroll opacity-0">
+                    <h2 className="text-3xl md:text-5xl font-grotesk font-bold mb-6 melixir-text-gradient">
+                        Be One Of Us!
+                    </h2>
+                    <p className="text-melixir-light/80 mb-8 max-w-2xl mx-auto">
+                        Apply now to get access to Melixir platform & all other
+                        benefits.
+                    </p>
+                    <div id="beta-signup-form" className="pt-8">
+                        <SignupForm />
+                    </div>
+                </div>
+            </Section>
 
             {/* Footer */}
-            <footer className="py-8 px-6 bg-[#101010] border-t border-gray-700">
-                <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-gray-400">
+            <footer className="bg-melixir-darker py-8 border-t border-white/10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <p className="melixir-text-gradient font-grotesk text-xl font-bold mb-2">
+                        Melixir
+                    </p>
+                    <p className="text-melixir-light/60 text-sm">
                         © 2025 Melixir. All rights reserved.
                     </p>
-                    <div className="flex gap-6">
-                        {[
-                            'Privacy Policy',
-                            'Terms of Service',
-                            'Contact Us',
-                        ].map((link, index) => (
-                            <a
-                                key={index}
-                                href="#"
-                                className="text-gray-400 hover:text-white transition"
-                            >
-                                {link}
-                            </a>
-                        ))}
-                    </div>
                 </div>
             </footer>
         </div>
     );
 }
-
-// uncomment this when our product is ready to be deployed
-
-/* export default function Home() {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#101010] via-[#121212] to-black text-white font-sans">
-        // Navbar 
-        <nav className="flex justify-between items-center px-8 py-5 bg-[#101010] sticky top-0 z-50 shadow-md">
-          <div className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-            Melixir
-          </div>
-          <div className="flex gap-4">
-            <a
-              href="/login"
-              className="px-6 py-2 border border-gray-700 rounded-full text-sm font-medium hover:bg-gray-800 transition"
-            >
-              Login
-            </a>
-            <a
-              href="/signup"
-              className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full text-sm font-medium shadow-lg hover:opacity-90 transition"
-            >
-              Sign Up
-            </a>
-          </div>
-        </nav>
-  
-        // Hero Section
-        <header className="flex flex-col items-center justify-center text-center py-28 px-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold max-w-3xl bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent leading-tight">
-            Collaborate, Build, and Grow Together
-          </h1>
-          <p className="text-lg text-gray-400 mt-6 max-w-2xl">
-            Founders create crews for their products, and contributors join to bring ideas to life. Together, we build the future.
-          </p>
-          <div className="flex gap-4 mt-8">
-            <a
-              href="/create-crew"
-              className="px-8 py-4 bg-gradient-to-r from-green-400 to-blue-500 text-black font-semibold rounded-full hover:scale-105 shadow-lg transform transition-transform"
-            >
-              Create a Crew
-            </a>
-            <a
-              href="/explore-crews"
-              className="px-8 py-4 border border-gray-700 font-semibold rounded-full hover:bg-gray-800 transition"
-            >
-              Explore Crews
-            </a>
-          </div>
-        </header>
-  
-        // Problem Section
-        <section className="py-20 px-6 bg-[#121212]">
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              The Challenge
-            </h2>
-            <p className="text-lg text-gray-400">
-              Are you a tech founder struggling to build your product? Or are you a skilled contributor looking for exciting projects to join? Finding the right team online can be risky, but collaboration makes the journey worthwhile.
-            </p>
-          </div>
-        </section>
-  
-        // Solution Section
-        <section className="py-20 px-6 bg-[#101010] border-t border-gray-700">
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-              Our Solution
-            </h2>
-            <p className="text-lg text-gray-400">
-              Melixir brings tech founders and contributors together to create incredible products. Whether you&apos;re building your MVP or contributing your skills, our platform ensures seamless collaboration and shared success.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              {[
-                {
-                  title: "For Founders",
-                  description:
-                    "Create crews for your product ideas and find contributors who believe in your vision.",
-                },
-                {
-                  title: "For Contributors",
-                  description:
-                    "Join exciting projects, collaborate with passionate founders, and grow your expertise.",
-                },
-                {
-                  title: "Build Together",
-                  description:
-                    "Work seamlessly to turn ideas into reality while sharing ownership through equity.",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="p-6 bg-[#121212] rounded-lg border border-gray-700 hover:scale-105 transform transition"
-                >
-                  <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                  <p className="text-gray-400">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-  
-        // How It Works Section
-        <section className="py-20 px-6 bg-[#121212]">
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-              How It Works
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              {[
-                {
-                  step: "1. Create a Crew",
-                  description:
-                    "Founders post their product idea and specify roles for contributors.",
-                },
-                {
-                  step: "2. Join a Crew",
-                  description:
-                    "Contributors explore and join crews that align with their interests and skills.",
-                },
-                {
-                  step: "3. Collaborate and Build",
-                  description:
-                    "Work as a team to complete tasks, bring ideas to life, and share success.",
-                },
-              ].map((step, index) => (
-                <div
-                  key={index}
-                  className="p-6 bg-[#101010] rounded-lg border border-gray-700 hover:scale-105 transform transition"
-                >
-                  <h3 className="text-xl font-semibold mb-4">{step.step}</h3>
-                  <p className="text-gray-400">{step.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-  
-        // Call to Action Section
-        <section className="py-20 px-6 bg-gradient-to-b from-black to-[#101010]">
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-transparent">
-              Ready to Start Your Journey?
-            </h2>
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Whether you&apos;re a founder building your MVP or a contributor looking to grow your skills, Melixir is the perfect platform for collaboration. Join us today.
-            </p>
-            <div className="flex justify-center gap-4 mt-8">
-              <a
-                href="/create-crew"
-                className="px-8 py-4 bg-gradient-to-r from-green-400 to-blue-500 text-black font-semibold rounded-full hover:scale-105 shadow-lg transform transition-transform"
-              >
-                Create a Crew
-              </a>
-              <a
-                href="/explore-crews"
-                className="px-8 py-4 border border-gray-700 font-semibold rounded-full hover:bg-gray-800 transition"
-              >
-                Explore Crews
-              </a>
-            </div>
-          </div>
-        </section>
-  
-        // Footer
-        <footer className="py-8 px-6 bg-black border-t border-gray-700">
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500">© 2025 Melixir. All rights reserved.</p>
-            <div className="flex gap-6">
-              {["Privacy Policy", "Terms of Service", "Contact Us"].map(
-                (link, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    className="text-gray-500 hover:text-white transition"
-                  >
-                    {link}
-                  </a>
-                )
-              )}
-            </div>
-          </div>
-        </footer>
-      </div>
-    );
-} */

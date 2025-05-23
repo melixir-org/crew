@@ -13,7 +13,29 @@ body {
 }
 
 @layer base {
-  :root {
+    :root {
+        /* Namespace all Melixir-specific CSS variables to avoid conflicts */
+        --melixir-background: 0 0% 100%;
+        --melixir-foreground: 222.2 84% 4.9%;
+        --melixir-card: 0 0% 100%;
+        --melixir-card-foreground: 222.2 84% 4.9%;
+        --melixir-popover: 0 0% 100%;
+        --melixir-popover-foreground: 222.2 84% 4.9%;
+        --melixir-primary: 221.2 83.2% 53.3%;
+        --melixir-primary-foreground: 210 40% 98%;
+        --melixir-secondary: 210 40% 96.1%;
+        --melixir-secondary-foreground: 222.2 47.4% 11.2%;
+        --melixir-muted: 210 40% 96.1%;
+        --melixir-muted-foreground: 215.4 16.3% 46.9%;
+        --melixir-accent: 210 40% 96.1%;
+        --melixir-accent-foreground: 222.2 47.4% 11.2%;
+        --melixir-destructive: 0 84.2% 60.2%;
+        --melixir-destructive-foreground: 210 40% 98%;
+        --melixir-border: 214.3 31.8% 91.4%;
+        --melixir-input: 214.3 31.8% 91.4%;
+        --melixir-ring: 221.2 83.2% 53.3%;
+        --melixir-radius: 0.5rem;
+
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -40,7 +62,28 @@ body {
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+    .dark {
+        /* Namespace all Melixir-specific CSS variables to avoid conflicts */
+        --melixir-background: 222.2 84% 4.9%;
+        --melixir-foreground: 210 40% 98%;
+        --melixir-card: 222.2 84% 4.9%;
+        --melixir-card-foreground: 210 40% 98%;
+        --melixir-popover: 222.2 84% 4.9%;
+        --melixir-popover-foreground: 210 40% 98%;
+        --melixir-primary: 217.2 91.2% 59.8%;
+        --melixir-primary-foreground: 222.2 47.4% 11.2%;
+        --melixir-secondary: 217.2 32.6% 17.5%;
+        --melixir-secondary-foreground: 210 40% 98%;
+        --melixir-muted: 217.2 32.6% 17.5%;
+        --melixir-muted-foreground: 215 20.2% 65.1%;
+        --melixir-accent: 217.2 32.6% 17.5%;
+        --melixir-accent-foreground: 210 40% 98%;
+        --melixir-destructive: 0 62.8% 30.6%;
+        --melixir-destructive-foreground: 210 40% 98%;
+        --melixir-border: 217.2 32.6% 17.5%;
+        --melixir-input: 217.2 32.6% 17.5%;
+        --melixir-ring: 224.3 76.5% 48%;
+
         --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
         --card: 240 10% 3.9%;
@@ -69,10 +112,45 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
+    }
+    .melixir-app * {
+        @apply border-melixir-border;
+    }
+    .melixir-app {
+        @apply bg-melixir-bg text-melixir-text;
+    }
+}
+
+/* Scope base styles to .melixir-app class to avoid affecting other elements */
+.melixir-app {
+    background-color: hsl(222.2 84% 4.9%);
+    color: hsl(210 40% 98%);
+}
+
+/* Namespace utility classes with melixir- prefix */
+@layer components {
+    .melixir-text-gradient {
+        @apply bg-gradient text-transparent bg-clip-text;
+    }
+
+    .melixir-text-glow {
+        @apply text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)];
+    }
+
+    .melixir-card-glass {
+        @apply bg-white/5 backdrop-blur-sm border border-white/10;
+    }
+
+    .melixir-glow-border {
+        @apply border border-white/20 shadow-[0_0_15px_rgba(157,92,255,0.5)];
+    }
+
+    .melixir-animate-on-scroll {
+        @apply opacity-0 transition-all duration-700;
     }
 }

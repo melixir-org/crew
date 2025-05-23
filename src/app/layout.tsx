@@ -20,30 +20,29 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: 'Melixir - Collaborate, Build, and Share Success',
+    title: 'Melixir - Future of how teams form & work',
     description:
-        'Melixir is a platform where founders create teams for their ideas, and contributors join to turn those ideas into reality. Together, we make innovation happen.',
+        'Be one of the curated people who are building the future of how teams form and work together!',
     keywords: [
         'Startup Collaboration',
-        'Tech Founders',
         'Contributors for Ideas',
         'Build Teams for Startups',
         'Melixir Platform',
-        'Innovative Projects',
+        'Melixir Community',
         'Digital Collaboration Platform',
     ],
     openGraph: {
-        title: 'Melixir - Collaborate, Build, and Share Success',
+        title: 'Melixir - Future of how teams form & work',
         description:
-            'Melixir connects tech founders and contributors on a platform built for collaboration. Find passionate collaborators and contribute to innovative ideas.',
+            'Be one of the curated people who are building the future of how teams form and work together!',
         url: 'https://melixir.org',
         siteName: 'Melixir',
         images: [
             {
-                url: '/preview-image.png',
+                url: '/preview.png',
                 width: 1200,
                 height: 630,
-                alt: 'Melixir - Collaborate, Build, and Share Success',
+                alt: 'Melixir - Future of how teams form & work',
             },
         ],
         locale: 'en_IN',
@@ -51,12 +50,12 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Melixir - Collaborate, Build, and Share Success',
+        title: 'Melixir - Future of how teams form & work',
         description:
-            'Join Melixir to collaborate with founders and contributors in innovative projects. Build, grow, and succeed together.',
-        images: ['/preview-image.png'],
+            'Be one of the curated people who are building the future of how teams form and work together!',
+        images: ['/preview.png'],
     },
-    themeColor: '#4A90E2',
+    themeColor: '#5C9DFF',
     viewport: 'width=device-width, initial-scale=1',
 };
 
@@ -73,7 +72,7 @@ export default function RootLayout({
             >
                 <QueryProvider>
                     <div className="min-h-screen flex flex-col bg-black text-white">
-                        <NavBar />
+                        {/* <NavBar /> */}
                         {children}
                     </div>
                 </QueryProvider>
