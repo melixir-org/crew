@@ -46,10 +46,10 @@ export default function Home() {
     }, []);
 
     const betaFeatures = [
-        'Limited to 100 curated founders',
+        '100 curated founders',
         '500 curated contributors',
-        'Get access to Melixir platform',
         'Full support from community',
+        'Get access to Melixir platform',
         'Lifetime legacy perks',
     ];
 
@@ -89,11 +89,11 @@ export default function Home() {
                             <span className="text-melixir-purple font-semibold">
                                 Teams
                             </span>{' '}
-                            form & work. Be one of the{' '}
+                            form & work online. Be one of the{' '}
                             <span className="text-melixir-purple font-semibold">
                                 curated people
                             </span>{' '}
-                            to build & enjoy this future!
+                            building this future!
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                             <Button
@@ -249,12 +249,12 @@ export default function Home() {
                         {
                             title: 'No Hiring',
                             description:
-                                'Build your startup with who add value today not in the future.',
+                                'Build your startup with who adds value today not in the future.',
                         },
                         {
                             title: 'Law of Attraction',
                             description:
-                                'Who are meant to join you, are waiting for you to be open & visible.',
+                                "Those who are meant to join you, will join you - if you're open.",
                         },
                     ]}
                 />
@@ -484,8 +484,8 @@ export default function Home() {
                         Be One Of Us!
                     </h2>
                     <p className="text-melixir-light/80 mb-8 max-w-2xl mx-auto">
-                        Apply now to get access to Melixir platform & all other
-                        benefits.
+                        Apply now to unlock all exclusive benefits and build the
+                        future with everyone!
                     </p>
                     <div className="pt-8">
                         <SignupForm />

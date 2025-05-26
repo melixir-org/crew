@@ -20,21 +20,23 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: 'Melixir - Future of how teams form & work',
+    title: 'Melixir - Future of how teams form & work online',
     description:
-        'Be one of the curated people who are building the future of how teams form and work together on internet!',
+        'Be one of the curated people who are building the future of how teams form and work together on the internet!',
     keywords: [
         'Startup Collaboration',
         'Contributors for Ideas',
         'Build Teams for Startups',
+        'Melixir',
         'Melixir Platform',
         'Melixir Community',
-        'Digital Collaboration Platform',
+        'Collaboration Platform',
+        'Build Team Online',
     ],
     openGraph: {
-        title: 'Melixir - Future of how teams form & work',
+        title: 'Melixir - Future of how teams form & work online',
         description:
-            'Be one of the curated people who are building the future of how teams form and work together on internet!',
+            'Be one of the curated people who are building the future of how teams form and work together on the internet!',
         url: 'https://melixir.org',
         siteName: 'Melixir',
         images: [
@@ -42,7 +44,7 @@ export const metadata: Metadata = {
                 url: '/preview.png',
                 width: 1200,
                 height: 630,
-                alt: 'Melixir - Future of how teams form & work',
+                alt: 'Melixir - Future of how teams form & work online',
             },
         ],
         locale: 'en_IN',
@@ -50,9 +52,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Melixir - Future of how teams form & work',
+        title: 'Melixir - Future of how teams form & work online',
         description:
-            'Be one of the curated people who are building the future of how teams form and work together on internet!',
+            'Be one of the curated people who are building the future of how teams form and work together on the internet!',
         images: ['/preview.png'],
     },
     themeColor: '#5C9DFF',
