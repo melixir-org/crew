@@ -286,7 +286,7 @@ export async function upvoteItemApi({ itemId }: { itemId: string }) {
         .returns<UpvoteData>();
 }
 
-export async function applyApi(data: any) {
+export async function applyApi(data: unknown) {
     const { data: response, error } = await supabaseBrowserClient
         .from('apply_list')
         .insert(data)
