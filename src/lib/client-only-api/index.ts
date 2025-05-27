@@ -285,3 +285,17 @@ export async function upvoteItemApi({ itemId }: { itemId: string }) {
         })
         .returns<UpvoteData>();
 }
+
+export async function applyApi(data: any) {
+    const { data: response, error } = await supabaseBrowserClient
+        .from('apply_list')
+        .insert(data)
+        .select(`*`)
+        .single();
+
+    if (error) {
+        throw error;
+    }
+
+    return response;
+}
