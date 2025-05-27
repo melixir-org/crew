@@ -201,7 +201,7 @@ export function SignupForm() {
                     <Button
                         type="submit"
                         className="w-full bg-gradient hover:opacity-90 mt-4"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || isSubmitted || isAnalyzing}
                     >
                         {isSubmitting
                             ? 'Submitting...'
