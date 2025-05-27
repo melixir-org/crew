@@ -226,7 +226,7 @@ export function SignupForm() {
                                 Welcome to the contributor community!
                             </p>
                             <a
-                                href="https://chat.whatsapp.com/your-group-link"
+                                href="https://chat.whatsapp.com/GjC5OGTvkMk3169Gkc9qjq"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
