@@ -173,7 +173,6 @@ export function SignupForm() {
                                 <SelectItem value="investor">
                                     Investor
                                 </SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
