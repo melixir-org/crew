@@ -63,7 +63,6 @@ export function SignupForm() {
                     placeholder: 'Describe your skills briefly',
                 };
             case 'investor':
-            case 'other':
                 return {
                     label: 'Introduction',
                     placeholder: 'Tell us about yourself briefly',
@@ -92,7 +91,10 @@ export function SignupForm() {
                 skills: formData.skills,
             });
 
-            if (formData.role === 'contributor') {
+            if (
+                formData.role === 'contributor' ||
+                formData.role === 'founder'
+            ) {
                 setIsAnalyzing(true);
                 setTimeout(() => {
                     setIsSubmitted(true);
@@ -222,10 +224,16 @@ export function SignupForm() {
                     {isAnalyzing ? (
                         <>
                             <p className="text-green-400">
-                                Welcome to the contributor community!
+                                {formData.role === 'contributor'
+                                    ? 'Welcome to the contributor community!'
+                                    : 'Welcome to the founder community!'}
                             </p>
                             <a
-                                href="https://chat.whatsapp.com/GjC5OGTvkMk3169Gkc9qjq"
+                                href={
+                                    formData.role === 'contributor'
+                                        ? 'https://chat.whatsapp.com/GjC5OGTvkMk3169Gkc9qjq'
+                                        : 'https://chat.whatsapp.com/FRBhfQlJOmu6I7wyMqRR1X'
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
